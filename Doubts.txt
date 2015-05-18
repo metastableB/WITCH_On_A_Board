@@ -1,0 +1,117 @@
+file : harwell-ee-1951.txt.psf
+
+
+page 1 :
+"Because a relatively low operating speed is accepted, it becomes
+practical to read orders and other data from the perforated tape as
+they are needed in the calculations (this is done in the B.T.L.
+machine). Design is thus simplified and much less storage capacity is
+needed. The low operating speed also makes possible the use of
+relays for routing and sequence control. Since each relay may carry
+many contacts this leads to simplicity in setting up connexions. The
+fact that the techniques are well established and of proved reliability
+is of great importance."
+
+Questions :
+	Why would a relatively small operating speed be accepted ? If it can
+	be made faster, shouldn't it be?
+
+"The use of relays for number storage is not
+attractive, as many relays would be needed."
+
+Questions :
+	The sole reason for this decision is the numbers you can represent 
+	per digit in a dekatron based system is larger ? 
+
+Page 2 :
+"No provision is made for reading of tables
+of functions and the low operating speeds
+will often make it impracticable to calculate
+the required functions ab initio."
+
+Question :
+	What are these tables of functions they talk about ? Like Log tables ?
+
+Question in general : 
+	The tapes where from the data and orders are read, as I imagine it its a long
+	piece of paper with instructions printed line by line. Are they connected end 
+	to end ? Forming a continuous loop ? (If yes this actually puts a limit on
+	the length of the tape doesn't it ?)
+
+	The add subtract options allow the tape readers to be the input and the
+	perforators to be the output. Again it also says that the sending and
+	receiving address cannot be among the same set of stores. Does this mean
+	that we cannot send have both of them in the same instruction ?
+
+	The multiplication and division instructions do not allow any input organ to be
+	the addresses in the instruction? What makes the multiplication and division 
+	different in this way apart from the fact that an accumulator is used to store 
+	intermediate results ? (Wait let me recheck the circuits if that explains everything)
+
+	[Don] What happens to the result of an accum operation? Is it automatically
+	transferred to the result store? Can we specify the accum as one of the
+	source or destination among arithmetic operations? If yes trace back how the
+	number might have reached the accum.
+
+Page 3:
+"The same translator is used when reading numerical information into 
+the computor to convert digits stored on relays into trains of pulses.
+It is connected to the transfer units in exactly the same way as a
+store but only handles one digit at a time."
+
+ Question : What relays are they talking about here? What relays store the
+			digit? 
+			
+
+Question in general:
+	Say during addition, the pulse sent to the receiving tube causes the discharge
+	to reach the output cathode or the zero cathode causing a pulse to be created.
+	How is this pulse treated? How is this differentiated from the one created while
+	reading from a store?
+	
+	When an operation is performed and the sending store is to be cleared, is the following 
+	sequence of events correct?
+	1) Pulse generator sends a sequence of ten pulses to the sending tube
+	2) the output cathode generates a pulse corresponding to the digit stored in it
+	3) the translator unit recieves this pulse and regenerates the number of pulses representing 
+	the digit and also its complement on 10, though in the complemented form the first pulse 
+	is ineffective in moving the discharge on the recieveing tube.
+	4) the required number of pulses is sent to the receiving tube as per the operation and 
+	SIMULTANIOUSLY the complemented version of the pulse is sent to the sending store, therby
+	clearing it.
+	
+	How does the carry over circuit work exactly? When a discharge reaches zero again after
+	going around one round, a carry should be generated. And this is simillar to the 
+	process of reading a digit, I assume this will be done by the sending tube? Now is this
+	carry propagated to the adjascent dekatron as a pulse or is it done in some other way? What I'm
+	asking is about the circuitry.
+
+	Further lets say that two stores have the same digits in them say 8, and the digit 5 is being sent
+	to them. Both these store being adjesant. Now simultaniously, on recieving the 2nd pulse, both 
+	the stores will generate a carry over. Now for the significanter bit among the two, the 3rd pulse
+	form the sending tube as well as the carry from the lesser significant bit will arrive almost at 
+	the same time? How are such collisions handled ?
+	
+Page 5 :
+"This carry circuit plays no part in handling positive numbers, but is
+necessary to handle complements."
+
+Questions:
+	Huh? What about additions involving carry over? I'm I looking at someting else entirely here?
+	[Don] Finding a number from its complement and finding the complement from the number.
+	Explain to yourself how this is done. Page 5 for reference.
+	
+Questions in general:
+	For each dekatron, there are two guides requiring the pulses to be fed to. I always thought in
+	an abstracted sense involving only one pulse train. Now it seems the two train details have there
+	on importance. How does the actual pulsing work? Are the two guides provided with the same set of pulses
+	synchronously ? How does it affect the dekatron if different sets of pulses or asynchronous pulses are
+	send? Is the presence of the two guides related to the fact that there are two intermediate positions
+	while shifting the charges from one state to the next? If so is it correct to assume the two pulse set
+	are off by a slight amount, enough for the first intermediate state to stabilize but not enough
+	so that its allowed to fall back to the initial state ? And further, it would mean that both the
+	guides be given the same copy of the pulse, with this slight offset.
+	
+	These questions are based on my idea of how the dekatrons work, please correct me if I'm off.
+	
+	
