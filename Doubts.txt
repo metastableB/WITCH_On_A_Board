@@ -1,5 +1,18 @@
 file : harwell-ee-1951.txt.psf
 
+page 1 :
+Question :
+	The frequent comparison with desk calculators. Why is the 
+	WITCH compared to desk calculators? What are they anyway?
+	What is the link between the WITCH and these?
+
+		ANSWER : The WITCH and its working was mainly modelled around 
+		Desk calculators available at that time. The running times for
+		operations on the WITCH are , hence comparable to these. The 
+		motivation behind the WITCH was to make a desk calculator 
+		programmable and reliable - in the sense that it should be 
+		able to run continuously for hours without needing attention.
+
 
 page 1 :
 "Because a relatively low operating speed is accepted, it becomes
@@ -16,12 +29,22 @@ Questions :
 	Why would a relatively small operating speed be accepted ? If it can
 	be made faster, shouldn't it be?
 
+		ANSWER : The speed limit here is due to the time taken by the 
+		tape readers to interpret the data and orders. Further, 
+		reliability and accuracy was of far more importance than speed.
+
 "The use of relays for number storage is not
 attractive, as many relays would be needed."
 
 Questions :
 	The sole reason for this decision is the numbers you can represent 
 	per digit in a dekatron based system is larger ? 
+
+		ANSWER: Simple answer, since they were trying to replicate 
+		a mechanical calculator based on decimal systems, they intended
+		to use decimal and not binary. Furthermore, dekatrons were 
+		reliable for this purpose and you could represent far more 
+		numbers with far less digits on them.
 
 Page 2 :
 "No provision is made for reading of tables
@@ -32,21 +55,47 @@ the required functions ab initio."
 Question :
 	What are these tables of functions they talk about ? Like Log tables ?
 
+		ANSWER: Yes, log tables, sine /cosine value tables etc -
+		lookup tables in general.
+
 Question in general : 
 	The tapes where from the data and orders are read, as I imagine it its a long
 	piece of paper with instructions printed line by line. Are they connected end 
 	to end ? Forming a continuous loop ? (If yes this actually puts a limit on
 	the length of the tape doesn't it ?)
 
+		ANSWER:Only the tapes you want to be looped are joined
+		end to end, for instance if there was a 'function' being 
+		frequently called, you would define it on a separate
+		tape and have it joined end to end forming a loop. You
+		would use a master driving tape (like a main function)
+		to execute this looped function by shifting control to the
+		tape after finding the correct block marking character 
+		so that you are positioned at the beginning.
+		Remember that even though the initial designers of the 
+		WITCH intended to allow searching in either direction,
+		the backward searching for block marking characters 
+		were never actually implemented.
+
 	The add subtract options allow the tape readers to be the input and the
 	perforators to be the output. Again it also says that the sending and
 	receiving address cannot be among the same set of stores. Does this mean
 	that we cannot send have both of them in the same instruction ?
 
+		ANSWER : Yep, you cannot send anything from the tape
+		readers directly to the stores. Neither can you send
+		values among the same set of tapes. For example, you 
+		cannot send anything from store 10 to store 11.
+
 	The multiplication and division instructions do not allow any input organ to be
 	the addresses in the instruction? What makes the multiplication and division 
 	different in this way apart from the fact that an accumulator is used to store 
 	intermediate results ? (Wait let me recheck the circuits if that explains everything)
+
+		ANSWER : This was obvious, I cant believe I missed it.
+		The multiplication and division happen in multiple 
+		stages, the stores getting updated in each stage. Hence
+		you cannot have an input organ here.
 
 	[Don] What happens to the result of an accum operation? Is it automatically
 	transferred to the result store? Can we specify the accum as one of the
@@ -59,8 +108,9 @@ the computor to convert digits stored on relays into trains of pulses.
 It is connected to the transfer units in exactly the same way as a
 store but only handles one digit at a time."
 
- Question : What relays are they talking about here? What relays store the
-			digit? 
+ Question :
+ 	What relays are they talking about here? What relays store the digit? 
+ 		ANSWER : {Didn't get this right. Will explore later. }
 			
 
 Question in general:
@@ -68,7 +118,8 @@ Question in general:
 	to reach the output cathode or the zero cathode causing a pulse to be created.
 	How is this pulse treated? How is this differentiated from the one created while
 	reading from a store?
-	
+		ANSWER : {not yet}.
+
 	When an operation is performed and the sending store is to be cleared, is the following 
 	sequence of events correct?
 	1) Pulse generator sends a sequence of ten pulses to the sending tube
@@ -79,25 +130,33 @@ Question in general:
 	4) the required number of pulses is sent to the receiving tube as per the operation and 
 	SIMULTANIOUSLY the complemented version of the pulse is sent to the sending store, therby
 	clearing it.
+		ANSWER : Yes, mostly.
 	
 	How does the carry over circuit work exactly? When a discharge reaches zero again after
 	going around one round, a carry should be generated. And this is simillar to the 
 	process of reading a digit, I assume this will be done by the sending tube? Now is this
 	carry propagated to the adjascent dekatron as a pulse or is it done in some other way? What I'm
 	asking is about the circuitry.
+		ANSWER : {Held off for now.}
 
 	Further lets say that two stores have the same digits in them say 8, and the digit 5 is being sent
 	to them. Both these store being adjesant. Now simultaniously, on recieving the 2nd pulse, both 
 	the stores will generate a carry over. Now for the significanter bit among the two, the 3rd pulse
 	form the sending tube as well as the carry from the lesser significant bit will arrive almost at 
 	the same time? How are such collisions handled ?
+		ANSWER : Carry operations are done only after all the 
+		basic math is finished. So no probability of collisions
+		there. The carry circuits are like another set of 
+		transfer circuits.
 	
 Page 5 :
 "This carry circuit plays no part in handling positive numbers, but is
 necessary to handle complements."
-
+	
 Questions:
 	Huh? What about additions involving carry over? I'm I looking at someting else entirely here?
+	ANSWER : This hear refers to the carry out from the MSB and 
+	not the entire circuit.
 	[Don] Finding a number from its complement and finding the complement from the number.
 	Explain to yourself how this is done. Page 5 for reference.
 	
@@ -114,4 +173,11 @@ Questions in general:
 	
 	These questions are based on my idea of how the dekatrons work, please correct me if I'm off.
 	
-	
+		ANSWER : Yes, there are two different guides which are
+		fed the pulses. The pulses are sufficiently spaced, so as to allows stabilisation on the current state but not too
+		long as to allow fall back to the previous state.
+		So logically if one guide is fed a stream of 5 consecutive
+		pulses and the other is fed three, then only the three paired pulses will be effective in moving them.
+		The source of the pulses need not be the same as long as 
+		the timing is, on the WICHthe pulses are often generated 
+		from multiple sources.
