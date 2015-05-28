@@ -39,6 +39,6 @@ TestDekatron::TestDekatron() {
 			std::cout<<"Dekatron getCurrentNumber() FAILURE \n";
 		else
 			std::cout<<"Dekatron Test 4 SUCCESSFUL\n";
-		std::cout<<"FINISH dekatron.cpp Test\n";
+		std::cout<<"FINISH dekatron.cpp TEST\n";
 }
 
