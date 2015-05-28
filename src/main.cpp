@@ -9,6 +9,4 @@
 
 int main (int argc, char* argv[]) {
 	std::cout << "Hellow World";
-	Dekatron dekatron;
-	std::cout << "\nDekavalue " << int(dekatron.incrementState()) <<"\n";
 }
