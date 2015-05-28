@@ -17,7 +17,7 @@ public:
 		if(dekatron.incrementState() != DekatronState::ONE)
 			std::cout<<"Dekatron increment FAILURE\n";
 		else
-			std::cout<<"Dekatron Test 1 SUCCESS\n";
+			std::cout<<"Dekatron Test 1 SUCCESSFUL\n";
 		dekatron.incrementState();
 		dekatron.incrementState();
 		dekatron.incrementState();
@@ -29,18 +29,18 @@ public:
 		if(dekatron.incrementState() != DekatronState::ZERO)
 			std::cout<<"Dekatron modulo increment FAILURE\n";
 		else
-			std::cout<<"Dekatron Test 2 SUCCESS\n";
+			std::cout<<"Dekatron Test 2 SUCCESSFUL\n";
 
 		if(dekatron.getCurrentNumber() != 0 )
 			std::cout<<"Dekatron getCurrentNumber() FAILURE \n";
 		else
-			std::cout<<"Dekatron Test 3 SUCCESS\n";
+			std::cout<<"Dekatron Test 3 SUCCESSFUL\n";
 
 		dekatron.incrementState();
 		if(dekatron.getCurrentNumber() != 1 )
 			std::cout<<"Dekatron getCurrentNumber() FAILURE \n";
 		else
-			std::cout<<"Dekatron Test 4 SUCCESS\n";
+			std::cout<<"Dekatron Test 4 SUCCESSFUL\n";
 		std::cout<<"FINISH dekatron.cpp Test\n";
 	}
 };

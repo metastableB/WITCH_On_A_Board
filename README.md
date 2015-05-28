@@ -2,7 +2,7 @@
 
 # WITCH On A Board
 
-*WARNING: Under active development and testing. Possibility of finding Zombies and Ware-Wolfs are extremely high. Your life in your own hands. Proceed with caution!*
+*WARNING: Under active development and testing.*
 
 Project to develop a simulator for the [Harwell WITCH](http://en.wikipedia.org/wiki/Harwell_computer) based on the [Minnowboard Max](http://www.minnowboard.org/meet-minnowboard-max/)  as part of Google Summer of Code, 2015.
 
