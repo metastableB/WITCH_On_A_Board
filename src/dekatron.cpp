@@ -26,3 +26,12 @@ DekatronState Dekatron::incrementState() {
   }
 }
 
+int Dekatron::getCurrentNumber(){
+	return int(this->state);
+}
+
+void Dekatron::setDekatronState(DekatronState state) {
+	this->state = state;
+}
+
+

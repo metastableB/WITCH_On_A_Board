@@ -27,7 +27,7 @@ public:
 	void pulseStore(int arr[][9]);
 	// TODO : Define the getter methods according to the
 	// required data types.
-	std::string getStateInStore();
+	std::string getStringStateInStore();
 };
 
 #endif /* DEKATRONSTORE_H */

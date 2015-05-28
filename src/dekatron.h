@@ -34,6 +34,9 @@ class Dekatron {
 		Dekatron ();	
 		DekatronState incrementState();
 		DekatronState getCurrentState();
-		// Overload operators as required
+		int getCurrentNumber();
+		void setDekatronState(DekatronState state);
+		// TODO :Overload operators as required
+
 };
 #endif /* DEKATRON_H */
