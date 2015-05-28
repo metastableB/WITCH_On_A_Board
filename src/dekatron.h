@@ -5,13 +5,12 @@
  * 27 May,2015
  */
 
-
 #ifndef DEKATRON_H
 #define DEKATRON_H
 
 #include <iostream>
 
-enum class DekatronState : int {
+enum class DekatronState: int {
 	ZERO,
 	ONE,
 	TWO,
@@ -29,14 +28,14 @@ class Dekatron {
 	// TODO (metastableB): the WITCH does not have a default value. Remove
 	// this if not required.
 	DekatronState state;
-	
-	public:
-		Dekatron ();	
-		DekatronState incrementState();
-		DekatronState getCurrentState();
-		int getCurrentNumber();
-		void setDekatronState(DekatronState state);
-		// TODO :Overload operators as required
+
+public:
+	Dekatron();
+	DekatronState incrementState();
+	DekatronState getCurrentState();
+	int getCurrentNumber();
+	void setDekatronState(DekatronState state);
+	// TODO :Overload operators as required
 
 };
 #endif /* DEKATRON_H */

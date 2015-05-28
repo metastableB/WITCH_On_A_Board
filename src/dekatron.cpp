@@ -6,32 +6,33 @@
  */
 
 #include "dekatron.h"
-Dekatron::Dekatron(){
+Dekatron::Dekatron() {
 	// TODO(metastableB) Remove if not required
-	this->state =  DekatronState::ZERO;
+	this->state = DekatronState::ZERO;
 }
 
-DekatronState Dekatron::getCurrentState(){
+DekatronState Dekatron::getCurrentState() {
 	return this->state;
 }
 
 DekatronState Dekatron::incrementState() {
-  switch(this->state) {
-  	// Increment modulo 10
-    case DekatronState::NINE : 
-    	this->state = DekatronState::ZERO;
-    	return this->state;
-    default:
-    	return (this->state = static_cast<DekatronState>(static_cast<int>(this->state)+1));
-  }
+	switch (this->state) {
+	// Increment modulo 10
+	case DekatronState::NINE:
+		this->state = DekatronState::ZERO;
+		return this->state;
+	default:
+		return (this->state =
+				static_cast<DekatronState>(static_cast<int>(this->state)
+						+ 1));
+	}
 }
 
-int Dekatron::getCurrentNumber(){
+int Dekatron::getCurrentNumber() {
 	return int(this->state);
 }
 
 void Dekatron::setDekatronState(DekatronState state) {
 	this->state = state;
 }
-
 

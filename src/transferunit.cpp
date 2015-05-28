@@ -7,22 +7,21 @@
  * 
  */
 
-void TransferUnit::setSendingStore(Dekatron* &store){
+void TransferUnit::setSendingStore(Dekatron* &store) {
 	this->receivingStore = store;
 }
 
-void TransferUnit::setReceivingStore(Dekatron* &store){
+void TransferUnit::setReceivingStore(Dekatron* &store) {
 	this->sendingStore = store;
 }
 
-	// Sends a 10 pulse train to sending store and retrieves the state stored
+// Sends a 10 pulse train to sending store and retrieves the state stored
 void TransferUnit::generatePulses() {
 	// TODO : define this after testing the receiving mechanism
 
 }
 
-
-void TransferUnit::transfer(Dekatron* &sStore, Dekatron* &rStore){
+void TransferUnit::transfer(Dekatron* &sStore, Dekatron* &rStore) {
 	this->setSendingStore(sStore);
 	this->setReceivingStore(rStore);
 	this->generatePulses();
@@ -30,5 +29,4 @@ void TransferUnit::transfer(Dekatron* &sStore, Dekatron* &rStore){
 	// We creat the array per digit and send it to the pulse
 
 }
-
 
