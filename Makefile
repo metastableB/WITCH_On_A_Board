@@ -11,11 +11,13 @@ CC=g++
 CFLAGS=-std=c++11 -Wall
 
 # Define all source definitions here
-FILES=./src/dekatron.h ./src/dekatron.cpp ./src/main.cpp 
+FILES=./src/dekatron.cpp ./src/main.cpp 
 
 # Define all test files here
-TESTS=./tests/testdekatron.cpp ./src/dekatron.cpp ./src/dekatron.h \
-      ./tests/testdekatronstore.cpp ./src/dekatronstore.cpp \
+# Do not Add header files here, they are to be dealt within the codes
+# similarly do not include cpp files within the source
+TESTS=./src/dekatron.cpp ./tests/testdekatron.cpp \
+      ./src/dekatronstore.cpp ./tests/testdekatronstore.cpp \
       ./tests/main.cpp 
 
 # Source Targets 

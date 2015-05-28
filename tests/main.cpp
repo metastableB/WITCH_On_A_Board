@@ -7,8 +7,8 @@
  *
  */
 #include <iostream>
-#include "testdekatron.cpp"
-#include "testdekatronstore.cpp"
+#include "testdekatron.h"
+#include "testdekatronstore.h"
 
 int main(int argc , char *argv[]) {
 	std::cout << "Testing dekatron.cpp\n";

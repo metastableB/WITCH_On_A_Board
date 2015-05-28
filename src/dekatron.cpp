@@ -1,11 +1,12 @@
 /*
- * dekatron.h
+ * dekatron.cpp
  * @author Don Dennis (metastableB)
  * donkdennis [at] gmail [dot] com
  * 27 May,2015
  */
 
 #include "dekatron.h"
+
 Dekatron::Dekatron() {
 	// TODO(metastableB) Remove if not required
 	this->state = DekatronState::ZERO;
@@ -23,8 +24,7 @@ DekatronState Dekatron::incrementState() {
 		return this->state;
 	default:
 		return (this->state =
-				static_cast<DekatronState>(static_cast<int>(this->state)
-						+ 1));
+				static_cast<DekatronState>(static_cast<int>(this->state)+ 1));
 	}
 }
 

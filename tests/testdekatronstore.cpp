@@ -6,12 +6,10 @@
  * 28-May-2015
  * 
  */
-#include "../src/dekatronstore.h"
+#include "testdekatronstore.h"
 
-class TestDekatronStore {
-public:
-	TestDekatronStore() {
-		DekatronStore store;
+TestDekatronStore::TestDekatronStore() {
+ 		DekatronStore store;
 
 		if(!store.getStringStateInStore().compare("000000000"))
 			std::cout << "DekatronStore TEST 1 SUCCESSFUL\n";
@@ -76,8 +74,4 @@ public:
 			}
 		}
 		std::cout << "FINISH dekatronstore.cpp TESTS\n";
-	}
-};
-
-
-
+}
