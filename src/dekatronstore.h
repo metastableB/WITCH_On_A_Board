@@ -19,10 +19,10 @@ class DekatronStore {
 	Dekatron store[9];
 
 public:
-	// Pulses are treated as 2D array of size 9*9. Where each
-	// subarray of 9 represents a parallel set of pulses sent to
-	// the dekatron stores
-	void pulseStore(int arr[], Dekatron CarryRelays[]);
+	// Pulses are treated as 2D array . Where each
+	// subarray represents a parallel set of 9 pulses sent to
+	// the dekatron stores.
+	void pulseStore(int arr[], Dekatron newState[]);
 	// In case we need to create the entire train at once
 	void pulseStore(int arr[][9]);
 	// TODO : Define the getter methods according to the

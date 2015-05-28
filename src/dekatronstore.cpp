@@ -9,62 +9,52 @@
 
 #include "dekatronstore.h"
 
-void DekatronStore::pulseStore(int pulses[], Dekatron CarryRelays[]) {
+void DekatronStore::pulseStore(int pulses[], Dekatron newState[]) {
 	// LSB : 8 , MSB 1, Sign Bit 0
-	// If the incremented value reaches zero again, simulate carry by
-	// updating the carry relays.
+	
 	if (pulses[8] == 1) {
-		if (this->store[8].incrementState() == DekatronState::ZERO)
-			CarryRelays[8].setDekatronState(DekatronState::ONE);
+		newState[8].setDekatronState(this->store[8].incrementState());
 	} else if (pulses[8] != 1) {
 		// TODO : Error handlers - Something went wrong here
 	}
 
 	if (pulses[7] == 1) {
-		if (this->store[7].incrementState() == DekatronState::ZERO)
-			CarryRelays[7].setDekatronState(DekatronState::ONE);
+		newState[7].setDekatronState(this->store[7].incrementState());
 	} else if (pulses[7] != 1) {
 		// TODO : Error handlers - Something went wrong here
 	}
 	if (pulses[6] == 1) {
-		if (this->store[6].incrementState() == DekatronState::ZERO)
-			CarryRelays[6].setDekatronState(DekatronState::ONE);
+		newState[6].setDekatronState(this->store[6].incrementState());
 	} else if (pulses[6] != 1) {
 		// TODO : Error handlers - Something went wrong here
 	}
 	if (pulses[5] == 1) {
-		if (this->store[5].incrementState() == DekatronState::ZERO)
-			CarryRelays[5].setDekatronState(DekatronState::ONE);
+		newState[5].setDekatronState(this->store[5].incrementState());
 	} else if (pulses[5] != 1) {
 		// TODO : Error handlers - Something went wrong here
 	}
 	if (pulses[4] == 1) {
-		if (this->store[4].incrementState() == DekatronState::ZERO)
-			CarryRelays[4].setDekatronState(DekatronState::ONE);
+		newState[4].setDekatronState(this->store[4].incrementState());
 	} else if (pulses[4] != 1) {
 		// TODO : Error handlers - Something went wrong here
 	}
 	if (pulses[3] == 1) {
-		if (this->store[3].incrementState() == DekatronState::ZERO)
-			CarryRelays[3].setDekatronState(DekatronState::ONE);
+		newState[3].setDekatronState(this->store[3].incrementState());
 	} else if (pulses[3] != 1) {
 		// TODO : Error handlers - Something went wrong here
 	}
 	if (pulses[2] == 1) {
-		if (this->store[2].incrementState() == DekatronState::ZERO)
-			CarryRelays[2].setDekatronState(DekatronState::ONE);
+		newState[2].setDekatronState(this->store[2].incrementState());
 	} else if (pulses[2] != 1) {
 		// TODO : Error handlers - Something went wrong here
 	}
 	if (pulses[1] == 1) {
-		if (this->store[1].incrementState() == DekatronState::ZERO)
-			CarryRelays[1].setDekatronState(DekatronState::ONE);
+		newState[1].setDekatronState(this->store[1].incrementState());
 	} else if (pulses[1] != 1) {
 		// TODO : Error handlers - Something went wrong here
 	}
 	if (pulses[0] == 1) {
-		if (this->store[0].incrementState() == DekatronState::ZERO)
-			CarryRelays[0].setDekatronState(DekatronState::ONE);
+		newState[0].setDekatronState(this->store[0].incrementState());
 	} else if (pulses[0] != 1) {
 		// TODO : Error handlers - Something went wrong here
 	}
