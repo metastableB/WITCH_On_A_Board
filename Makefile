@@ -1,5 +1,5 @@
 #
-# dekatron.h
+# Makefile
 # @author Don Dennis (metastableB)
 # donkdennis [at] gmail [dot] com
 # 27 May,2015
@@ -7,18 +7,18 @@
 
 # Variable declarations
 CC=g++
-
 CFLAGS=-std=c++11 -Wall
+ifeq ($(debug), 1)   
+	CFLAGS += -g	
+endif
 
 # Define all source definitions here
-FILES=./src/dekatron.cpp ./src/main.cpp 
+FILES=./src/dekatron.cpp \
+	  ./src/dekatronstore.cpp \
+	  ./src/transferunit.cpp \
+	  ./src/main.cpp 
 
-# Define all test files here
-# Do not Add header files here, they are to be dealt within the codes
-# similarly do not include cpp files within the source
-TESTS=./src/dekatron.cpp ./tests/testdekatron.cpp \
-      ./src/dekatronstore.cpp ./tests/testdekatronstore.cpp \
-      ./tests/main.cpp 
+
 
 # Source Targets 
 all : 
@@ -27,9 +27,23 @@ all :
 clean :
 	rm -vf  ./src/*.out   witch_sim   ./src/*.o   ./src/*.h.gch  ./src/*.gch
 
-# Testing
+#############################################
+####			Testing 				#####
+#############################################
+
+# TODO : Define conditional tests
+TESTFLAGS=
+
+# Define all test files here
+# Do not Add header files here, they are to be dealt within the codes
+# similarly do not include cpp files within the source
+TESTS=./src/dekatron.cpp ./tests/testdekatron.cpp \
+      ./src/dekatronstore.cpp ./tests/testdekatronstore.cpp \
+      ./src/transferunit.cpp ./tests/testtransferunit.cpp \
+      ./tests/main.cpp 
+
 testAll :
-	$(CC) $(CFLAGS) $(TESTS) -o testAll
+	$(CC) $(CFLAGS) $(TESTFLAGS) $(TESTS) -o testAll
 cleanTest :
 	rm -vf testAll ./tests/*.o ./tests/*.out ./tests/*.gch
 
