@@ -61,6 +61,13 @@ void DekatronStore::pulseStore(int pulses[], Dekatron newState[]) {
 
 }
 
+void DekatronStore::setStoreValue(int arr[], Dekatron newState[]) {
+	for(int i = 0; i < 9; i++) {
+		this->store[i].setDekatronState(DekatronState(arr[i]));
+		newState[i] = this->store[i];
+	}
+}
+
 std::string DekatronStore::getStringStateInStore() {
 	std::string state;
 	state.append(std::to_string(this->store[0].getCurrentNumber()));

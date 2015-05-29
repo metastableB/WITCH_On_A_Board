@@ -25,6 +25,8 @@ public:
 	void pulseStore(int arr[], Dekatron newState[]);
 	// In case we need to create the entire train at once
 	void pulseStore(int arr[][9]);
+	// Setting all the stores at once
+	void setStoreValue(int arr[], Dekatron newState[]);
 	// TODO : Define the getter methods according to the
 	// required data types.
 	std::string getStringStateInStore();
