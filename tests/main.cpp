@@ -18,7 +18,8 @@ int main(int argc , char *argv[]) {
 #ifdef TEST_DEKATRONSTORE
 	TestDekatronStore store;
 #endif /*TEST_DEKATRONSTORE*/
+#ifdef TEST_TRANSFERUNIT
 	TestTransferUnit transferUnit;
-
+#endif /*TEST_TRANSFERUNIT*/
 	std::cout << "\n:::END TEST:::\n";
 }

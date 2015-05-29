@@ -98,10 +98,26 @@ TestDekatronStore::TestDekatronStore() {
 			break;
 		}
 
-	if( !store.getStringStateInStore().compare("012345678") )
+	if(!store.getStringStateInStore().compare("012345678") )
 		std::cout << "DekatronStore TEST 7   SUCCESSFUL\n";
 	else
 		std::cout << "DekatronStore TEST 7 setStoreValue FAILURE\n";
+
+	if(store.setStoreValue("000", dekatronBuffers))
+		std::cout << "DekatronStore TEST 8   SUCCESSFUL\n";
+	else
+		std::cout << "DekatronStore TEST 8 setStoreValue(string) FAILURE\n";
+
+	if(store.setStoreValue("90000000a", dekatronBuffers))
+		std::cout << "DekatronStore TEST 9   SUCCESSFUL\n";
+	else
+		std::cout << "DekatronStore TEST 9 setStoreValue(string) FAILURE\n";
+
+	if(!store.setStoreValue("012345678", dekatronBuffers)) {
+		if(store.getStringStateInStore().compare("012345678"))
+			std::cout << "DekatronStore TEST 10   SUCCESSFUL\n";
+	} else
+		std::cout << "DekatronStore TEST 10 setStoreValue(string) FAILURE\n";
 
 	std::cout << "FINISH dekatronstore.cpp TESTS\n";
 }

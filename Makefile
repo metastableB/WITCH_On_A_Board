@@ -32,7 +32,7 @@ clean :
 #############################################
 
 # TODO : Define conditional tests
-TESTFLAGS=
+TESTFLAGS= -DTEST_DEKATRON -DTEST_DEKATRONSTORE -DTEST_TRANSFERUNIT
 
 # Define all test files here
 # Do not Add header files here, they are to be dealt within the codes
