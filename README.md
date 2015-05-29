@@ -27,8 +27,13 @@ To run the test suit
     $ make testAll
     $ ./testAll
 
+To run interactive addition tests
+
+    $ make testAddition
+    $ ./testAddition
+
 and to clean test files use,
 
-    $ make cleanTest
+    $ make cleanTests
 
 **&copy; Don Dennis (metastableB)**

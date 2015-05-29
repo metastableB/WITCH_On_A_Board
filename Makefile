@@ -42,8 +42,11 @@ TESTS=./src/dekatron.cpp ./tests/testdekatron.cpp \
       ./src/transferunit.cpp ./tests/testtransferunit.cpp \
       ./tests/main.cpp 
 
+
 testAll :
 	$(CC) $(CFLAGS) $(TESTFLAGS) $(TESTS) -o testAll
-cleanTest :
-	rm -vf testAll ./tests/*.o ./tests/*.out ./tests/*.gch
+testAddition :
+	$(CC) $(CFLAGS) ./src/dekatron.cpp ./src/dekatronstore.cpp ./src/transferunit.cpp ./tests/ui_testaddition.cpp -o testAddition
+cleanTests :
+	rm -vf testAll testAddition ./tests/*.o ./tests/*.out ./tests/*.gch
 
