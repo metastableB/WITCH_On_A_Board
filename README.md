@@ -2,7 +2,7 @@
 
 # WITCH On A Board
 
-*WARNING: Under active development and testing.*
+*WARNING: Development Branch. Unstable and Possibly Radio Active. Proceed at your own risk*
 
 Project to develop a simulator for the [Harwell WITCH](http://en.wikipedia.org/wiki/Harwell_computer) based on the [Minnowboard Max](http://www.minnowboard.org/meet-minnowboard-max/)  as part of Google Summer of Code, 2015.
 
