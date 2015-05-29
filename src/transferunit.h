@@ -9,36 +9,35 @@
 #ifndef TRANSFERUNIT_H
 #define TRANSFERUNIT_H
 
- #include "dekatron.h"
- #include "dekatronstore.h"
+#include "dekatron.h"
+#include "dekatronstore.h"
+#include <string>
 
 class TransferUnit {
-	// set if output guides emit signal
-	int guideOutputFlags[9];
 	int pulseTrainElement[10] = { 1,1,1,1,1,1,1,1,1 };
+	// Set if output guides emit signal
+	int guideOutputFlags[9];
 	// TODO: This is temporary to facilitate addition. Move this to the
 	// actual relay model once you are done
 	Dekatron carryRelays[9];
-	Dekatron bufferDekatrons[9];
+
+	Dekatron bufferDekatrons_s[9];
+	Dekatron bufferDekatrons_r[9];
 	DekatronStore* sendingStore;
 	DekatronStore* receivingStore;
-	/* TODO : 1) Make sure dekatrons are incrementing correctly
-	 2) Simulate a false set of pulses and send it to the store
-	 and make sure the stores are updated correctly.
-	 3) Create the method to read store values by sending the train of
-	 10 pulses, push the return value to the above function
-	 Remember that when we send a 10 pulse stream to the dekatron stores
-	 the value in it changes though finally returns to the initial state.
-	 Make sure this is reflected in the code
-	 */
+
 	void setSendingStore(DekatronStore* store);
 	void setReceivingStore(DekatronStore* store);
 	void initializeCarryRelays();
 	void initializeGuideOutputFlags();
-	void updateCarryRelays();
-	void updateGuideOutputFlags();
+	void initializeBufferDekatrons();
+	void updateCarryRelays(int pulses[], Dekatron* bufferDekatrons);
+	void updateGuideOutputFlags(Dekatron* bufferDekatrons);
 	void makeCarryOver();
+	// TODO : remove after testing
+	std::string dekatronArrayToString(Dekatron* arr, int size);
 public:
+	// TODO: Transfer unit does not check if stores are from the same set
 	void transfer(DekatronStore* sStore, DekatronStore* rStore);
 	void trasferComplement(DekatronStore* sStore, DekatronStore* rStore);
 };

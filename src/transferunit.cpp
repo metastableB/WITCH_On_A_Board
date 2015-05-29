@@ -9,11 +9,11 @@
  #include "transferunit.h"
 
 void TransferUnit::setSendingStore(DekatronStore* store) {
-	this->receivingStore = store;
+	this->sendingStore = store;
 }
 
 void TransferUnit::setReceivingStore(DekatronStore* store) {
-	this->sendingStore = store;
+	this->receivingStore = store;
 }
 
 void TransferUnit::initializeCarryRelays() {
@@ -26,49 +26,72 @@ void TransferUnit::initializeGuideOutputFlags(){
 		guideOutputFlags[i] = 0;
 }
 
+void TransferUnit::initializeBufferDekatrons(){
+	for(int i = 0; i < 9; i++){
+		this->bufferDekatrons_s[i].setDekatronState(DekatronState::ZERO);
+		this->bufferDekatrons_r[i].setDekatronState(DekatronState::ZERO);
+	}
+}
+std::string TransferUnit::dekatronArrayToString(Dekatron* arr, int size) {
+	std::string s;
+	for(int i = 0; i < size; i++) {
+		s.append(std::to_string(arr[i].getCurrentNumber()));
+	}
+	return s;
+}
+
 // The guide produces a pulse on a ZERO to ONE
 // transition (not the first transition)
-void TransferUnit::updateGuideOutputFlags() {
-	if(bufferDekatrons[0].getCurrentState() == DekatronState::ONE)
+void TransferUnit::updateGuideOutputFlags(Dekatron* bufferDekatrons) {
+	if(bufferDekatrons[0].getCurrentState() == DekatronState::ZERO)
 		guideOutputFlags[0] = 1;
-	if(bufferDekatrons[1].getCurrentState() == DekatronState::ONE)
+	if(bufferDekatrons[1].getCurrentState() == DekatronState::ZERO)
 		guideOutputFlags[1] = 1;
-	if(bufferDekatrons[2].getCurrentState() == DekatronState::ONE)
+	if(bufferDekatrons[2].getCurrentState() == DekatronState::ZERO)
 		guideOutputFlags[2] = 1;
-	if(bufferDekatrons[3].getCurrentState() == DekatronState::ONE)
+	if(bufferDekatrons[3].getCurrentState() == DekatronState::ZERO)
 		guideOutputFlags[3] = 1;
-	if(bufferDekatrons[4].getCurrentState() == DekatronState::ONE)
+	if(bufferDekatrons[4].getCurrentState() == DekatronState::ZERO)
 		guideOutputFlags[4] = 1;
-	if(bufferDekatrons[5].getCurrentState() == DekatronState::ONE)
+	if(bufferDekatrons[5].getCurrentState() == DekatronState::ZERO)
 		guideOutputFlags[5] = 1;
-	if(bufferDekatrons[6].getCurrentState() == DekatronState::ONE)
+	if(bufferDekatrons[6].getCurrentState() == DekatronState::ZERO)
 		guideOutputFlags[6] = 1;
-	if(bufferDekatrons[7].getCurrentState() == DekatronState::ONE)
+	if(bufferDekatrons[7].getCurrentState() == DekatronState::ZERO)
 		guideOutputFlags[7] = 1;
-	if(bufferDekatrons[8].getCurrentState() == DekatronState::ONE)
+	if(bufferDekatrons[8].getCurrentState() == DekatronState::ZERO)
 		guideOutputFlags[8] = 1;
 }
 
 // If any of the receiving stores reach zero on pulsing,
 // it means a carry over
-void TransferUnit::updateCarryRelays(){
-	if(bufferDekatrons[0].getCurrentState() == DekatronState::ZERO)
+void TransferUnit::updateCarryRelays(int pulseSent[], Dekatron* bufferDekatrons){
+	if(bufferDekatrons[0].getCurrentState() == DekatronState::ZERO && 
+		pulseSent[0] == 1)
 		carryRelays[0].setDekatronState(DekatronState::ONE);
-	if(bufferDekatrons[1].getCurrentState() == DekatronState::ZERO)
+	if(bufferDekatrons[1].getCurrentState() == DekatronState::ZERO && 
+		pulseSent[1] == 1)
 		carryRelays[1].setDekatronState(DekatronState::ONE);
-	if(bufferDekatrons[2].getCurrentState() == DekatronState::ZERO)
+	if(bufferDekatrons[2].getCurrentState() == DekatronState::ZERO && 
+		pulseSent[2] == 1)
 		carryRelays[2].setDekatronState(DekatronState::ONE);
-	if(bufferDekatrons[3].getCurrentState() == DekatronState::ZERO)
+	if(bufferDekatrons[3].getCurrentState() == DekatronState::ZERO && 
+		pulseSent[3] == 1)
 		carryRelays[3].setDekatronState(DekatronState::ONE);
-	if(bufferDekatrons[4].getCurrentState() == DekatronState::ZERO)
+	if(bufferDekatrons[4].getCurrentState() == DekatronState::ZERO && 
+		pulseSent[4] == 1)
 		carryRelays[4].setDekatronState(DekatronState::ONE);
-	if(bufferDekatrons[5].getCurrentState() == DekatronState::ZERO)
+	if(bufferDekatrons[5].getCurrentState() == DekatronState::ZERO && 
+		pulseSent[5] == 1)
 		carryRelays[5].setDekatronState(DekatronState::ONE);
-	if(bufferDekatrons[6].getCurrentState() == DekatronState::ZERO)
+	if(bufferDekatrons[6].getCurrentState() == DekatronState::ZERO && 
+		pulseSent[6] == 1)
 		carryRelays[6].setDekatronState(DekatronState::ONE);
-	if(bufferDekatrons[7].getCurrentState() == DekatronState::ZERO)
+	if(bufferDekatrons[7].getCurrentState() == DekatronState::ZERO && 
+		pulseSent[7] == 1)
 		carryRelays[7].setDekatronState(DekatronState::ONE);
-	if(bufferDekatrons[8].getCurrentState() == DekatronState::ZERO)
+	if(bufferDekatrons[8].getCurrentState() == DekatronState::ZERO && 
+		pulseSent[8] == 1)
 		carryRelays[8].setDekatronState(DekatronState::ONE);
 }
 
@@ -100,26 +123,24 @@ void TransferUnit::makeCarryOver() {
 	if (sum == 0)
 		return;
 	// Continue till there are no more carry overs
-	std::cout << "Carry exists and sums to " << sum <<" \n";
-	receivingStore->pulseStore(tempCarryPulse, bufferDekatrons);
-	std::cout << "Intermediate result being " << receivingStore->getStringStateInStore() << "\n";
-	updateCarryRelays();
+	receivingStore->pulseStore(tempCarryPulse, bufferDekatrons_r);
+	initializeCarryRelays();
+	updateCarryRelays(tempCarryPulse, bufferDekatrons_r);
+	makeCarryOver();
 }
-
+// TODO: (note) The ordering within the for loop is important fot the logic
 void TransferUnit::transfer(DekatronStore* sStore, DekatronStore* rStore) {
 	setSendingStore(sStore);
 	setReceivingStore(rStore);
 	initializeCarryRelays();
 	initializeGuideOutputFlags();
-
+	initializeBufferDekatrons();
+	// Send a set of pulse to sending dekatron
 	for (int i = 0 ; i < 10 ; i++) {
-		// Send a set of pulse to sending dekatron
-		sendingStore->pulseStore(pulseTrainElement,carryRelays);
-		// First pulse is irrelevant
-		if( i != 0)
-			updateGuideOutputFlags();
-		receivingStore->pulseStore(guideOutputFlags, bufferDekatrons);
-		updateCarryRelays();
+		sendingStore->pulseStore(pulseTrainElement,bufferDekatrons_s);
+		receivingStore->pulseStore(guideOutputFlags, bufferDekatrons_r);
+		updateCarryRelays(guideOutputFlags, bufferDekatrons_r);
+		updateGuideOutputFlags(bufferDekatrons_s);
 	}
 	makeCarryOver();
 }
