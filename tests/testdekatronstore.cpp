@@ -9,6 +9,7 @@
 #include "testdekatronstore.h"
 
 TestDekatronStore::TestDekatronStore() {
+	std::cout << "Testing dekatronstore.cpp\n";
 	DekatronStore store;
 
 	if (!store.getStringStateInStore().compare("000000000"))
@@ -78,5 +79,29 @@ TestDekatronStore::TestDekatronStore() {
 			}
 		}
 	}
+	arr[0] = 0;
+	arr[1] = 1;
+	arr[2] = 2;
+	arr[3] = 3;
+	arr[4] = 4;
+	arr[5] = 5;
+	arr[6] = 6;
+	arr[7] = 7;
+	arr[8] = 8;
+	// arr : 0 1234 5478
+	store.setStoreValue(arr,  dekatronBuffers);
+	for(int i= 0; i < 9; i++)
+		if(dekatronBuffers[i].getCurrentNumber() == i)
+			std::cout << "DekatronStore TEST 6." << i << " SUCCESSFUL\n";
+		else {
+			std::cout << "DekatronStore TEST 6." << i << "  setStoreValue FAILURE\n";
+			break;
+		}
+
+	if( !store.getStringStateInStore().compare("012345678") )
+		std::cout << "DekatronStore TEST 7   SUCCESSFUL\n";
+	else
+		std::cout << "DekatronStore TEST 7 setStoreValue FAILURE\n";
+
 	std::cout << "FINISH dekatronstore.cpp TESTS\n";
 }

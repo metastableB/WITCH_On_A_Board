@@ -9,11 +9,16 @@
 #include <iostream>
 #include "testdekatron.h"
 #include "testdekatronstore.h"
+#include "testtransferunit.h"
 
 int main(int argc , char *argv[]) {
-	std::cout << "Testing dekatron.cpp\n";
+#ifdef TEST_DEKATRON
 	TestDekatron dekatron;
-	std::cout << "\nTesting dekatronstore.cpp\n";
+#endif /*TEST_DEKATRON*/
+#ifdef TEST_DEKATRONSTORE
 	TestDekatronStore store;
+#endif /*TEST_DEKATRONSTORE*/
+	TestTransferUnit transferUnit;
+
 	std::cout << "\n:::END TEST:::\n";
 }
