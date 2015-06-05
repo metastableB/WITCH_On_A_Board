@@ -47,7 +47,7 @@ class TransferUnit {
 public:
 	// TODO: Transfer unit does not check if stores are from the same set
 	void transfer(DekatronStore* sStore, DekatronStore* rStore);
-	void trasferComplement(DekatronStore* sStore, DekatronStore* rStore);
+	void transferComplement(DekatronStore* sStore, DekatronStore* rStore);
 };
 #endif /* TRANSFERUNIT_H */
 

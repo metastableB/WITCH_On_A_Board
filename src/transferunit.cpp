@@ -88,8 +88,8 @@ void TransferUnit::makeReceivingStorePulse(){
 }
 void TransferUnit::makeReceivingStorePulseComplement(){
 	for(int i = 0; i < 9; i++)
-		if(v1OutputFlags[i] == 1)
-			receivingStorePulse[i] = 0;
+		if(guideOutputFlags[i] == 1)
+			receivingStorePulseComplement[i] = 0;
 
 }
 // Recursively Completes carry operations required
@@ -112,7 +112,7 @@ void TransferUnit::makeCarryOver() {
 	updateCarryRelays(tempCarryPulse, bufferDekatrons_r);
 	makeCarryOver();
 }
-// TODO: (note) The ordering within the for loop is important fot the logic
+// Pulses from 0-1 (inclusive) are effective in moving the receiving store
 void TransferUnit::transfer(DekatronStore* sStore, DekatronStore* rStore) {
 	setSendingStore(sStore);
 	setReceivingStore(rStore);
@@ -134,7 +134,8 @@ void TransferUnit::transfer(DekatronStore* sStore, DekatronStore* rStore) {
 	}
 	makeCarryOver();
 }
-void TransferUnit::trasferComplement(DekatronStore* sStore, DekatronStore* rStore){
+// Pulses before 9-0 (exclusive of 9-0) are effective in moving the receiving store
+void TransferUnit::transferComplement(DekatronStore* sStore, DekatronStore* rStore){
 	setSendingStore(sStore);
 	setReceivingStore(rStore);
 	initializeCarryRelays();
