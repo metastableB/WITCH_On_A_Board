@@ -15,8 +15,9 @@
 
 class TransferUnit {
 	int pulseTrainElement[10] = { 1,1,1,1,1,1,1,1,1 };
-	// Set if output guides emit signal
+	int receivingStorePulse[10];
 	int guideOutputFlags[9];
+	int v1OutputFlags[9];
 	// TODO: This is temporary to facilitate addition. Move this to the
 	// actual relay model once you are done
 	Dekatron carryRelays[9];
@@ -31,8 +32,12 @@ class TransferUnit {
 	void initializeCarryRelays();
 	void initializeGuideOutputFlags();
 	void initializeBufferDekatrons();
+	void initializeReceivingStorePulse();
+	void initializeV1OutputFlags();
 	void updateCarryRelays(int pulses[], Dekatron* bufferDekatrons);
 	void updateGuideOutputFlags(Dekatron* bufferDekatrons);
+	void updateV1OutputFlags(Dekatron* bufferDekatrons);
+	void makeReceivingStorePulse();
 	void makeCarryOver();
 	// TODO : remove after testing
 	std::string dekatronArrayToString(Dekatron* arr, int size);
