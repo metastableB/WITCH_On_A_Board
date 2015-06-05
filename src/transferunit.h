@@ -14,8 +14,9 @@
 #include <string>
 
 class TransferUnit {
-	int pulseTrainElement[10] = { 1,1,1,1,1,1,1,1,1 };
-	int receivingStorePulse[10];
+	int pulseTrainElement[9] = { 1,1,1,1,1,1,1,1,1 };
+	int receivingStorePulse[9];
+	int receivingStorePulseComplement[9];
 	int guideOutputFlags[9];
 	int v1OutputFlags[9];
 	// TODO: This is temporary to facilitate addition. Move this to the
@@ -34,10 +35,12 @@ class TransferUnit {
 	void initializeBufferDekatrons();
 	void initializeReceivingStorePulse();
 	void initializeV1OutputFlags();
+	void initializeReceivingStorePulseComplement();
 	void updateCarryRelays(int pulses[], Dekatron* bufferDekatrons);
 	void updateGuideOutputFlags(Dekatron* bufferDekatrons);
 	void updateV1OutputFlags(Dekatron* bufferDekatrons);
 	void makeReceivingStorePulse();
+	void makeReceivingStorePulseComplement();
 	void makeCarryOver();
 	// TODO : remove after testing
 	std::string dekatronArrayToString(Dekatron* arr, int size);

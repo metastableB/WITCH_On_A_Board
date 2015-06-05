@@ -38,6 +38,11 @@ void TransferUnit::initializeReceivingStorePulse(){
 		this->receivingStorePulse[i] = 0;
 }
 
+void TransferUnit::initializeReceivingStorePulseComplement(){
+	for(int i = 0; i < 9; i++)
+		this->receivingStorePulseComplement[i] = 1;
+}
+
 void TransferUnit::initializeV1OutputFlags(){
 	for(int i=0; i < 9; i++)
 		this->v1OutputFlags[i] = 0;
@@ -81,6 +86,12 @@ void TransferUnit::makeReceivingStorePulse(){
 			receivingStorePulse[i] = 1;
 
 }
+void TransferUnit::makeReceivingStorePulseComplement(){
+	for(int i = 0; i < 9; i++)
+		if(v1OutputFlags[i] == 1)
+			receivingStorePulse[i] = 0;
+
+}
 // Recursively Completes carry operations required
 void TransferUnit::makeCarryOver() {
 	int tempCarryPulse[9] = {0,0,0,0,0,0,0,0,0};
@@ -110,10 +121,6 @@ void TransferUnit::transfer(DekatronStore* sStore, DekatronStore* rStore) {
 	initializeBufferDekatrons();
 	initializeReceivingStorePulse();
 	initializeV1OutputFlags();
-	//TODO : initialize recieving store pulse
-	// making v1
-	// making recieving store pulse
-	// verifying carry operations and transfer operations
 
 	// Send a set of pulse to sending dekatron
 	for (int i = 0 ; i < 10 ; i++) {
@@ -124,7 +131,27 @@ void TransferUnit::transfer(DekatronStore* sStore, DekatronStore* rStore) {
 
 		receivingStore->pulseStore(receivingStorePulse, bufferDekatrons_r);
 		updateCarryRelays(receivingStorePulse, bufferDekatrons_r);
+	}
+	makeCarryOver();
+}
+void TransferUnit::trasferComplement(DekatronStore* sStore, DekatronStore* rStore){
+	setSendingStore(sStore);
+	setReceivingStore(rStore);
+	initializeCarryRelays();
+	initializeGuideOutputFlags();
+	initializeBufferDekatrons();
+	initializeReceivingStorePulseComplement();
+	initializeV1OutputFlags();
 
+	// Send a set of pulse to sending dekatron
+	for (int i = 0 ; i < 10 ; i++) {
+		sendingStore->pulseStore(pulseTrainElement,bufferDekatrons_s);
+		updateGuideOutputFlags(bufferDekatrons_s);
+		updateV1OutputFlags(bufferDekatrons_s);
+		makeReceivingStorePulseComplement();
+
+		receivingStore->pulseStore(receivingStorePulseComplement, bufferDekatrons_r);
+		updateCarryRelays(receivingStorePulseComplement, bufferDekatrons_r);
 	}
 	makeCarryOver();
 }
