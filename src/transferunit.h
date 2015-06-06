@@ -35,12 +35,10 @@ class TransferUnit {
 	void initializeBufferDekatrons();
 	void initializeReceivingStorePulse();
 	void initializeV1OutputFlags();
-	void initializeReceivingStorePulseComplement();
 	void updateCarryRelays(int pulses[], Dekatron* bufferDekatrons);
 	void updateGuideOutputFlags(Dekatron* bufferDekatrons);
 	void updateV1OutputFlags(Dekatron* bufferDekatrons);
 	void makeReceivingStorePulse();
-	void makeReceivingStorePulseComplement();
 	void makeCarryOver();
 	// TODO : remove after testing
 	std::string dekatronArrayToString(Dekatron* arr, int size);
