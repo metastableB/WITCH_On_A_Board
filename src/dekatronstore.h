@@ -31,6 +31,7 @@ public:
 	// TODO : Define the getter methods according to the
 	// required data types.
 	std::string getStringStateInStore();
+	DekatronState getStateIn(int index);
 };
 
 #endif /* DEKATRONSTORE_H */

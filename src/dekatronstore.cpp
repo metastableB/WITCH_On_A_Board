@@ -99,4 +99,11 @@ std::string DekatronStore::getStringStateInStore() {
 	state.append(std::to_string(this->store[8].getCurrentNumber()));
 	return state;
 }
+DekatronState DekatronStore::getStateIn(int index){
+	if( index < 0 || index > 8)
+		// TODO: Error Handler!
+		return DekatronState::ZERO;
+	else
+		return this->store[index].getCurrentState();
+}
 
