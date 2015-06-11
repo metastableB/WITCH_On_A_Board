@@ -1,0 +1,22 @@
+===============================================================================
+									Notes
+===============================================================================
+
+# Dekatron Stores
+Since a lot of the things are going to change as it seems in process of 
+development, just start making things, commit whenever something fits,
+remove if it doesn't. Just make sure the model you follow allows for 
+additions as much as possible.
+
+# Shift circuit
+The accumulator  is made up of two dekatron stores. Its length out to be
+18 but only 15 is used. The sign bit of both the dekatron holds the same
+sign. That makes it 16.
+
+In the shift circuit mechanism only the magnitude part is involved.
+The sign part is not involved. The WITCH allows one left shift and 7
+right shift. Basically the shift circuit is a set of relay switch mechanism
+which controls the trafic from the sending dekatron to the receiving dekatron.
+There is no actual shift happening as we see it now.
+
+
