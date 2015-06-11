@@ -21,8 +21,8 @@ public :
 	// TODO : the return value to be used for overflow checks
 	bool add(DekatronStore* sStore, DekatronStore* rStore);
 	bool subtract(DekatronStore* sStore, DekatronStore* rStore);
-	bool multiply();
-	bool divide();
+	bool multiply(DekatronStore* sStore, DekatronStore* rStore);
+	bool divide(DekatronStore* sStore, DekatronStore* rStore);
 	bool getAccumulatorValue();
 };
 
