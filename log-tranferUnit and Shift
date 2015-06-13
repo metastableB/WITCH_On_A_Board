@@ -1,0 +1,487 @@
+<prpplague> [22:11:43] metastableb: so for that small demo i use 10's complement
+<metastableb> [22:11:43] yes that was the expected value from my side
+<metastableb> [22:12:03] that settles that.
+<prpplague> [22:12:16] the fact that you found that, means you are really starting to understand the core principles
+<metastableb> [22:12:44] thanks :)
+<metastableb> [22:13:10] then I guess you also say the implementation on th dev branch ?
+<metastableb> [22:13:48] saw*
+<prpplague> [22:14:14] no i haven't looked in detail on that yet
+<prpplague> [22:14:18] on the list for today
+<prpplague> [22:14:21] https://www.flickr.com/photos/krmurrell/3081455713/in/album-72157610648943977/
+<prpplague> [22:14:34] metastableb: that is a low resolution image of the shift register
+<prpplague> [22:14:48] metastableb: i'll get you a set of high resolution scans
+<metastableb> [22:14:49] wow
+<prpplague> [22:15:06] metastableb: as you can see
+<prpplague> [22:15:23] metastableb: it's a matrix of Single-Pole Single-Throw (SPST) relays
+»» metastableb [22:16:00] looks
+»» metastableb [22:16:05] looks hard
+<prpplague> [22:16:15] normally when doing a transfer
+<prpplague> [22:16:46] the sending dekatron for the ones digit, is connected via the transfer unit to the receiving dekatron for the ones digit
+<prpplague> [22:17:00] but, using the shift register
+<prpplague> [22:17:15] you can connect them differently
+<prpplague> [22:17:17] for example
+<metastableb> [22:17:25] hmm hmm
+<metastableb> [22:18:01] if I turn off the switches in a digonal fashion, the charge flow shifts by one dekatron 
+<prpplague> [22:18:03] you could setup so that the sending dekatron for the ones digit is connected via the transfer unit to the receving dekatrons for the the tenths digit
+<metastableb> [22:18:05] or something similar
+<prpplague> [22:18:15] metastableb: exactly
+<metastableb> [22:18:46] ok a better scan might help  a lot. I cant see much. Just going by the feel of things
+<metastableb> [22:19:10] prpplague: so there is no actual shift happening as we see these days
+<prpplague> [22:19:18] correct
+<prpplague> [22:19:53] the term "shift" is being used differently than what we would use the term "shift" for in modern terms
+<metastableb> [22:20:17] ok, so if we assume that shifts were happening, in modern terms, this would be circular shift ?
+<prpplague> [22:21:53] metastableb: no, since in this case the digits that are not represented by the shift are not used
+<metastableb> [22:22:39] I didnt get that bit. can you explain a little ?
+<prpplague> [22:23:20] metastableb: for example in a 8 bit value
+<prpplague> [22:23:30] metastableb: for a circular shift register
+<prpplague> [22:24:06] metastableb: if you shift left 1 place, the digit that was in the far left, then appears at the far right
+<prpplague> [22:24:16] metastableb: no values are lost, they are still there
+<metastableb> [22:24:22] hmm hmm.
+<prpplague> [22:24:22] metastableb: but moved
+<prpplague> [22:25:03] metastableb: http://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Rotate_left.svg/300px-Rotate_left.svg.png
+<prpplague> [22:25:25] metastableb: that type of shift is referred to as a "rotate" or "circular" shift register
+<metastableb> [22:25:28] yep see it.
+<metastableb> [22:25:36] hmm hmm
+<prpplague> [22:26:22] metastableb: so
+<prpplague> [22:26:33] metastableb: for a standard left shift
+<prpplague> [22:26:55] metastableb: the MSB digit is dropped
+<prpplague> [22:27:17] metastableb: and for the LSB, a value of 0 is always placed
+<prpplague> [22:27:42] 12345678 with a left shift become 23456780
+<metastableb> [22:27:47] oh, thats what I was asking, if there is a 7-0 link existed in the realay circuit
+<metastableb> [22:27:58] 7-0 in the figure i.e.
+<metastableb> [22:28:30] hmm this is a normal shift left then
+<metastableb> [22:28:43] the MSB in lost and a zero appended
+<metastableb> [22:28:49] to the end
+<metastableb> [22:29:00] and for shift right ?
+<prpplague> [22:29:22] witch only supports doing a shift right by one digit
+<prpplague> [22:29:42] MSB is set to 0, and the LSB digit is lost
+<metastableb> [22:30:02] alywas 0 ? even if a negative number is there ?
+<prpplague> [22:30:43] yes that is my understanding, i will verify that
+<metastableb> [22:30:56] and why so ? isnt the circuit symmetric in this sense ? how is a right shift different than a left ?
+<metastableb> [22:31:15] ka6sox: baboo btw, Hi :) morning :)
+<prpplague> [22:31:56] metastableb: it is the same
+<prpplague> [22:32:19] metastableb: right and left are the same
+<prpplague> [22:32:44] metastableb: please note, the sign dekatron is NOT part of the shift
+<metastableb> [22:33:20] oh, that explains the MSB being a zero in a right shift
+<prpplague> [22:33:42] indeed
+<metastableb> [22:33:53] ok I'll go over the figure to get a better understanding
+<metastableb> [22:34:01] ok so back to multiplication then
+<prpplague> [22:34:17] i'll try to get you the image files
+<metastableb> [22:34:35] http://witch-e.org/File:WITCH_multi_positivePlier.png
+<metastableb> [22:34:49] ok so this is how I though the WITCH was doing the multiplication
+<metastableb> [22:34:55] based on how we do it
+<metastableb> [22:34:59] but this is plain wrong
+<metastableb> [22:35:04] totally wrong actually
+<metastableb> [22:35:18] can you see it ?
+<prpplague> [22:35:44] yes looking
+<prpplague> [22:35:52] yes i think you have some mistake here
+<prpplague> [22:36:26] give me a little while to re-read the notes i have from TNMOC on multiplication and to check the schematics
+<metastableb> [22:36:48] yep. sure thing :)
+<prpplague> [22:37:00] metastableb: remember, which i am your mentor on this, i am still learning about the witch myself
+<metastableb> [22:37:34] yeah, I'm kinda afraid I'll fall shot on time now 
+<metastableb> [22:37:46] so rushing s little
+<metastableb> [22:37:52] rushing*
+<metastableb> [22:37:57] a little*
+<metastableb> [22:38:34] you learn so much though. For example this shift circuit
+<metastableb> [22:38:41] its new and awesome looking :D
+<metastableb> [22:40:13] prpplague: I've to go to bed before midnight though. thats about an hour . If I dont see you around before that I'll catch you in the morning, ~6am my time ? around 730pm your time ?
+<metastableb> [22:40:47] does that  work for you ?
+<prpplague> [22:44:11] metastableb: perfect
+<prpplague> [22:44:20] metastableb: you are on track for the work
+<prpplague> [22:44:25] metastableb: so don't worry too much
+<metastableb> [22:44:53] prpplague: thanks :)
+<ka6sox> [00:26:26] metastableb, :)
+<metastableb> [00:41:02] laters everyone :)
+<metastableb> [05:55:51] prpplague: I'm up
+<metastableb> [05:56:11] be back here in some time. 
+<metastableb> [05:56:20] about an hour
+<prpplague> [06:03:10] metastableb: ok so i found some notes on the mutliplation
+<prpplague> [06:03:50] metastableb: so the witch supports 1 left shift, and 7 right shift
+<prpplague> [06:04:04] metastableb: the EE document has some good notes on it
+<prpplague> [06:04:28] metastableb: the one section i am not clear on is how the dekatron in the multiplacand register is selected
+<prpplague> [06:04:38] metastableb: i've not been able to find that in the schematic
+<prpplague> [06:05:54] metastableb: sorry
+<prpplague> [06:06:08] metastableb: not multiplacand , i mean the multiplier
+<prpplague> [06:07:07] metastableb: i'll work on an updated flow chart for you
+<metastableb> [06:54:08] prpplague: I'm back
+<metastableb> [06:54:46] the multiplication diagram I designed was based on the assumption that the shift operations are performed on the accumulator
+<metastableb> [06:55:03] which is How I'd have implemented it, 
+<metastableb> [06:55:34] since then we can use two different stores for the first 9 digits and the later ones
+<metastableb> [06:56:02] but then the arithmetic involved would be much more complicated than required
+<metastableb> [06:56:52] as I understand from the paper, the sending store is treated as the multiplicand and is shifted left
+<metastableb> [06:57:06] so the basic idea is, 
+<metastableb> [06:57:19] 1) check is the multiplier is positive
+<metastableb> [06:57:45] 2.1) If yes, add the multiplicand to the accumulator MSB(multiplicand) times
+<metastableb> [06:58:17] 2.2) Shift the multiplicand left
+<metastableb> [06:58:22] right*
+<metastableb> [06:58:46] continue to 2.1
+<metastableb> [06:59:19] prpplague: no in between here somewhere there should be a left shift on the receiving dekatron 
+<metastableb> [07:00:08] and somehow only one digit of the receiving dekatron is being sent to some mechanism which does the sequential addition part the necessary number of times
+<metastableb> [07:00:34] prpplague: there are hints on how this is done in the paper
+<metastableb> [07:00:52] Page 6 of 9, left side.
+<metastableb> [07:01:04] In order to
+<metastableb> [07:01:05] perform the correct number of additions, the tube in the register
+<metastableb> [07:01:05] containing the digit of the multiplier being considered is moved back
+<metastableb> [07:01:05] one step (for convenience it is actually moved on nine steps without
+<metastableb> [07:01:26] carry over) for each single addition, The pulse generator is arranged
+<metastableb> [07:01:26] to give the finish signal calling for the next operation when the
+<metastableb> [07:01:26] appropriate digit of the register has reached zero and carryover is
+<metastableb> [07:01:26] complete.
+<metastableb> [07:01:38] >>END paste
+<metastableb> [07:01:56] prpplague: I have no idea of what they are talking about here.
+<metastableb> [07:11:26] prpplague: ping
+<prpplague> [07:15:30] metastableb: yea i verified with tnmoc guys
+<prpplague> [07:15:35] metastableb: it's a right shift
+<prpplague> [07:15:57] metastableb: i'll be back in an hour
+<metastableb> [07:16:03] prpplague: ok
+<ka6sox> [07:18:08] hiya metastableb
+<metastableb> [07:18:24] hey ka6sox 
+<metastableb> [07:18:31] whats up.
+<ka6sox> [07:19:28] sunday evening, rested most of today as I'm feeling a little sick.
+<metastableb> [07:20:25] oh ? 
+<metastableb> [07:20:41] might just be the merlot ? :P
+<ka6sox> [07:20:45] ya, been reading the log here…accuracy is very important...
+<ka6sox> [07:20:56] nothing for me except water today!
+<metastableb> [07:21:05] hehe :D
+<metastableb> [07:21:23] hey do you remember that talk baboo gave at scale ?
+<ka6sox> [07:21:29] yes
+<metastableb> [07:21:31] I guess 2013 ?
+<metastableb> [07:21:35] about WITCH
+<ka6sox> [07:21:38] 2015
+<metastableb> [07:21:41] and his emulator
+<ka6sox> [07:21:42] just this last year
+<ka6sox> [07:21:45] yup
+<metastableb> [07:21:52] lol sorry. 
+<ka6sox> [07:21:56] np
+<metastableb> [07:22:09] so he mentions something about him developing some reference material
+<metastableb> [07:22:19] study material of sort
+<ka6sox> [07:22:35] ya, let me ask him about this…and get him online here now
+<ka6sox> [07:22:38] before dinner
+<metastableb> [07:22:54] ok no its fine. Just wanted to ask this
+<metastableb> [07:23:05] if he has something up.
+<metastableb> [07:23:24] cz i'm gonna update the wiki anyway with all the information prpplague is giving me
+<ka6sox> [07:23:26] just called him on the VOIP phone..
+<ka6sox> [07:23:34] great!
+<metastableb> [07:23:37] ok you guys are lazy :D
+<metastableb> [07:23:59] and smart, but lazy as well :p
+<metastableb> [07:24:05] so yeah back to the topic
+<metastableb> [07:24:18] ok I guess I'll let baboo get online now
+<ka6sox> [07:25:56] juup
+<ka6sox> [07:26:11] I think school has been keeping him busy
+<ka6sox> [07:26:27] he graduates from 8th grade wednesday
+<metastableb> [07:27:37] each time it surprises me that he is still in 7th grade
+<metastableb> [07:27:42] :D
+<metastableb> [07:28:13] I was struggling with my pokemon collection then. ah those times :D
+<ka6sox> [07:31:00] :)
+<ka6sox> [07:33:21] how often are you updating the dev branch?
+<metastableb> [07:38:17] locally or oh git ?
+<metastableb> [07:38:31] I havent pushed on hit since the last week I guess
+<metastableb> [07:38:34] git*
+<metastableb> [07:38:53] have had to recode a number of times you see
+<metastableb> [07:39:23] ka6sox: as I get more and more detail I'm incorporating them
+<metastableb> [07:39:52] i think only addition and subtration part of the ALU is implemented
+<metastableb> [07:40:10] on the git branch
+<metastableb> [07:41:13] ka6sox: why'd you ask
+<ka6sox> [07:44:39] because I'm trying to follow along :)
+<metastableb> [07:50:33] ka6sox: ah, now probably is a good time to go trough the code
+<metastableb> [07:50:40] its clean and small :D
+<ka6sox> [07:51:12] yes, I was looking for anything you had put up about multiplication
+»» prpplague [07:51:19] returns
+<prpplague> [07:51:42] metastableb: hey now, you should know better than call you mentor lazy, hehehe
+»» prpplague [07:51:45] jokes with met
+»» prpplague [07:51:47] jokes with metastableb 
+<metastableb> [07:52:17] prpplague: hey, prpplague returns sounded so marvel like :D
+<ka6sox> [07:53:20] :)
+<prpplague> [07:53:23] hehe
+<ka6sox> [07:53:34] work smarter not harder
+<prpplague> [07:53:41] metastableb: ok so the shift circuit that i showed you
+<prpplague> [07:53:48] metastableb: it supports 1 shift left
+<prpplague> [07:53:55] metastableb: and 7 shift right
+<prpplague> [07:54:50] metastableb: so the Multiplicand in the send store gets shifter right after each cycle
+<prpplague> [07:55:09] metastableb: for 8 cycles
+<metastableb> [07:55:31] hmm hmm
+<prpplague> [07:55:47] metastableb: i'll get a flow chart together with some examples
+<metastableb> [07:55:57] ok 
+<prpplague> [07:56:04] metastableb: lets do a small example using 4 digits
+<prpplague> [07:56:18] 1.234 is the Multiplicand
+<metastableb> [07:56:41] ok
+<prpplague> [07:57:06] and 5.678 is the multiplier
+<prpplague> [07:57:32] starting off the shift is at the one to one location
+<prpplague> [07:57:34] so
+<prpplague> [07:58:12] the accumulator gets filled with 5 * 1.234 = 6.170
+<prpplague> [07:58:24] once that is complete the shift right happens
+<prpplague> [07:58:50] the sending store of 1.234 is connected to the accumulator to the right by one
+<prpplague> [07:59:22] this means that 1.234 in the sending store, appears to be 0.1234
+<prpplague> [07:59:49] so after one cycle 6 * 0.1234 is added to 6.170
+<metastableb> [08:00:20] 0.123 ?, the 4 should be dropped ?
+<prpplague> [08:00:29] nope
+<prpplague> [08:00:47] the accumulator is double the size of the sending store
+<prpplague> [08:00:56] on the witch, the sending store is 8
+<metastableb> [08:00:59] ok, all the that explains the 15 accum and not 16
+<prpplague> [08:01:00] and the accumulator is 16
+<metastableb> [08:01:10] its 15*
+<metastableb> [08:02:01] >>START PASTE
+<prpplague> [08:02:03] yea right, i always count the extra sign dekatron
+<metastableb> [08:02:07] . The
+<metastableb> [08:02:08] accumulator is only required as a third address, of length 15 digits,
+<metastableb> [08:02:08] for the purpose of multiplication
+<metastableb> [08:02:12] <<END PASTE
+<prpplague> [08:02:13] only 15 actual digits
+<metastableb> [08:02:22] yeah.
+<prpplague> [08:02:55] metastableb: you'll have to remember i keep looking at this from the hardware perspective, since the A and B accumulators actually have a total of 16 dekatrons
+<prpplague> [08:03:00] metastableb: anyway
+<prpplague> [08:03:08] so for our 4 digit example
+<prpplague> [08:03:19] we'd want the accumulator to have 7
+<prpplague> [08:03:35] so we 'd get 4 cycles
+<prpplague> [08:03:49] 1.234 , 0.1234 , 0.01234, 0.001234
+<metastableb> [08:04:11] yep, 15 is perfect actually, because you would have 8 shifts and the most and that requires 15 digits 
+<prpplague> [08:04:22] exactly
+<prpplague> [08:05:03] metastableb: there are two accumulators actually
+<prpplague> [08:05:06] metastableb: A and B
+<metastableb> [08:05:17] so this means that the shift relays can connect to any of the first 8 dekatrons of the accum 
+<metastableb> [08:05:22] prpplague: two ?
+<prpplague> [08:05:39] metastableb: two
+<metastableb> [08:05:53] prpplague: for the same purpose ?
+<prpplague> [08:06:02] metastableb: rather than design a special 15 digit accumulator
+<baboo> [08:06:14] sorry prpplague metastableb ka6sox
+<prpplague> [08:06:15] metastableb: they used the same 9 dekatron configuration from the stores
+<prpplague> [08:06:23] metastableb: and they used two of them
+<metastableb> [08:06:38] yo baboo !
+<prpplague> [08:06:46] baboo: hey bud
+<prpplague> [08:07:00] metastableb: the A accumulator are the first 8 digits
+<prpplague> [08:07:10] metastableb: the B accumulator is the last 7 digits
+<prpplague> [08:07:21] metastableb: but they are identical in configuration
+<prpplague> [08:07:36] metastableb: the key here was the modularity
+<prpplague> [08:07:42] metastableb: soo
+<metastableb> [08:07:46] ok you lost me there. Why would they do that ?
+<metastableb> [08:07:59] stores are just dekatrons stuck together right
+<prpplague> [08:08:05] metastableb: well
+<prpplague> [08:08:21] metastableb: the stores have to be wired up with the control relays and such
+<metastableb> [08:08:25] how does the number of dekatrons matter here  ?
+<metastableb> [08:08:30] hmm hmm
+<prpplague> [08:08:46] metastableb: think about the people building this back then
+<prpplague> [08:08:58] metastableb: they didn't want to have "special" pieces
+<prpplague> [08:09:09] metastableb: so they made the same "pieces" do different things
+<prpplague> [08:09:33] metastableb: a 15-digit accumulator is made up of two of the 8 digit stores
+<prpplague> [08:09:50] metastableb: so you don't design something specific
+<prpplague> [08:09:57] metastableb: you reuse what you have working
+<ka6sox> [08:10:11] :)
+<prpplague> [08:10:12] metastableb: you see this a lot in the hardware side of things
+<prpplague> [08:10:31] metastableb: let's use a modern example
+<metastableb> [08:10:46] but then you loose the modularity with the shift relay circuit dont you ? Becaus, lets say I'm at the 5th cycle of multiplication where the MSB of the sending store is connected to 5th of the accum (A). and the remaining few digits overlap to the B
+<metastableb> [08:11:12] wouldnt this overlap be against modularity of the shift relay ?
+<metastableb> [08:11:15] prpplague: ok
+<prpplague> [08:11:20] metastableb: no, the shift circuit is 16 wide
+<prpplague> [08:11:29] metastableb: let's do this modern example first
+<metastableb> [08:11:34] ok
+<prpplague> [08:11:40] metastableb: just so you understand the mindset
+<prpplague> [08:11:54] metastableb: you have a design where you are using a part which is a single NAND gate
+<prpplague> [08:12:16] metastableb: in the design you have used 100 of these single nand gate parts
+<prpplague> [08:13:00] metastableb: now, in the same design , you have a location where you need a quad nand gate part (4 nand gates on one chip)
+<prpplague> [08:13:28] metastableb: if you use a quad nand gate part on the design, you only have to purchase 1 per board
+<prpplague> [08:13:33] metastableb: but......
+<metastableb> [08:13:59] you could use a combinaton of the two input nand gates
+<prpplague> [08:14:10] metastableb: purchasing only one per board doesn't allow you to get bulk discount because you don't use enough of them
+<metastableb> [08:14:16] hmm hmm
+<prpplague> [08:14:20] metastableb: but
+<prpplague> [08:14:32] metastableb: if instead you use the single nand gates
+<prpplague> [08:14:43] metastableb: you have increase the number from 100 to 104
+<prpplague> [08:14:52] which means you have increased your bulk purchase
+<prpplague> [08:15:16] metastableb: here is another good example
+<prpplague> [08:15:41] metastableb: let's say you have a design that needs to have some 10k resistors and some 20k resistors on the design
+<prpplague> [08:16:14] metastableb: in many cases, the designers will often use TWO 10k resistors in series rather than purchase 20k resistors
+<metastableb> [08:16:25] hmm hmm
+<prpplague> [08:16:33] metastableb: for several reasons
+<prpplague> [08:16:44] metastableb: first, you get your bulk purchase higher
+<prpplague> [08:17:00] metastableb: second, for pick-n-place machine you only populate one spool
+<prpplague> [08:17:09] metastableb: the more spools you populate the more it costs
+»» metastableb [08:17:20] looks up spools
+<prpplague> [08:17:29] spools or "reels"
+<prpplague> [08:18:12] metastableb: http://dangerousprototypes.com/wp-content/media/2013/02/friction.jpg
+<prpplague> [08:18:34] metastableb: http://reprap.org/mediawiki/images/thumb/0/0b/Eriks-PnP-Tape-feeder1.jpg/300px-Eriks-PnP-Tape-feeder1.jpg
+<prpplague> [08:18:42] metastableb: the components come in a paper tape
+<prpplague> [08:18:47] metastableb: on spool or reel
+<metastableb> [08:18:57] I have not seen these. 
+<prpplague> [08:18:59] metastableb: that is loaded into the pick-n-place machine
+<metastableb> [08:19:01] but I get the point
+<prpplague> [08:19:33] metastableb: so there are little design choices that might not make sense from an engineering perspective
+<prpplague> [08:19:40] metastableb: like using 2 resistors instead of one
+<prpplague> [08:19:46] metastableb: "what the heck?" hehe
+<prpplague> [08:20:00] metastableb: but from a business and assembly perspective it makes sense
+<prpplague> [08:20:13] metastableb: soooo
+<prpplague> [08:20:16] metastableb: back to witch
+<prpplague> [08:20:28] metastableb: rather than design something "special" for the accumulator
+<prpplague> [08:20:50] metastableb: they too a store of 8digits plus sign, and resused it as the accumulator
+<prpplague> [08:20:55] metastableb: using two of them
+<metastableb> [08:21:00] prpplague: but there is a slight difference in our case isnt there ? As I have in my mind. the manufactured parts are the dekatrons and not the stores ? The stores are assembled ?
+<prpplague> [08:21:51] metastableb: the stores are a "logical block"
+<prpplague> [08:21:59] metastableb: something they understand and can wire up
+<metastableb> [08:22:03] I mean you buy a lot of dekatrons, stack them up in huge racks into groups of 9 and do the wiring and other thigs such that they get their identity of a logical store
+<metastableb> [08:22:10] prpplague: hmm hmm
+<prpplague> [08:22:22] metastableb: yes that is the "engineering" part i was saying
+<prpplague> [08:22:34] metastableb: from an engineering perspective it doesn't make a lot of sense
+<prpplague> [08:22:44] metastableb: but for the guy WIRING up that design, it does
+<metastableb> [08:22:53] ok so fundamentally you have an abstraction of a 15digit sore which basically is two 8digits stores combined
+<metastableb> [08:23:02] 9digit stores*
+<prpplague> [08:23:14] correct
+<metastableb> [08:23:27] and the extra 3 diigits are ignores ?
+<metastableb> [08:23:31] ignored*
+<prpplague> [08:23:39] two of the dekatrons are for the sign
+<prpplague> [08:23:48] both accumulators store the same sign info
+<prpplague> [08:24:00] so the sign in A acc is the same as the B acc sign
+<prpplague> [08:24:09] the last digit is ignored
+<metastableb> [08:24:47] ok this is going to be tough to implement
+<metastableb> [08:25:03] I'll have to figure out the shift circuit first
+<metastableb> [08:25:38] ok I'll come back to multiplication after shift is complete I guess
+<prpplague> [08:25:47] metastableb: yea, i was about to say that
+<prpplague> [08:25:59] metastableb: don't get too caught up in the details of the multiplication/division
+<prpplague> [08:26:15] metastableb: once you have add/sub working, then you'll have a lot better understanding
+<prpplague> [08:26:24] baboo had some issues understanding the acc as well
+<metastableb> [08:26:33] so prpplague in shift, why the restriction of 1 left and 7 right ? 
+<metastableb> [08:27:56] prpplague: add /sub is there on the dev branch. do give it a look when you get time. I think, two my understanding , its close to the witch. except the relay carry
+<metastableb> [08:28:19] prpplague: so when there is a shift operation happening
+<prpplague> [08:28:24] metastableb: because the witch is limited to values of 9.9999999 and -9.9999999 , anything bigger that a 1 shift left would create an overflow and have no meaning
+<prpplague> [08:28:44] metastableb: the 7 right is the max that matches with the 15 digit accumulator
+<metastableb> [08:29:14] yeah the 7 made sense, not the 1 though
+<metastableb> [08:29:25] I'll go over it again
+<metastableb> [08:29:42] but why cant we allow overflow ? 
+<metastableb> [08:29:52] 1.20000 becomes 2.00000
+<metastableb> [08:30:07] and even in cases such as
+<metastableb> [08:30:14] 0.20000 << 
+<metastableb> [08:30:17] 2.0000
+<metastableb> [08:30:26] there need not be always an overflow
+<prpplague> [08:30:48] i'll check with delwyn and eddie at TNMOC
+<metastableb> [08:31:02] ok.
+<prpplague> [08:31:04] but it was my understanding that the overflow was the reason
+<prpplague> [08:31:13] i'll double check to see if they know for sure
+<metastableb> [08:31:42] hmm hmm. 
+<metastableb> [08:31:47] ok one more thing
+»» prpplague [08:32:03] thinks metastableb is getting a lot of experience that most people don't get until they are in the real world job situation
+<ka6sox> [08:32:13] yup
+<metastableb> [08:32:16] this came up while implementing the subtracter
+<metastableb> [08:32:33] prpplague: ka6sox thanks :D :) 
+<metastableb> [08:32:44] this is one summer time spent well :)
+<metastableb> [08:32:54] ok  so back to the question,
+<metastableb> [08:33:03] since WITCH uses the 9s complement method
+<metastableb> [08:33:18] 9 9999 9999 represents 0 as well
+<metastableb> [08:33:21] doesnt it ?
+<prpplague> [08:33:36] yes it can
+<prpplague> [08:33:40] but
+<prpplague> [08:33:46] that is a special situation
+<prpplague> [08:34:09] because a zero is stored that way, it has a negative flag
+<metastableb> [08:34:59] there is no way to send such a zero to the store 
+<metastableb> [08:35:03] via the inputs
+<metastableb> [08:35:07] is there?
+<prpplague> [08:35:15] metastableb: correct
+<metastableb> [08:35:19] what happens if the input starts with a -ve sign 
+<metastableb> [08:35:27] and a series of 8 zeros
+<prpplague> [08:35:57] metastableb: i'd have to double check the input table, but i believe that triggers the alarm
+»» prpplague [08:36:07] makes a note to check
+<prpplague> [08:36:28] metastableb: this is why i find the emulation projects so productive
+<metastableb> [08:36:57] I'd have to check if there is a way to arithmetically create such a zero. I guess I came across this wile trying to figuring out the transfer circuit for subtraction
+<metastableb> [08:37:18] It resolved on its on then , I didnt make a note
+<prpplague> [08:37:29] yea i'll find out
+<metastableb> [08:37:37] so It seems there is no way to create such a zero. I'll double check though
+<metastableb> [08:37:48] ok so I'll get to the shift register now
+<metastableb> [08:37:59] so when a shift happens
+<metastableb> [08:38:26] the sending dekatrons are connected to one end of the shift register and the receiving dekatron are to the other end
+<metastableb> [08:38:53] the switch operations are controled by the control unit (btw which I have no understanding off_
+<prpplague> [08:38:56] metastableb: the shift register is always connected between the sending dekatron and either the receiving store, or the accumulator
+<prpplague> [08:39:03] metastableb: that is the "base" connection
+<metastableb> [08:39:30] ok this is interesting
+<metastableb> [08:39:38] even if a regular transfer is being performed ?
+<prpplague> [08:39:43] yep
+<metastableb> [08:39:54] why is that ?
+<metastableb> [08:40:00] do you have a diagram ?
+<prpplague> [08:40:07] one sec
+<metastableb> [08:40:21] I should look up base connections? is that a specific term ?
+<prpplague> [08:40:44] metastableb: https://raw.githubusercontent.com/prpplague/witch_dev/master/documentation/images/fig6.png
+<prpplague> [08:40:59] metastableb: look at the sending dekatrons at the bottom of the diagram
+<prpplague> [08:41:09] metastableb: for each dekatron you should see a letter marking
+<prpplague> [08:41:21] metastableb: S s, A a, B b, C c
+<metastableb> [08:41:41] yep yep
+<prpplague> [08:41:45] metastableb: that is the "base" connection from the shift register
+<prpplague> [08:41:57] metastableb: after 1 right shift
+<metastableb> [08:42:05] oh so thats what they meant when they said Ab Bc
+<metastableb> [08:42:09] after 1 shift
+<prpplague> [08:42:22] metastableb: yea
+<metastableb> [08:42:38] so there is not such thing as a Shift Circuit 
+<metastableb> [08:42:52] the Circuit connections are used to shift by rerouting them
+<prpplague> [08:42:52] metastableb: well they call it a shift circuit
+<prpplague> [08:42:58] metastableb: but it's all relay mappings
+<prpplague> [08:43:03] metastableb: correct
+<metastableb> [08:43:04] yea, but its just wires
+<metastableb> [08:43:13] ok that makes so much sense.
+<metastableb> [08:43:15] thanks a lot!
+<prpplague> [08:43:18] metastableb: isn't everything just wires?
+<prpplague> [08:43:19] hehe
+<metastableb> [08:44:15] ok weird things happening with my connection
+<metastableb> [08:44:22] so I might have to redo the transfer circuit again
+<metastableb> [08:44:32] after I get the shift correct
+<prpplague> [08:44:37] no worries
+<prpplague> [08:44:41] that's what this is all about
+<baboo> [08:44:58] prpplague, i am just relaxing
+<prpplague> [08:45:06] metastableb: as i said, once you get the add/sub working properly with the dekatrons, everything will start falling into place
+<prpplague> [08:45:13] baboo: hehe
+<baboo> [08:45:19] :)
+<metastableb> [08:45:23] prpplague: hmm hmm
+<metastableb> [08:45:45] baboo: wanted to ask you something about your Scale talk
+<prpplague> [08:45:46] baboo: i hear you have a new oscope
+<baboo> [08:45:58] metastableb, what?
+<metastableb> [08:46:25] baboo: you mentioned something about making some study materials for the WITCH
+<metastableb> [08:46:33] in that talk
+<metastableb> [08:46:36] reference material
+<baboo> [08:46:36] yep
+<baboo> [08:46:46] the programming manual
+<metastableb> [08:46:47] so did you get to that ?
+<baboo> [08:46:49] yes
+<metastableb> [08:46:59] oh you made that ?
+<metastableb> [08:47:03] ok I have a copy.
+<metastableb> [08:47:17] ok thanks.
+<prpplague> [08:47:25] metastableb: http://www.witch-e.org/Emulator
+<metastableb> [08:48:10] prpplague: yep yep
+<prpplague> [08:48:27] metastableb: well so far you are asking all the right questions
+<prpplague> [08:48:32] metastableb: so i think we are on track
+<prpplague> [08:49:07] metastableb: so just to go back to the engineering verse building
+<prpplague> [08:49:20] metastableb: remember the resistor discussion?
+<metastableb> [08:50:07] yep yep
+<prpplague> [08:50:56] metastableb: ok so let's say we are going to build 500 boards
+<prpplague> [08:51:12] metastableb: each board has 5 10k resistors and 1 20k resistor
+<prpplague> [08:51:49] metastableb: thats 2500 10k resistors and 500 20k resistors
+<ka6sox> [08:52:13] or
+<prpplague> [08:52:20] metastableb: so for 2500 10k resistors you will pay about 0.00167 each
+<prpplague> [08:52:59] metastableb: for 500 20k resistors you will pay about 0.01300 each
+<metastableb> [08:54:02] hmm hmm
+<prpplague> [08:54:02] metastableb: so if you use 2 10k resistors instead of 1 20k, you are still savings money
+<prpplague> [08:54:06] metastableb: BUT
+<prpplague> [08:54:20] metastableb: that makes your order of 10k resistors go up to 3500
+<prpplague> [08:54:31] metastableb: once you pass 3000 pieces you get another discount
+<prpplague> [08:54:47] metastableb: which drops the price to 0.00115 each
+<metastableb> [08:54:56] hmm hmm
+<ka6sox> [08:55:13] means only 1 spool which saves money too
+<metastableb> [08:55:59] yep. I see.
+<prpplague> [08:56:02] metastableb: now imagine the savings if you were doing 10000 boards
+<prpplague> [08:56:07] metastableb:  100000 boards
+<prpplague> [08:56:34] metastableb: the savings stacks up quickly
+<prpplague> [08:56:52] metastableb: these are the types of things your engineering professors generally don't teach
+<metastableb> [08:57:09] practical aspects
+<prpplague> [08:57:12] metastableb: in fact, i would expect most professors would giving you marks for using two resistors instead of one
+<metastableb> [08:57:39] prpplague: no resistors and circuits in my course from now on :p
+<ka6sox> [08:57:46] Design for Manufacturability.
+<prpplague> [08:57:46] hehe
+<metastableb> [08:57:49] core CSE!
+<metastableb> [08:57:58] automata , compilers and stuff!
+<prpplague> [08:58:12] metastableb: hehe there are plenty of similar things in the CS world
+»» prpplague [08:58:20] wanders off to fix some tea
+<prpplague> [08:58:21] bbiab
+<metastableb> [08:58:31] but I'm gonna pick up a project next term, remember ka6sox ? the robot thingy
+<metastableb> [08:58:33] prpplague: sure
+<ka6sox> [08:58:45] metastableb, thats important
+<ka6sox> [08:58:53] real world is better than all theory
+»» metastableb [08:59:07] nods 
+<ka6sox> [08:59:11] Theory for foundation, Practical so you can hit the bricks running.
+<metastableb> [09:25:34] hey prpplague : any update on the max ? ;)
+<prpplague> [09:38:56] metastableb: not currently
+<prpplague> [09:39:06] metastableb: i hope to have an update at the end of the week
+<***> Playback Complete.
+»» You are now known as metastableb
