@@ -19,4 +19,9 @@ right shift. Basically the shift circuit is a set of relay switch mechanism
 which controls the trafic from the sending dekatron to the receiving dekatron.
 There is no actual shift happening as we see it now.
 
+Model this using 18 dekatrons as relay lines. The getter will receive the value to use to shift this to
+the receiver will index the appropriate lines out from this. Being the dekatron store or the accumulator
+
+ 
+
 

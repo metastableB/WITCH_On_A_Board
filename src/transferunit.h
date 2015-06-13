@@ -44,8 +44,8 @@ class TransferUnit {
 	std::string dekatronArrayToString(Dekatron* arr, int size);
 public:
 	// TODO: Transfer unit does not check if stores are from the same set
-	void transfer(DekatronStore* sStore, DekatronStore* rStore);
-	void transferComplement(DekatronStore* sStore, DekatronStore* rStore);
+	void transfer(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount);
+	void transferComplement(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount);
 };
 #endif /* TRANSFERUNIT_H */
 
