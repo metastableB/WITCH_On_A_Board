@@ -6,7 +6,7 @@
  * 28-May-2015
  * 
  */
- #include "transferunit.h"
+#include "transferunit.h"
 
 void TransferUnit::setSendingStore(DekatronStore* store) {
 	this->sendingStore = store;
@@ -107,7 +107,7 @@ void TransferUnit::makeCarryOver() {
 	makeCarryOver();
 }
 // Pulses from 0-1 (inclusive) are effective in moving the receiving store
-void TransferUnit::transfer(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount) {
+void TransferUnit::transfer(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount ) {
 	setSendingStore(sStore);
 	setReceivingStore(rStore);
 	initializeCarryRelays();
@@ -119,8 +119,7 @@ void TransferUnit::transfer(DekatronStore* sStore, DekatronStore* rStore, int sh
 	// Send a set of pulse to sending dekatron
 	for (int i = 0 ; i < 10 ; i++) {
 		sendingStore->pulseStore(pulseTrainElement,bufferDekatrons_s);
-		// TODO : Change buffer dekatron value according to shifts
-
+		shiftCircuit.shift(bufferDekatrons_s,shiftAmount);
 		updateGuideOutputFlags(bufferDekatrons_s);
 		updateV1OutputFlags(bufferDekatrons_s);
 		makeReceivingStorePulse();
@@ -131,7 +130,7 @@ void TransferUnit::transfer(DekatronStore* sStore, DekatronStore* rStore, int sh
 	makeCarryOver();
 }
 // Pulses before 9-0 (inclusive of 9-0, excluding first pulse) are effective in moving the receiving store
-void TransferUnit::transferComplement(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount){
+void TransferUnit::transferComplement(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount ){
 	setSendingStore(sStore);
 	setReceivingStore(rStore);
 	initializeCarryRelays();
@@ -143,6 +142,7 @@ void TransferUnit::transferComplement(DekatronStore* sStore, DekatronStore* rSto
 	// Send a set of pulse to sending dekatron
 	for (int i = 0 ; i < 10 ; i++) {
 		sendingStore->pulseStore(pulseTrainElement,bufferDekatrons_s);
+		shiftCircuit.shift(bufferDekatrons_s,shiftAmount);
 		updateGuideOutputFlags(bufferDekatrons_s);
 		updateV1OutputFlags(bufferDekatrons_s);
 		makeReceivingStorePulse();

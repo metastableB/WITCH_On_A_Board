@@ -11,6 +11,7 @@
 
 #include "dekatron.h"
 #include "dekatronstore.h"
+#include "shiftcircuit.h"
 #include <string>
 
 class TransferUnit {
@@ -22,11 +23,11 @@ class TransferUnit {
 	// TODO: This is temporary to facilitate addition. Move this to the
 	// actual relay model once you are done
 	Dekatron carryRelays[9];
-
 	Dekatron bufferDekatrons_s[9];
 	Dekatron bufferDekatrons_r[9];
 	DekatronStore* sendingStore;
 	DekatronStore* receivingStore;
+	ShiftCircuit shiftCircuit;
 
 	void setSendingStore(DekatronStore* store);
 	void setReceivingStore(DekatronStore* store);
@@ -44,8 +45,8 @@ class TransferUnit {
 	std::string dekatronArrayToString(Dekatron* arr, int size);
 public:
 	// TODO: Transfer unit does not check if stores are from the same set
-	void transfer(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount);
-	void transferComplement(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount);
+	void transfer(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount = 0);
+	void transferComplement(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount = 0);
 };
 #endif /* TRANSFERUNIT_H */
 

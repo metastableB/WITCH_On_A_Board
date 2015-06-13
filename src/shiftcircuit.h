@@ -12,7 +12,7 @@
 #define SHIFTCIRCUIT_H
 
 #include "dekatron.h"
-#include "accumulator.h"
+//#include "accumulator.h"
 
 class ShiftCircuit {
 	// to store the intermediate values while transfering to acc
@@ -20,7 +20,7 @@ class ShiftCircuit {
 	void initializeShiftDekatron();
 public :
 	void shift(Dekatron* buffer, int shiftAmount);
-	void shiftAcc(Accumulator* acc, int shiftAmount);
+	//void shiftAcc(Accumulator* acc, int shiftAmount);
 };
 #endif // SHIFTCIRCUIT_H
 

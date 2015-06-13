@@ -11,16 +11,14 @@
 
 void ShiftCircuit::initializeShiftDekatron(){
 	for(int i = 0; i < 15; i++)
-		this->shiftDekatron[i] == DekatronState::ZERO;
+		this->shiftDekatron[i].setDekatronState( DekatronState::ZERO);
 }
 void ShiftCircuit::shift(Dekatron* buffer, int shiftAmount) {
-	if(shiftAmount > 7 || shiftAmount < -1 );
+	if(shiftAmount > 7 || shiftAmount < -1 )
 		// TODO : ERROR
+		return;
 	initializeShiftDekatron();
-	int noOfShift = 8;
-	if(shiftAmount == -1)
-		noOfShift = 7;
-	for(int i = 1; i < noOfShift; i++)
+	for(int i = 1; i < 9; i++)
 		this->shiftDekatron[i + shiftAmount] = buffer[i];
 
 	for(int i = 1; i < 9 ; i++)
