@@ -10,7 +10,7 @@
 #include "testdekatron.h"
 #include "testdekatronstore.h"
 #include "testtransferunit.h"
-
+#include  "testshiftcircuit.h"
 int main(int argc , char *argv[]) {
 #ifdef TEST_DEKATRON
 	TestDekatron dekatron;
@@ -21,5 +21,8 @@ int main(int argc , char *argv[]) {
 #ifdef TEST_TRANSFERUNIT
 	TestTransferUnit transferUnit;
 #endif /*TEST_TRANSFERUNIT*/
+#ifdef TEST_SHIFTCIRCUIT
+	TestShiftCircuit testShiftCircuit;
+#endif /*TEST_SHIFTCIRCUIT*/
 	std::cout << "\n:::END TEST:::\n";
 }
