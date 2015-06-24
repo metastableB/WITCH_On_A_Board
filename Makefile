@@ -16,6 +16,7 @@ endif
 FILES=./src/dekatron.cpp \
 	  ./src/dekatronstore.cpp \
 	  ./src/transferunit.cpp \
+	  ./src/shiftcircuit.cpp\
 	  ./src/main.cpp 
 
 
@@ -32,7 +33,7 @@ clean :
 #############################################
 
 # TODO : Define conditional tests
-TESTFLAGS= -DTEST_DEKATRON -DTEST_DEKATRONSTORE -DTEST_TRANSFERUNIT
+TESTFLAGS= -DTEST_DEKATRON -DTEST_DEKATRONSTORE -DTEST_TRANSFERUNIT -DTEST_SHIFTCIRCUIT
 
 # Define all test files here
 # Do not Add header files here, they are to be dealt within the codes
@@ -40,6 +41,7 @@ TESTFLAGS= -DTEST_DEKATRON -DTEST_DEKATRONSTORE -DTEST_TRANSFERUNIT
 TESTS=./src/dekatron.cpp ./tests/testdekatron.cpp \
       ./src/dekatronstore.cpp ./tests/testdekatronstore.cpp \
       ./src/transferunit.cpp ./tests/testtransferunit.cpp \
+      ./src/shiftcircuit.cpp ./tests/testshiftcircuit.cpp \
       ./tests/main.cpp 
 
 
@@ -49,8 +51,10 @@ testAddition :
 	$(CC) $(CFLAGS) ./src/dekatron.cpp ./src/dekatronstore.cpp ./src/transferunit.cpp ./tests/ui_testaddition.cpp -o testAddition
 testTransferUnit:
 	$(CC) $(CFLAGS) -DTEST_TRANSFERUNIT $(TESTS) -o testTransferUnit
+testShiftCircuit:
+	$(CC) $(CFLAGS) -DTEST_SHIFTCIRCUIT $(TESTS) -o testShiftCircuit
 cleanTests :
-	rm -vf testAll testAddition testTransferUnit ./tests/*.o ./tests/*.out ./tests/*.gch
+	rm -vf testAll testAddition testTransferUnit testShiftCircuit ./tests/*.o ./tests/*.out ./tests/*.gch
 
 
 
