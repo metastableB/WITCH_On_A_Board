@@ -26,8 +26,10 @@ public:
 	void setAccumulatorValue(int arr[]);
 	int setAccumulatorValue(std::string value);
 	void setAccumulatorValueIn(int index, int value);
+	void setAccumulatorSign(int sign);
 	std::string getStringStateInStore();
 	DekatronState getStateIn(int index);
+	int getAccumulatorSign();
 };
 #endif // ACCUMULATOR_H
 

@@ -59,6 +59,11 @@ void Accumulator::setAccumulatorValueIn(int index, int value){
 		this->accumulatorB.setStoreValueIn(index - 8,value);
 }
 
+void Accumulator::setAccumulatorSign(int sign) {
+	this->accumulatorA.setStoreValueIn(0,sign);
+	this->accumulatorB.setStoreValueIn(0,sign);
+}
+
 std::string Accumulator::getStringStateInStore(){
 	std::string state;
 	for(int i = 0; i < 9; i++)
@@ -73,6 +78,10 @@ DekatronState Accumulator::getStateIn(int index){
 		return this->accumulatorA.getStateIn(index);
 	else
 		return this->accumulatorB.getStateIn(index-8);
+}
+
+int Accumulator::getAccumulatorSign() {
+	return int(accumulatorA.getStateIn(0));
 }
 
 

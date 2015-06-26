@@ -13,6 +13,7 @@
 #include "../src/dekatronstore.h"
 #include "../src/dekatron.h"
 #include "../src/transferunit.h"
+#include "../src/accumulator.h"
 
 class TestShiftCircuit {
 public:

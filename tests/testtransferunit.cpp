@@ -14,7 +14,9 @@ TestTransferUnit::TestTransferUnit() {
 	DekatronStore source, destination;
 	TransferUnit transferUnit;
 
-	// Adding both zeros
+	/*
+	 *  ADDITION BETWEEN STORES
+	 */
 	transferUnit.transfer(&source,&destination);
 	if(!destination.getStringStateInStore().compare("000000000"))
 		std::cout << "TransferUnit TEST 1.1 SUCCESSFUL" << std::endl;
@@ -87,7 +89,10 @@ TestTransferUnit::TestTransferUnit() {
 	else
 		std::cout << "TransferUnit TEST 4.4 transfer() FAILURE" << std::endl;
 
-	//--------------------------------------------------------------------------------
+	/*
+	 * SUBTRACTION BETWEEN STORES
+	 */
+
 	source.setStoreValue("000000000", bufferDekatron);
 	destination.setStoreValue("000000000", bufferDekatron);
 	// Subtracting both zeros
@@ -178,6 +183,10 @@ TestTransferUnit::TestTransferUnit() {
 	else
 		std::cout << "TransferUnit TEST 9.6 transferComplement() FAILURE " << source.getStringStateInStore() <<" d: " << destination.getStringStateInStore() << " " << std::endl;
 	std::cout << "FINISH transferunit.cpp TESTS\n";
+	/*
+	 * Accumulator transfers and tests in shiftcircuit test module
+	 */
+
 }
 
 
