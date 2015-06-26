@@ -106,6 +106,7 @@ void TransferUnit::makeCarryOver() {
 	updateCarryRelays(tempCarryPulse, bufferDekatrons_r);
 	makeCarryOver();
 }
+// Store to Store
 // Pulses from 0-1 (inclusive) are effective in moving the receiving store
 void TransferUnit::transfer(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount ) {
 	setSendingStore(sStore);
@@ -154,3 +155,24 @@ void TransferUnit::transferComplement(DekatronStore* sStore, DekatronStore* rSto
 	makeCarryOver();
 }
 
+// Accumulator to store
+void TransferUnit::transfer(Accumulator* accum, DekatronStore* rStore, int shiftAmount = 0 ) {
+
+}
+void TransferUnit::transferComplement(Accumulator* accum, DekatronStore* rStore, int shiftAmount = 0 ) {
+
+}
+void TransferUnit::transfer(DekatronStore* sStore, Accumulator* accum, int shiftAmount = 0) {
+	// TODO: make sure shiftAmounts are in the range [-1,7]
+	DekatronStore rStore;
+	int arr[9];
+	for(int i = 1 ; i <= 9 ; i++ )
+		arr[i] = accum->getStateIn(i + shiftAmount);
+	rStore.setStoreValue(arr);
+	transfer(sStore,&rStore);
+}
+void TransferUnit::transferComplement(DekatronStore* sStore, Accumulator* accum, int shiftAmount = 0) {
+
+}
+
+// Store to Accumulator

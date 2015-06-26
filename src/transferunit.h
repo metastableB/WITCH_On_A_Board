@@ -52,8 +52,8 @@ public:
 	void transfer(Accumulator* accum, DekatronStore* rStore, int shiftAmount = 0 );
 	void transferComplement(Accumulator* accum, DekatronStore* rStore, int shiftAmount = 0 );
 	// Transfer from store to accum
-	void tranfer(DekatronStore* sStore, Accumulator* accum, int shiftAmount = 0);
-	void tranferComplement(DekatronStore* sStore, Accumulator* accum, int shiftAmount = 0);
+	void transfer(DekatronStore* sStore, Accumulator* accum, int shiftAmount = 0);
+	void transferComplement(DekatronStore* sStore, Accumulator* accum, int shiftAmount = 0);
 };
 #endif /* TRANSFERUNIT_H */
 
