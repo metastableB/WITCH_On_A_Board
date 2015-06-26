@@ -23,6 +23,7 @@ class Accumulator {
 	DekatronStore accumulatorB;
 public:
 	void pulseAccumulator(int arr[]);
+	void pulseAccumulator(int arr[], Dekatron* newState);
 	void setAccumulatorValue(int arr[]);
 	int setAccumulatorValue(std::string value);
 	void setAccumulatorValueIn(int index, int value);

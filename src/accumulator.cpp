@@ -14,6 +14,15 @@ void Accumulator::pulseAccumulator(int arr[]) {
 	accumulatorA.pulseStore(arr,newState);
 	accumulatorB.pulseStore(&arr[8],newState);
 }
+void Accumulator::pulseAccumulator(int arr[], Dekatron* newState) {
+	Dekatron newState_t[9];
+	arr[8] = arr[0];
+	accumulatorA.pulseStore(arr,newState_t);
+	accumulatorB.pulseStore(&arr[8],newState_t);
+	for(int i = 0; i < 16; i++)
+		newState[i].setDekatronState( this->getStateIn(i));
+}
+
 
 
 void Accumulator::setAccumulatorValue(int arr[]){
