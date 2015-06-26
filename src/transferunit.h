@@ -12,6 +12,7 @@
 #include "dekatron.h"
 #include "dekatronstore.h"
 #include "shiftcircuit.h"
+#include "accumulator.h"
 #include <string>
 
 class TransferUnit {

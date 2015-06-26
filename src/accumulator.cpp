@@ -6,17 +6,13 @@
  * 26-Jun-2015
  * 
  */
+#include "accumulator.h"
 
 void Accumulator::pulseAccumulator(int arr[]) {
-	//TODO : arr should have 16 characters
-	this->accumulatorA.setStoreValueIn(0,arr[0]);
-	this->accumulatorB.setStoreValueIn(0,arr[0]);
-	for(int i = 1; i <= 15; i++ ){
-		if(i < 9)
-			this->accumulatorA.setStoreValueIn(i, arr[i]);
-		else
-			this->accumulatorB.setStoreValueIn(i - 8, arr[i]);
-	}
+	Dekatron newState[9];
+	arr[8] = arr[0];
+	accumulatorA.pulseStore(arr,newState);
+	accumulatorB.pulseStore(&arr[8],newState);
 }
 
 
@@ -76,7 +72,7 @@ DekatronState Accumulator::getStateIn(int index){
 	if(index < 9)
 		return this->accumulatorA.getStateIn(index);
 	else
-		return this->accumulatorB.getStateIn(index-7);
+		return this->accumulatorB.getStateIn(index-8);
 }
 
 

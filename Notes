@@ -22,6 +22,25 @@ There is no actual shift happening as we see it now.
 Model this using 18 dekatrons as relay lines. The getter will receive the value to use to shift this to
 the receiver will index the appropriate lines out from this. Being the dekatron store or the accumulator
 
- 
+# Multiplication algorithm
+
+Order : opcode-multiplicand - multiplier 
+	
+Algorithm :
+	If multiplier is positive :
+		For each digit of the multiplier taken from left to right (current digit being i in [1,8])
+			while (digit > 0)
+				Add the multiplicand to the accm shifted i times 
+				Decrement the digit
+
+# Accumulator Mappings hardware vs user 
+Accumulator made up of two stores A and B. We need 15 digits to multiply TWO EIGHT DIGIT MAGNITUDES and set the sign afterwards.
+The accumulator A and B, store0 (MSBs) are set to the sign bits. For accumulator A stores 1-8 are used for digits 1-8. 
+In accumulator B, digits 1-7 are used for digits 1-7. 8 it seems is not involved.
+
+Though this is implemented in the base class, the user should know the accumulator as a single object with 15 + 1 (sign) bits
+He should be able to index from 0-15 seamlessly.
+
+
 
 
