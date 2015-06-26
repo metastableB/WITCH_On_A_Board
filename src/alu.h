@@ -15,7 +15,8 @@
 #include "transferunit.h"
 
 class ALU {
-	Accumulator accumulator;
+	// TODO : [Reminder] since we have more than one accum, we use a pointer here
+	Accumulator* accumulator;
 	TransferUnit transferUnit;
 public :
 	// TODO : the return value to be used for overflow checks
@@ -23,7 +24,7 @@ public :
 	bool subtract(DekatronStore* sStore, DekatronStore* rStore);
 	bool multiply(DekatronStore* sStore, DekatronStore* rStore);
 	bool divide(DekatronStore* sStore, DekatronStore* rStore);
-	bool getAccumulatorValue();
+
 };
 
 #endif /*ALU_H*/
