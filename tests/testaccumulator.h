@@ -15,6 +15,7 @@
 class TestAccumulator {
 	Accumulator accum;
 public:
+	int failedTests = 0;
 	TestAccumulator();
 };
 #endif /*TESTACCUMULATOR_H*/
