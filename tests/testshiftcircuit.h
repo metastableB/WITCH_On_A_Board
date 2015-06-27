@@ -18,6 +18,7 @@
 class TestShiftCircuit {
 	std::string getHumanReadableOutput(std::string inp, int size);
 public:
+	int failedTests = 0;
 	TestShiftCircuit();
 
 };
