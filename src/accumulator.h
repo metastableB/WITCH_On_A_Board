@@ -31,6 +31,8 @@ public:
 	std::string getStringStateInStore();
 	DekatronState getStateIn(int index);
 	int getAccumulatorSign();
+	// TODO: remove this once the drains are implemented
+	void clearAccumulator();
 };
 #endif // ACCUMULATOR_H
 

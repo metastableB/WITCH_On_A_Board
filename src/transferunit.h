@@ -73,7 +73,7 @@ class TransferUnit {
 	void makeCarryOver(Accumulator* accum);
 
 
-	void updateCarryRelays(int pulses[], Dekatron* bufferDekatrons, int size = 9);
+	void updateCarryRelays(int pulses[], Dekatron* bufferDekatrons,Dekatron* carryRelays, int size = 9);
 	void updateGuideOutputFlags(Dekatron* bufferDekatrons, int guideOutputFlags[], int size = 9);
 	void updateV1OutputFlags(Dekatron* bufferDekatrons, int guideOutputFlags[], int v1OutputFlags[], int size = 9);
 
