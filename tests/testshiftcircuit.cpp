@@ -168,12 +168,14 @@ TestShiftCircuit::TestShiftCircuit () {
 	if(!destination.getStringStateInStore().compare("144452224"))
 		std::cout << "ShiftCircuit TEST 8.1 SUCCESSFUL" << std::endl;
 	else
-		std::cout << "ShiftCircuit TEST 8.1 shift() FAILURE " << source.getStringStateInStore() <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+		std::cout << "ShiftCircuit TEST 8.1 shift() FAILURE " << source.getStringStateInStore() <<" d: "
+		<< destination.getStringStateInStore() << " " << std::endl;
 	transferUnit.transferComplement(&destination, &source,3);
 	if(!source.getStringStateInStore().compare("755503325"))
 		std::cout << "ShiftCircuit TEST 8.2 SUCCESSFUL" << std::endl;
 	else
-		std::cout << "ShiftCircuit TEST 8.2 shift() FAILURE " << source.getStringStateInStore() <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+		std::cout << "ShiftCircuit TEST 8.2 shift() FAILURE " << source.getStringStateInStore() <<" d: "
+		<< destination.getStringStateInStore() << " " << std::endl;
 
 	// Performing multiple subtraction tests
 	source.setStoreValue("000000005", bufferDekatron);
@@ -183,13 +185,15 @@ TestShiftCircuit::TestShiftCircuit () {
 	if(!destination.getStringStateInStore().compare("999999953"))
 		std::cout << "ShiftCircuit TEST 9.1 SUCCESSFUL" << std::endl;
 	else
-		std::cout << "ShiftCircuit TEST 9.1 shift() FAILURE " << source.getStringStateInStore() <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+		std::cout << "ShiftCircuit TEST 9.1 shift() FAILURE " << source.getStringStateInStore()
+		<<" d: " << destination.getStringStateInStore() << " " << std::endl;
 	transferUnit.transferComplement(&destination, &source,-1);
 	// 5 - -469 = 474
 	if(!source.getStringStateInStore().compare("000000474"))
 		std::cout << "ShiftCircuit TEST 9.2 SUCCESSFUL" << std::endl;
 	else
-		std::cout << "ShiftCircuit TEST 9.2 shift() FAILURE " << source.getStringStateInStore() <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+		std::cout << "ShiftCircuit TEST 9.2 shift() FAILURE " << source.getStringStateInStore()
+		<<" d: " << destination.getStringStateInStore() << " " << std::endl;
 
 	source.setStoreValue("000000000", bufferDekatron);
 	destination.setStoreValue("991111111", bufferDekatron);
@@ -198,13 +202,15 @@ TestShiftCircuit::TestShiftCircuit () {
 	if(!destination.getStringStateInStore().compare("991111111"))
 		std::cout << "ShiftCircuit TEST 9.3 SUCCESSFUL" << std::endl;
 	else
-		std::cout << "ShiftCircuit TEST 9.3 shift() FAILURE " << source.getStringStateInStore() <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+		std::cout << "ShiftCircuit TEST 9.3 shift() FAILURE " << source.getStringStateInStore()
+		<<" d: " << destination.getStringStateInStore() << " " << std::endl;
 	source.setStoreValue("991111111", bufferDekatron);
 	transferUnit.transferComplement(&destination, &source,7);
 	if(!source.getStringStateInStore().compare("091111102"))
 		std::cout << "ShiftCircuit TEST 9.4 SUCCESSFUL" << std::endl;
 	else
-		std::cout << "ShiftCircuit TEST 9.4 shift() FAILURE " << source.getStringStateInStore() <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+		std::cout << "ShiftCircuit TEST 9.4 shift() FAILURE " << source.getStringStateInStore()
+		<<" d: " << destination.getStringStateInStore() << " " << std::endl;
 
 	source.setStoreValue("088448800", bufferDekatron);
 	destination.setStoreValue("991001234", bufferDekatron);
@@ -212,12 +218,14 @@ TestShiftCircuit::TestShiftCircuit () {
 	if(!source.getStringStateInStore().compare("097447565"))
 		std::cout << "ShiftCircuit TEST 9.5 SUCCESSFUL" << std::endl;
 	else
-		std::cout << "ShiftCircuit TEST 9.5 shift() FAILURE " << source.getStringStateInStore() <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+		std::cout << "ShiftCircuit TEST 9.5 shift() FAILURE " << source.getStringStateInStore()
+		<<" d: " << destination.getStringStateInStore() << " " << std::endl;
 	transferUnit.transferComplement(&source, &destination,2);
 	if(!destination.getStringStateInStore().compare("990026759"))
 		std::cout << "ShiftCircuit TEST 9.6 SUCCESSFUL" << std::endl;
 	else
-		std::cout << "ShiftCircuit TEST 9.6 shift() FAILURE " << source.getStringStateInStore() <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+		std::cout << "ShiftCircuit TEST 9.6 shift() FAILURE " << source.getStringStateInStore()
+		<<" d: " << destination.getStringStateInStore() << " " << std::endl;
 
 	/********************************************
 	 *              Accumulator tests           *
@@ -230,32 +238,55 @@ TestShiftCircuit::TestShiftCircuit () {
 	if(!accum.getStringStateInStore().compare("1234567890000000"))
 		std::cout << "Accumulator transfer/shift TEST 1.1 SUCCESSFUL \n";
 	else
-		std::cout << "Accumulator transfer/shift TEST 1.1 shift() FAILURE "  << accum.getStringStateInStore() << " vs 1234567890000000\n";
+		std::cout << "Accumulator transfer/shift TEST 1.1 shift() FAILURE "
+		<< getHumanReadableOutput(accum.getStringStateInStore(),16) << " vs 1 2345 6789 0000 000\n";
+	accum.clearAccumulator();
 	transferUnit.transfer(&source,&accum,-1);
-	if(!accum.getStringStateInStore().compare("2580246790000000"))
+	if(!accum.getStringStateInStore().compare("1345678900000000"))
 		std::cout << "Accumulator transfer/shift TEST 1.2 SUCCESSFUL \n";
 	else
-		std::cout << "Accumulator transfer/shift TEST 1.2 shift() FAILURE "  << accum.getStringStateInStore() << " vs 2580246790000000\n";
-	/*source.setStoreValue("111111111",bufferDekatron);
+		std::cout << "Accumulator transfer/shift TEST 1.2 shift() FAILURE "
+		<< getHumanReadableOutput(accum.getStringStateInStore(),16) << " vs 1 3456 7890 0000 000\n";
+	source.setStoreValue("111111111",bufferDekatron);
 	transferUnit.transfer(&source,&accum,7);
-	if(!accum.getStringStateInStore().compare("3580246791111111"))
+	if(!accum.getStringStateInStore().compare("2345678911111111"))
 		std::cout << "Accumulator transfer/shift TEST 1.3 SUCCESSFUL \n";
 	else
-		std::cout << "Accumulator transfer/shift TEST 1.3 shift() FAILURE "  << accum.getStringStateInStore() << " vs 3580246791111111\n";
+		std::cout << "Accumulator transfer/shift TEST 1.3 shift() FAILURE "
+		<< getHumanReadableOutput(accum.getStringStateInStore(),16) << " vs 2 3456 7891 1111 111\n";
 
+	source.setStoreValue("071433102",bufferDekatron);
+	transferUnit.transfer(&source,&accum,0);
+	if(!accum.getStringStateInStore().compare("3060009931111111"))
+		std::cout << "Accumulator transfer/shift TEST 1.4 SUCCESSFUL \n";
+	else
+		std::cout << "Accumulator transfer/shift TEST 1.4 shift() FAILURE "
+		<< getHumanReadableOutput(accum.getStringStateInStore(),16) << " vs 3060009931111111\n";
+	source.setStoreValue("932359219",bufferDekatron);
+	transferUnit.transfer(&source,&accum,4);
+	if(!accum.getStringStateInStore().compare("2060042290330112"))
+		std::cout << "Accumulator transfer/shift TEST 2.1 SUCCESSFUL \n";
+	else
+		std::cout << "Accumulator transfer/shift TEST 2.1 shift() FAILURE "
+		<< getHumanReadableOutput(accum.getStringStateInStore(),16) << " vs 2060042290330112\n";
 
-	/transferUnit.transfer(&source,&destination);
-	if(!destination.getStringStateInStore().compare("023456789"))
-			std::cout << "Accumulator transfer/shift TEST 1.2 SUCCESSFUL \n";
-		else
-			std::cout << "Accumulator transfer/shift TEST 1.2 shift() FAILURE " << destination.getStringStateInStore() << " vs 023456789\n";
-	destination.setStoreValue("000000000",bufferDekatron);
-	transferUnit.transfer(&source,&destination,0);
-	if(!destination.getStringStateInStore().compare("023456789"))
-			std::cout << "Accumulator transfer/shift TEST 1.3 SUCCESSFUL \n";
-		else
-			std::cout << "Accumulator transfer/shift TEST 1.3 shift() FAILURE " << destination.getStringStateInStore() << " vs 023456789\n";
-	destination.setStoreValue("000000000",bufferDekatron);
+	source.setStoreValue("991234567",bufferDekatron);
+	transferUnit.transfer(&source,&accum,0);
+	if(!accum.getStringStateInStore().compare("1972387960330113"))
+		std::cout << "Accumulator transfer/shift TEST 2.2 SUCCESSFUL \n";
+	else
+		std::cout << "Accumulator transfer/shift TEST 2.2 shift() FAILURE "
+		<< getHumanReadableOutput(accum.getStringStateInStore(),16) << " vs 2060042290330112\n";
+
+	source.setStoreValue("991234567",bufferDekatron);
+	transferUnit.transfer(&source,&accum,0);
+	if(!accum.getStringStateInStore().compare("1884733630330114"))
+		std::cout << "Accumulator transfer/shift TEST 2.3 SUCCESSFUL \n";
+	else
+		std::cout << "Accumulator transfer/shift TEST 2.3 shift() FAILURE "
+		<< getHumanReadableOutput(accum.getStringStateInStore(),16) << " vs 2060042290330112\n";
+
+	/*destination.setStoreValue("000000000",bufferDekatron);
 	transferUnit.transfer(&source,&destination,1);
 	if(!destination.getStringStateInStore().compare("002345678"))
 			std::cout << "Accumulator transfer/shift TEST 1.4 SUCCESSFUL \n";
@@ -441,6 +472,16 @@ TestShiftCircuit::TestShiftCircuit () {
 		std::cout << "Accumulator transfer/shift TEST 9.6 shift() FAILURE " << source.getStringStateInStore() <<" d: " << destination.getStringStateInStore() << " " << std::endl;
 */
 	std::cout << "FINISH shiftcircuit.cpp TESTS\n";
+}
+
+std::string TestShiftCircuit::getHumanReadableOutput(std::string inp,int size){
+	inp.insert(1," ");
+	inp.insert(6," ");
+	if(size == 16) {
+		inp.insert(11," ");
+		inp.insert(16," ");
+	}
+	return inp;
 }
 
 

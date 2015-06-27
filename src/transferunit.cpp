@@ -157,21 +157,16 @@ void TransferUnit::makeCarryOver(DekatronStore* store) {
 void TransferUnit::makeCarryOver(Accumulator* accum) {
 	int tempCarryPulse[16] = {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0};
 	int sum = 0;
-	// Transfering carries
-	//std::cout<<"\n";
 	for(int i = 15; i >= 0; i--) {
-	//	std::cout<<a_carryRelays[i].getCurrentNumber();
 		if(a_carryRelays[i].getCurrentState() == DekatronState::ONE) {
 			tempCarryPulse[(i+15)%16] = 1;
 			sum += tempCarryPulse[(i+15)%16];
 		}
 	}
-	//std::cout<<"\n";
 	// if there are no carry to be done, return
 	if (sum == 0)
 		return;
-	// Continue till there are no more carry overs
-	receivingStore->pulseStore(tempCarryPulse, a_bufferDekatrons_r);
+	accum->pulseAccumulator(tempCarryPulse, a_bufferDekatrons_r);
 	initializeCarryRelays(accum);
 	updateCarryRelays(tempCarryPulse, a_bufferDekatrons_r,a_carryRelays);
 	makeCarryOver(accum);
@@ -241,42 +236,24 @@ void TransferUnit::transfer(DekatronStore* sStore, Accumulator* accum, int shift
 	initializeReceivingStorePulse(accum);
 	initializeV1OutputFlags(accum);
 
-	//std::cout << "\n\nInitial value " << sStore->getStringStateInStore();
 	for(int i = 1; i <= 8 ; i++)
 		tempAccum.setAccumulatorValueIn(i + shiftAmount, int(sStore->getStateIn(i)));
 	tempAccum.setAccumulatorSign(int(sStore->getStateIn(0)));
-
 	setSendingAccumulator(&tempAccum);
 	setReceivingAccumulator(accum);
-
 	// Send a set of pulse to sending dekatron
 	for (int i = 0 ; i < 10 ; i++) {
-
 		sendingStore->pulseStore(pulseTrainElement,a_bufferDekatrons_s);
-		std::cout << "\n\nSending store value "<<sendingStore->getStringStateInStore()<<" and buff " << this->dekatronArrayToString(a_bufferDekatrons_s,16);
 		shiftCircuit.shift(a_bufferDekatrons_s,shiftAmount,16);
-		//std::cout << "\nSending accum value " << this->dekatronArrayToString(a_bufferDekatrons_s,16);
 		updateGuideOutputFlags(a_bufferDekatrons_s, a_guideOutputFlags,16);
 		updateV1OutputFlags(a_bufferDekatrons_s ,a_guideOutputFlags, a_v1OutputFlags,16);
-		//std::cout<<"\nGuide : ";
-		//for(int i=0 ; i<16;i++)
-		//	std::cout<<a_guideOutputFlags[i];
-		//std::cout<<"\n" << "V1 : ";
-		//for(int i=0 ; i<16;i++)
-		//	std::cout<<a_v1OutputFlags[i];
 		makeReceivingStorePulse(accum);
 
 		receivingAccum->pulseAccumulator(a_receivingStorePulse, a_bufferDekatrons_r);
-		//std::cout<<"\n" << "Receiving Store Pulse : ";
-		//for(int i=0 ; i<16;i++)
-		//	std::cout<<a_receivingStorePulse[i];
-
-		std::cout << "\nReceiving buff " << dekatronArrayToString(a_bufferDekatrons_r,16);
 		updateCarryRelays(a_receivingStorePulse, a_bufferDekatrons_r,a_carryRelays,16);
-
+		initializeBufferDekatrons(accum);
 	}
 	makeCarryOver(accum);
-	std::cout<<"\n\n";
 }
 void TransferUnit::transferComplement(DekatronStore* sStore, Accumulator* accum, int shiftAmount) {
 

@@ -19,7 +19,7 @@ void ShiftCircuit::shift(Dekatron* buffer, int shiftAmount, int size) {
 	// TODO : ERROR
 	return;
 	initializeShiftDekatron();
-	for(int i = 1; i < size; i++)
+	for(int i = 1; i < 9; i++)
 		this->shiftDekatron[i + shiftAmount] = buffer[i];
 	for(int i = 1; i < size ; i++)
 		buffer[i] = this->shiftDekatron[i];

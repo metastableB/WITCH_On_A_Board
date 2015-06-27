@@ -16,8 +16,10 @@
 #include "../src/accumulator.h"
 
 class TestShiftCircuit {
+	std::string getHumanReadableOutput(std::string inp, int size);
 public:
 	TestShiftCircuit();
+
 };
 #endif /*TESTSHIFTCIRCUIT_H*/
 

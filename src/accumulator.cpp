@@ -103,5 +103,9 @@ int Accumulator::getAccumulatorSign() {
 	return int(accumulatorA.getStateIn(0));
 }
 
+void Accumulator::clearAccumulator(){
+	for(int i = 0; i < 16 ; i++)
+		this->setAccumulatorValue("0000000000000000");
+}
 
 
