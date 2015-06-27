@@ -240,6 +240,7 @@ void TransferUnit::transfer(DekatronStore* sStore, Accumulator* accum, int shift
 		tempAccum.setAccumulatorValueIn(i + shiftAmount, int(sStore->getStateIn(i)));
 	tempAccum.setAccumulatorSign(int(sStore->getStateIn(0)));
 	setSendingAccumulator(&tempAccum);
+	setSendingStore(sStore);
 	setReceivingAccumulator(accum);
 	// Send a set of pulse to sending dekatron
 	for (int i = 0 ; i < 10 ; i++) {

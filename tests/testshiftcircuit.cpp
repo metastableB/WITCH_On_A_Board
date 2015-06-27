@@ -287,9 +287,9 @@ TestShiftCircuit::TestShiftCircuit () {
 	 *              Accumulator tests           *
 	 ********************************************/
 	Accumulator accum;
-	std::cout << "Shifts and transfer tests with accumulator\n";
+	std::cout << "\nShifts and transfer tests with accumulator\n";
 	source.setStoreValue("123456789",bufferDekatron);
-	std::cout<<"\nsource "<<source.getStringStateInStore();
+
 	transferUnit.transfer(&source,&accum,0);
 	if(!accum.getStringStateInStore().compare("1234567890000000"))
 		std::cout << "Accumulator transfer/shift TEST 1.1 SUCCESSFUL \n";
