@@ -16,6 +16,7 @@
 
 class TestTransferUnit {
 public:
+	int failedTests = 0;
 	TestTransferUnit();
 };
 #endif /* TESTSTESTTRANSFERUNIT_H */
