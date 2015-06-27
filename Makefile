@@ -17,6 +17,7 @@ FILES=./src/dekatron.cpp \
 	  ./src/dekatronstore.cpp \
 	  ./src/transferunit.cpp \
 	  ./src/shiftcircuit.cpp\
+	  ./src/alu.cpp\
 	  ./src/main.cpp 
 
 
@@ -33,7 +34,8 @@ clean :
 #############################################
 
 # TODO : Define conditional tests
-TESTFLAGS= -DTEST_DEKATRON -DTEST_DEKATRONSTORE -DTEST_TRANSFERUNIT -DTEST_SHIFTCIRCUIT -DTEST_ACCUMULATOR
+TESTFLAGS= -DTEST_DEKATRON -DTEST_DEKATRONSTORE -DTEST_TRANSFERUNIT -DTEST_SHIFTCIRCUIT -DTEST_ACCUMULATOR \
+			-DTEST_ALU
 
 # Define all test files here
 # Do not Add header files here, they are to be dealt within the codes
@@ -43,6 +45,7 @@ TESTS=./src/dekatron.cpp ./tests/testdekatron.cpp \
       ./src/transferunit.cpp ./tests/testtransferunit.cpp \
       ./src/shiftcircuit.cpp ./tests/testshiftcircuit.cpp \
       ./src/accumulator.cpp ./tests/testaccumulator.cpp \
+      ./src/alu.cpp ./tests/testalu.cpp\
       ./tests/main.cpp 
 
 
@@ -57,6 +60,8 @@ testShiftCircuit:
 	$(CC) $(CFLAGS) -DTEST_SHIFTCIRCUIT $(TESTS) -o testShiftCircuit
 testAccumulator:
 	$(CC) $(CFLAGS) -DTEST_ACCUMULATOR $(TESTS) -o testaccumulator
+testALU:
+	$(CC) $(CFLAGS) -DTEST_ALU  $(TESTS) -o testalu
 cleanTests :
 	rm -vf testAll testAddition testTransferUnit testShiftCircuit testaccumulator ./tests/*.o ./tests/*.out ./tests/*.gch
 
