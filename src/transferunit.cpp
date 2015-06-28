@@ -168,7 +168,7 @@ void TransferUnit::makeCarryOver(Accumulator* accum) {
 		return;
 	accum->pulseAccumulator(tempCarryPulse, a_bufferDekatrons_r);
 	initializeCarryRelays(accum);
-	updateCarryRelays(tempCarryPulse, a_bufferDekatrons_r,a_carryRelays);
+	updateCarryRelays(tempCarryPulse, a_bufferDekatrons_r,a_carryRelays,16);
 	makeCarryOver(accum);
 }
 // Store to Store
