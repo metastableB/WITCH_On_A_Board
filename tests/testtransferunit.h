@@ -11,10 +11,12 @@
 #define TESTSTESTTRANSFERUNIT_H
 
 #include "../src/transferunit.h"
+
 #include <iostream>
 
 class TestTransferUnit {
 public:
+	int failedTests = 0;
 	TestTransferUnit();
 };
 #endif /* TESTSTESTTRANSFERUNIT_H */

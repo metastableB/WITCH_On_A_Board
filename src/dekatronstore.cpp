@@ -68,6 +68,14 @@ void DekatronStore::setStoreValue(int arr[], Dekatron newState[]) {
 	}
 }
 
+void DekatronStore::setStoreValue(int arr[]) {
+	for(int i = 0; i < 9; i++)
+		this->store[i].setDekatronState(DekatronState(arr[i]));
+}
+void DekatronStore::setStoreValueIn(int index, int value){
+	this->store[index].setDekatronState(DekatronState(value));
+}
+
 int DekatronStore::setStoreValue(std::string value, Dekatron newState[]) {
 	if(value.size() != 9)
 		return 1;

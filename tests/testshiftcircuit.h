@@ -13,10 +13,14 @@
 #include "../src/dekatronstore.h"
 #include "../src/dekatron.h"
 #include "../src/transferunit.h"
+#include "../src/accumulator.h"
 
 class TestShiftCircuit {
+	std::string getHumanReadableOutput(std::string inp, int size);
 public:
+	int failedTests = 0;
 	TestShiftCircuit();
+
 };
 #endif /*TESTSHIFTCIRCUIT_H*/
 

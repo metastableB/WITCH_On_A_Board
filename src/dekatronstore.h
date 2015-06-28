@@ -27,6 +27,8 @@ public:
 	void pulseStore(int arr[][9]);
 	// Setting all the stores at once
 	void setStoreValue(int arr[], Dekatron newState[]);
+	void setStoreValue(int arr[]);
+	void setStoreValueIn(int index, int value);
 	int setStoreValue(std::string value, Dekatron newState[]);
 	// TODO : Define the getter methods according to the
 	// required data types.

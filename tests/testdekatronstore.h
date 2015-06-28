@@ -13,7 +13,9 @@
 #include "../src/dekatronstore.h"
 
 class TestDekatronStore {
+
 public:
+	int failedTests = 0;
 	TestDekatronStore();
 };
 #endif /*TESTDEKATRONSTORE_H*/

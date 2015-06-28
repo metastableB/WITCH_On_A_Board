@@ -14,6 +14,7 @@
  
 class TestDekatron {
 public:
+	int failedTests = 0;
 	TestDekatron() ;
 };
 #endif /*TESTDEKATRON_H*/

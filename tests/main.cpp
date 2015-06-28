@@ -7,22 +7,45 @@
  *
  */
 #include <iostream>
+#include <string>
 #include "testdekatron.h"
 #include "testdekatronstore.h"
 #include "testtransferunit.h"
-#include  "testshiftcircuit.h"
+#include "testshiftcircuit.h"
+#include "testaccumulator.h"
+#include "testalu.h"
+
 int main(int argc , char *argv[]) {
+	std::string report;
 #ifdef TEST_DEKATRON
 	TestDekatron dekatron;
+	std::cout <<"\n";
+	report += "\ndekatron.cpp       Failures = " + std::to_string(dekatron.failedTests);
 #endif /*TEST_DEKATRON*/
 #ifdef TEST_DEKATRONSTORE
 	TestDekatronStore store;
+	std::cout <<"\n";
+	report += "\ndekatronstore.cpp  Failures = " + std::to_string(store.failedTests);
 #endif /*TEST_DEKATRONSTORE*/
 #ifdef TEST_TRANSFERUNIT
 	TestTransferUnit transferUnit;
+	std::cout <<"\n";
+	report += "\ntransferunit.cpp   Failures = " + std::to_string(transferUnit.failedTests);
 #endif /*TEST_TRANSFERUNIT*/
 #ifdef TEST_SHIFTCIRCUIT
-	TestShiftCircuit testShiftCircuit;
+	TestShiftCircuit shiftCircuit;
+	std::cout <<"\n";
+	report += "\nshiftcircuit.cpp   Failures = " + std::to_string(shiftCircuit.failedTests);
 #endif /*TEST_SHIFTCIRCUIT*/
-	std::cout << "\n:::END TEST:::\n";
+#ifdef TEST_ACCUMULATOR
+	TestAccumulator accumulator;
+	std::cout <<"\n";
+	report += "\naccumulator.cpp    Failures = " + std::to_string(accumulator.failedTests);
+#endif /*TEST_ACCUMULATOR*/
+#ifdef TEST_ALU 
+	TestALU alu;
+	std::cout <<"\n";
+	report += "\nalu.cpp            Failures = " + std::to_string(alu.failedTests);
+#endif /*TEST_ALU*/
+	std::cout << "\n:::END TEST:::\n" << report <<"\n\n";
 }
