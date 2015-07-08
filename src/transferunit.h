@@ -80,6 +80,7 @@ class TransferUnit {
 
 public:
 	// TODO: Transfer unit does not check if stores are from the same set
+	// TODO: Transfer does not use temp accum. Remove if not needed
 	// Transfer from store to store
 	void transfer(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount = 0);
 	void transferComplement(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount = 0);

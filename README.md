@@ -27,10 +27,10 @@ To run the test suit
     $ make testAll
     $ ./testAll
 
-To run interactive addition tests
+To run interactive alu tests
 
-    $ make testAddition
-    $ ./testAddition
+    $ make ui_alu
+    $ ./ui_alu
 
 and to clean test files use,
 
