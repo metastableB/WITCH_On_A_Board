@@ -17,7 +17,7 @@
 class ShiftCircuit {
 	// to store the intermediate values while transfering to acc
 	Dekatron shiftDekatron[16];
-	void initializeShiftDekatron();
+	void initializeShiftDekatron(DekatronState state);
 public :
 	//void shift(Dekatron* buffer, int shiftAmount);
 	void shift(Dekatron* buffer, int shiftAmount, int size = 9);

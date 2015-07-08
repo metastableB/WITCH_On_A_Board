@@ -1,14 +1,13 @@
-===============================================================================
-									Notes
-===============================================================================
+# Notes
 
-# Dekatron Stores
+
+## Dekatron Stores
 Since a lot of the things are going to change as it seems in process of 
 development, just start making things, commit whenever something fits,
 remove if it doesn't. Just make sure the model you follow allows for 
 additions as much as possible.
 
-# Shift circuit
+## Shift circuit
 The accumulator  is made up of two dekatron stores. Its length out to be
 18 but only 15 is used. The sign bit of both the dekatron holds the same
 sign. That makes it 16.
@@ -22,7 +21,7 @@ There is no actual shift happening as we see it now.
 Model this using 18 dekatrons as relay lines. The getter will receive the value to use to shift this to
 the receiver will index the appropriate lines out from this. Being the dekatron store or the accumulator
 
-# Multiplication algorithm
+## Multiplication algorithm
 
 Order : opcode-multiplicand - multiplier 
 	
@@ -33,13 +32,32 @@ Algorithm :
 				Add the multiplicand to the accm shifted i times 
 				Decrement the digit
 
-# Accumulator Mappings hardware vs user 
+## Accumulator Mappings hardware vs user 
 Accumulator made up of two stores A and B. We need 15 digits to multiply TWO EIGHT DIGIT MAGNITUDES and set the sign afterwards.
 The accumulator A and B, store0 (MSBs) are set to the sign bits. For accumulator A stores 1-8 are used for digits 1-8. 
 In accumulator B, digits 1-7 are used for digits 1-7. 8 it seems is not involved.
 
 Though this is implemented in the base class, the user should know the accumulator as a single object with 15 + 1 (sign) bits
 He should be able to index from 0-15 seamlessly.
+
+## Shift circuit
+It seems the sign store is connected to all stores that are not receiving the values from the sending store because of the shifts.
+
+## Transfer Circuit
+This is how our transfer circuit is working
+
+Transfer(source, destination, shift_amount)
+	Pulse Source 
+	/* so that the connected hardware sees the change. 
+	 * The emitted values are then shifted appropriately.
+	 */
+
+	Shift the output pulses by shift_amount
+	Generate pulse train for receiving store
+	Pulse Receiving store
+	Continue for 10 iterations
+
+
 
 
 
