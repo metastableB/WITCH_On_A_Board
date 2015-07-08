@@ -17,14 +17,12 @@ FILES=./src/dekatron.cpp \
 	  ./src/dekatronstore.cpp \
 	  ./src/transferunit.cpp \
 	  ./src/shiftcircuit.cpp\
-	  ./src/alu.cpp\
-	  ./src/main.cpp 
-
-
+	  ./src/accumulator.cpp\
+	  ./src/alu.cpp
 
 # Source Targets 
 all : 
-	$(CC) $(CFLAGS) $(FILES) -o witch_sim
+	$(CC) $(CFLAGS) $(FILES) ./src/main.cpp -o witch_sim
 
 clean :
 	rm -vf  ./src/*.out   witch_sim   ./src/*.o   ./src/*.h.gch  ./src/*.gch
@@ -51,9 +49,9 @@ TESTS=./src/dekatron.cpp ./tests/testdekatron.cpp \
 
 testAll :
 	$(CC) $(CFLAGS) $(TESTFLAGS) $(TESTS) -o testAll
-# TODO :Change to test ALU
-testAddition :
-	$(CC) $(CFLAGS) ./src/dekatron.cpp ./src/dekatronstore.cpp ./src/transferunit.cpp ./tests/ui_testaddition.cpp -o testAddition
+# ui_alu test
+ui_alu :
+	$(CC) $(CFLAGS) $(FILES)  ./tests/ui_testalu.cpp -o ui_alu
 testTransferUnit:
 	$(CC) $(CFLAGS) -DTEST_TRANSFERUNIT $(TESTS) -o testTransferUnit
 testShiftCircuit:
