@@ -229,6 +229,7 @@ void TransferUnit::transferComplement(Accumulator* accum, DekatronStore* rStore,
 }
 void TransferUnit::transfer(DekatronStore* sStore, Accumulator* accum, int shiftAmount ) {
 	// TODO: make sure shiftAmounts are in the range [-1,7]
+	// TODO: Remove tempAccum if not needed
 	initializeTempAccum(accum);
 	initializeCarryRelays(accum);
 	initializeGuideOutputFlags(accum);
