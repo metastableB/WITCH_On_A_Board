@@ -55,6 +55,7 @@ bool ALU::multiply(DekatronStore* sStore, DekatronStore* rStore, Accumulator* ac
 		}
 		return true;
 	}
+	// TODO: ERROR HANDLER!
 	return false;
 
 }
