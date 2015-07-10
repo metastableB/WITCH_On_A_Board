@@ -258,7 +258,36 @@ void TransferUnit::transfer(DekatronStore* sStore, Accumulator* accum, int shift
 	makeCarryOver(accum);
 }
 void TransferUnit::transferComplement(DekatronStore* sStore, Accumulator* accum, int shiftAmount) {
+	// TODO: make sure shiftAmounts are in the range [-1,7]
+	// TODO: Remove tempAccum if not needed
+	initializeTempAccum(accum);
+	initializeCarryRelays(accum);
+	initializeGuideOutputFlags(accum);
+	initializeBufferDekatrons(accum);
+	initializeReceivingStorePulse(accum);
+	initializeV1OutputFlags(accum);
 
+	for(int i = 1; i <= 8 ; i++)
+		tempAccum.setAccumulatorValueIn(i + shiftAmount, int(sStore->getStateIn(i)));
+	tempAccum.setAccumulatorSign(int(sStore->getStateIn(0)));
+	setSendingAccumulator(&tempAccum);
+	setSendingStore(sStore);
+	setReceivingAccumulator(accum);
+	// Send a set of pulse to sending dekatron
+	for (int i = 0 ; i < 10 ; i++) {
+		sendingStore->pulseStore(pulseTrainElement,a_bufferDekatrons_s);
+		shiftCircuit.shift(a_bufferDekatrons_s,shiftAmount,16);
+		updateGuideOutputFlags(a_bufferDekatrons_s, a_guideOutputFlags,16);
+		updateV1OutputFlags(a_bufferDekatrons_s ,a_guideOutputFlags, a_v1OutputFlags,16);
+		makeReceivingStorePulse(accum);
+
+		if(i != 0) {
+			receivingAccum->pulseAccumulator(a_receivingStorePulseComplement, a_bufferDekatrons_r);
+			updateCarryRelays(a_receivingStorePulseComplement, a_bufferDekatrons_r,a_carryRelays,16);
+		}
+		initializeBufferDekatrons(accum);
+	}
+	makeCarryOver(accum);
 }
 
 // Store to Accumulator
