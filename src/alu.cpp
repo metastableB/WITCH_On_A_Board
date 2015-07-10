@@ -32,7 +32,6 @@ bool ALU::multiply(DekatronStore* sStore, DekatronStore* rStore, Accumulator* ac
 	 */
 	// TODO : Check for overflow
 	int currentDigit = 0;
-	bool correctionNeeded;
 	if(rStore->getStateIn(0) == DekatronState::ZERO) {
 		for(int i = 1; i < 9; i++){
 			currentDigit = int(rStore->getStateIn(i));
@@ -46,16 +45,14 @@ bool ALU::multiply(DekatronStore* sStore, DekatronStore* rStore, Accumulator* ac
 	}
 	else if (rStore->getStateIn(0) ==  DekatronState::NINE) {
 		for(int i = 1; i < 9; i++){
-			correctionNeeded = false;
 			currentDigit = int(rStore->getStateIn(i));
-			while( currentDigit%10 != 0){
+			do {
 				transferUnit.transferComplement(sStore,accum,i-1);
 				rStore->setStoreValueIn(i,(currentDigit)%10);
 				currentDigit++;
-				correctionNeeded = true;
-			}
-			if(correctionNeeded)
-				transferUnit.transfer(sStore,accum,i-1);
+
+			} while( currentDigit%10 != 0);
+			transferUnit.transfer(sStore,accum,i-1);
 		}
 		return true;
 	}
