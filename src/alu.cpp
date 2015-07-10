@@ -41,6 +41,19 @@ bool ALU::multiply(DekatronStore* sStore, DekatronStore* rStore, Accumulator* ac
 				rStore->setStoreValueIn(i,currentDigit);
 			}
 		}
+		return true;
+	}
+	else if (rStore->getStateIn(0) ==  DekatronState::NINE) {
+		for(int i = 1; i < 9; i++){
+			currentDigit = int(rStore->getStateIn(i));
+			while( currentDigit%10 != 0){
+				transferUnit.transferComplement(sStore,accum,i-1);
+				currentDigit++;
+				rStore->setStoreValueIn(i,currentDigit);
+			}
+			transferUnit.transfer(sStore,accum,i-1);
+		}
+		return true;
 	}
 	return false;
 
