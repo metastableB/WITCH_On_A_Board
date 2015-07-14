@@ -84,6 +84,8 @@ public:
 	// Transfer from store to store
 	void transfer(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount = 0);
 	void transferComplement(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount = 0);
+	// Transfer and clear cannot be employed with shifts.
+	void transferClear(DekatronStore* sStore, DekatronStore* rStore);
 	// Transfer from accum to store
 	void transfer(Accumulator* accum, DekatronStore* rStore, int shiftAmount = 0 );
 	void transferComplement(Accumulator* accum, DekatronStore* rStore, int shiftAmount = 0 );

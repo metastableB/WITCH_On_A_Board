@@ -227,6 +227,8 @@ void TransferUnit::transfer(Accumulator* accum, DekatronStore* rStore, int shift
 void TransferUnit::transferComplement(Accumulator* accum, DekatronStore* rStore, int shiftAmount  ) {
 
 }
+// Store to Accumulator
+
 void TransferUnit::transfer(DekatronStore* sStore, Accumulator* accum, int shiftAmount ) {
 	// TODO: make sure shiftAmounts are in the range [-1,7]
 	// TODO: Remove tempAccum if not needed
@@ -290,4 +292,26 @@ void TransferUnit::transferComplement(DekatronStore* sStore, Accumulator* accum,
 	makeCarryOver(accum);
 }
 
-// Store to Accumulator
+
+void TransferUnit::transferClear(DekatronStore* sStore, DekatronStore* rStore) {
+	setSendingStore(sStore);
+	setReceivingStore(rStore);
+	initializeCarryRelays(sStore);
+	initializeGuideOutputFlags(sStore);
+	initializeBufferDekatrons(sStore);
+	initializeReceivingStorePulse(sStore);
+	initializeV1OutputFlags(sStore);
+
+	// Connect the receiving store pulse complement to the sending store
+	for (int i = 0 ; i < 10 ; i++) {
+		sendingStore->pulseStore(receivingStorePulseComplement,bufferDekatrons_s);
+		//shiftCircuit.shift(bufferDekatrons_s,0);
+		updateGuideOutputFlags(bufferDekatrons_s,this->guideOutputFlags);
+		updateV1OutputFlags(bufferDekatrons_s, guideOutputFlags, v1OutputFlags);
+		makeReceivingStorePulse(rStore);
+
+		receivingStore->pulseStore(receivingStorePulse, bufferDekatrons_r);
+		updateCarryRelays(receivingStorePulse, bufferDekatrons_r,carryRelays);
+	}
+	makeCarryOver(rStore);
+}
