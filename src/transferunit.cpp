@@ -219,13 +219,13 @@ void TransferUnit::transferComplement(DekatronStore* sStore, DekatronStore* rSto
 		updateV1OutputFlags(bufferDekatrons_s, guideOutputFlags, v1OutputFlags);
 		updateGuideOutputFlags(bufferDekatrons_s,this->guideOutputFlags);
 		makeReceivingStorePulse(rStore);
-		// We use complement on 9 and not ten. hence ignoring first pulse
-		//if(i != 0) {
+		// We use complement on 9 and not ten. hence ignore
+		if(i != 0) {
 			receivingStore->pulseStore(receivingStorePulseComplement, bufferDekatrons_r);
 			updateCarryRelays(receivingStorePulseComplement, bufferDekatrons_r,carryRelays);
-		//}
-		//	std::cout << "Pulse no" << i+1 << " s " << sendingStore->getStringStateInStore()
-		//				<< " r " << receivingStore->getStringStateInStore() << "\n";
+		}
+			std::cout << "Pulse no" << i+1 << " s " << sendingStore->getStringStateInStore()
+						<< " r " << receivingStore->getStringStateInStore() << "\n";
 					//std::cout << " Guide Output flags :";
 					//for(int j = 0; j<9 ;j++) {
 					//	std::cout << this->guideOutputFlags[j];
