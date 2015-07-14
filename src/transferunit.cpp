@@ -104,8 +104,8 @@ void TransferUnit::updateGuideOutputFlags(Dekatron* bufferDekatrons,int guideOut
 // V1 is active.
 void TransferUnit::updateV1OutputFlags(Dekatron* bufferDekatrons,int guideOutputFlags[],int v1OutputFlags[], int size) {
 	for(int i = 0; i < size; i++)
-		if(bufferDekatrons[i].getCurrentState() == DekatronState::ONE
-			&& guideOutputFlags[i] == 1)
+		if(/*bufferDekatrons[i].getCurrentState() == DekatronState::ZERO
+			&& */guideOutputFlags[i] == 1)
 			v1OutputFlags[i] = 1;
 }
 
@@ -186,12 +186,19 @@ void TransferUnit::transfer(DekatronStore* sStore, DekatronStore* rStore, int sh
 	for (int i = 0 ; i < 10 ; i++) {
 		sendingStore->pulseStore(pulseTrainElement,bufferDekatrons_s);
 		shiftCircuit.shift(bufferDekatrons_s,shiftAmount);
-		updateGuideOutputFlags(bufferDekatrons_s,this->guideOutputFlags);
 		updateV1OutputFlags(bufferDekatrons_s, guideOutputFlags, v1OutputFlags);
+		updateGuideOutputFlags(bufferDekatrons_s,this->guideOutputFlags);
 		makeReceivingStorePulse(rStore);
 
 		receivingStore->pulseStore(receivingStorePulse, bufferDekatrons_r);
 		updateCarryRelays(receivingStorePulse, bufferDekatrons_r,carryRelays);
+		//std::cout << "Pulse no" << i+1 << " s " << sendingStore->getStringStateInStore()
+		//	<< " r " << receivingStore->getStringStateInStore() ;
+		//std::cout << " Guide Output flags :";
+		//for(int j = 0; j<9 ;j++) {
+		//	std::cout << this->guideOutputFlags[j];
+		//}
+		//std::cout << "\n";
 	}
 	makeCarryOver(rStore);
 }
@@ -209,13 +216,21 @@ void TransferUnit::transferComplement(DekatronStore* sStore, DekatronStore* rSto
 	for (int i = 0 ; i < 10 ; i++) {
 		sendingStore->pulseStore(pulseTrainElement,bufferDekatrons_s);
 		shiftCircuit.shift(bufferDekatrons_s,shiftAmount);
-		updateGuideOutputFlags(bufferDekatrons_s,this->guideOutputFlags);
 		updateV1OutputFlags(bufferDekatrons_s, guideOutputFlags, v1OutputFlags);
+		updateGuideOutputFlags(bufferDekatrons_s,this->guideOutputFlags);
 		makeReceivingStorePulse(rStore);
-		if(i != 0) {
+		// We use complement on 9 and not ten. hence ignoring first pulse
+		//if(i != 0) {
 			receivingStore->pulseStore(receivingStorePulseComplement, bufferDekatrons_r);
 			updateCarryRelays(receivingStorePulseComplement, bufferDekatrons_r,carryRelays);
-		}
+		//}
+		//	std::cout << "Pulse no" << i+1 << " s " << sendingStore->getStringStateInStore()
+		//				<< " r " << receivingStore->getStringStateInStore() << "\n";
+					//std::cout << " Guide Output flags :";
+					//for(int j = 0; j<9 ;j++) {
+					//	std::cout << this->guideOutputFlags[j];
+					//}
+					//std::cout << "\n";
 	}
 	makeCarryOver(rStore);
 }
@@ -249,8 +264,9 @@ void TransferUnit::transfer(DekatronStore* sStore, Accumulator* accum, int shift
 	for (int i = 0 ; i < 10 ; i++) {
 		sendingStore->pulseStore(pulseTrainElement,a_bufferDekatrons_s);
 		shiftCircuit.shift(a_bufferDekatrons_s,shiftAmount,16);
-		updateGuideOutputFlags(a_bufferDekatrons_s, a_guideOutputFlags,16);
 		updateV1OutputFlags(a_bufferDekatrons_s ,a_guideOutputFlags, a_v1OutputFlags,16);
+		updateGuideOutputFlags(a_bufferDekatrons_s, a_guideOutputFlags,16);
+
 		makeReceivingStorePulse(accum);
 
 		receivingAccum->pulseAccumulator(a_receivingStorePulse, a_bufferDekatrons_r);
@@ -279,14 +295,15 @@ void TransferUnit::transferComplement(DekatronStore* sStore, Accumulator* accum,
 	for (int i = 0 ; i < 10 ; i++) {
 		sendingStore->pulseStore(pulseTrainElement,a_bufferDekatrons_s);
 		shiftCircuit.shift(a_bufferDekatrons_s,shiftAmount,16);
-		updateGuideOutputFlags(a_bufferDekatrons_s, a_guideOutputFlags,16);
 		updateV1OutputFlags(a_bufferDekatrons_s ,a_guideOutputFlags, a_v1OutputFlags,16);
+		updateGuideOutputFlags(a_bufferDekatrons_s, a_guideOutputFlags,16);
+
 		makeReceivingStorePulse(accum);
 
-		if(i != 0) {
+		//if(i != 0) {
 			receivingAccum->pulseAccumulator(a_receivingStorePulseComplement, a_bufferDekatrons_r);
 			updateCarryRelays(a_receivingStorePulseComplement, a_bufferDekatrons_r,a_carryRelays,16);
-		}
+		//}
 		initializeBufferDekatrons(accum);
 	}
 	makeCarryOver(accum);
@@ -312,6 +329,8 @@ void TransferUnit::transferClear(DekatronStore* sStore, DekatronStore* rStore) {
 
 		receivingStore->pulseStore(receivingStorePulse, bufferDekatrons_r);
 		updateCarryRelays(receivingStorePulse, bufferDekatrons_r,carryRelays);
+		//std::cout << "Pulse no" << i+1 << " s " << sendingStore->getStringStateInStore()
+		//		<< " r " << receivingStore->getStringStateInStore() << "\n";
 	}
 	makeCarryOver(rStore);
 }
