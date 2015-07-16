@@ -329,3 +329,28 @@ void TransferUnit::transferClear(DekatronStore* sStore, DekatronStore* rStore) {
 	}
 	makeCarryOver(rStore);
 }
+void TransferUnit::transferComplementClear(DekatronStore* sStore, DekatronStore* rStore){
+	setSendingStore(sStore);
+	setReceivingStore(rStore);
+	initializeCarryRelays(sStore);
+	initializeGuideOutputFlags(sStore);
+	initializeBufferDekatrons(sStore);
+	initializeReceivingStorePulse(sStore);
+	initializeV1OutputFlags(sStore);
+	initializeSendingStorePulse(sStore);
+
+	// Send a set of pulse to sending dekatron
+	for (int i = 0 ; i < 10 ; i++) {
+		sendingStore->pulseStore(sStorePulseComplement,bufferDekatrons_s);
+		updateV1OutputFlags(bufferDekatrons_s, guideOutputFlags, v1OutputFlags);
+		updateGuideOutputFlags(bufferDekatrons_s,this->guideOutputFlags);
+		makeReceivingStorePulse(rStore);
+		makeSendingStorePulse(sStore);
+		// We use complement on 9 and not ten. hence ignore
+		if(i != 0) {
+			receivingStore->pulseStore(receivingStorePulseComplement, bufferDekatrons_r);
+			updateCarryRelays(receivingStorePulseComplement, bufferDekatrons_r,carryRelays);
+		}
+	}
+	makeCarryOver(rStore);
+}
