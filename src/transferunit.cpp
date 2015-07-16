@@ -108,8 +108,7 @@ void TransferUnit::updateGuideOutputFlags(Dekatron* bufferDekatrons,int guideOut
 // V1 is active.
 void TransferUnit::updateV1OutputFlags(Dekatron* bufferDekatrons,int guideOutputFlags[],int v1OutputFlags[], int size) {
 	for(int i = 0; i < size; i++)
-		if(/*bufferDekatrons[i].getCurrentState() == DekatronState::ZERO
-			&& */guideOutputFlags[i] == 1)
+		if(guideOutputFlags[i] == 1)
 			v1OutputFlags[i] = 1;
 }
 
@@ -204,13 +203,6 @@ void TransferUnit::transfer(DekatronStore* sStore, DekatronStore* rStore, int sh
 
 		receivingStore->pulseStore(receivingStorePulse, bufferDekatrons_r);
 		updateCarryRelays(receivingStorePulse, bufferDekatrons_r,carryRelays);
-		//std::cout << "Pulse no" << i+1 << " s " << sendingStore->getStringStateInStore()
-		//	<< " r " << receivingStore->getStringStateInStore() ;
-		//std::cout << " Guide Output flags :";
-		//for(int j = 0; j<9 ;j++) {
-		//	std::cout << this->guideOutputFlags[j];
-		//}
-		//std::cout << "\n";
 	}
 	makeCarryOver(rStore);
 }
@@ -236,13 +228,6 @@ void TransferUnit::transferComplement(DekatronStore* sStore, DekatronStore* rSto
 			receivingStore->pulseStore(receivingStorePulseComplement, bufferDekatrons_r);
 			updateCarryRelays(receivingStorePulseComplement, bufferDekatrons_r,carryRelays);
 		}
-			//std::cout << "Pulse no" << i+1 << " s " << sendingStore->getStringStateInStore()
-			//			<< " r " << receivingStore->getStringStateInStore() << "\n";
-					//std::cout << " Guide Output flags :";
-					//for(int j = 0; j<9 ;j++) {
-					//	std::cout << this->guideOutputFlags[j];
-					//}
-					//std::cout << "\n";
 	}
 	makeCarryOver(rStore);
 }
@@ -341,11 +326,6 @@ void TransferUnit::transferClear(DekatronStore* sStore, DekatronStore* rStore) {
 		makeSendingStorePulse(sStore);
 		receivingStore->pulseStore(receivingStorePulse, bufferDekatrons_r);
 		updateCarryRelays(receivingStorePulse, bufferDekatrons_r,carryRelays);
-
-	//			sendingStore->pulseStore(receivingStorePulseComplement,bufferDekatrons_s);
 	}
 	makeCarryOver(rStore);
-	std::cout << "Pulse no" << i+1 << " s " << sendingStore->getStringStateInStore()
-					<< " r " << receivingStore->getStringStateInStore() << "\n";
-
 }
