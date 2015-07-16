@@ -241,8 +241,7 @@ TestTransferUnit::TestTransferUnit() {
 	/*
 	 *  ADDITION BETWEEN STORES (TRANSFER AND CLEAR)
 	 */
-	//int pulse[9];
-	//Dekatron bufferDekatron[9];
+
 	for(int i = 0; i < 9; i++)
 		pulse[i] = 1;
 	source.setStoreValue("000000000",bufferDekatron);
@@ -344,6 +343,137 @@ TestTransferUnit::TestTransferUnit() {
 		std::cout << "TransferUnit TEST 14.4 transferClear() FAILURE" << std::endl;
 	}
 
+	/*
+	 * SUBTRACTION BETWEEN STORES WITCH CLEAR
+	 */
+	source.setStoreValue("000000000", bufferDekatron);
+	destination.setStoreValue("000000000", bufferDekatron);
+	// Subtracting both zeros
+	transferUnit.transferComplementClear(&source,&destination);
+	if(!destination.getStringStateInStore().compare("999999999") && !source.getStringStateInStore().compare("000000000"))
+		std::cout << "TransferUnit TEST 15.1 SUCCESSFUL" << std::endl;
+	else{
+		failedTests++;
+		std::cout << "TransferUnit TEST 15.1 transferComplement() FAILURE " << source.getStringStateInStore() 
+				  <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+	}
+	transferUnit.transferComplementClear(&destination, &source);
+	if(!source.getStringStateInStore().compare("000000000") && !destination.getStringStateInStore().compare("000000000"))
+		std::cout << "TransferUnit TEST 15.2 SUCCESSFUL" << std::endl;
+	else{
+		failedTests++;
+		std::cout << "TransferUnit TEST 15.2 transferComplementClear() FAILURE " << source.getStringStateInStore() 
+				  <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+	}
+
+	// Performing simple subtractions after pulsing
+	source.pulseStore(pulse, bufferDekatron);
+	source.pulseStore(pulse, bufferDekatron);
+	transferUnit.transferComplementClear(&source,&destination);
+	if(!destination.getStringStateInStore().compare("777777777") && !source.getStringStateInStore().compare("000000000"))
+		std::cout << "TransferUnit TEST 16.1 SUCCESSFUL" << std::endl;
+	else{
+		failedTests++;
+		std::cout << "TransferUnit TEST 16.1 transferComplementClear() FAILURE " << source.getStringStateInStore() 
+				  <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+	}
+	source.setStoreValue("222222222",bufferDekatron);
+	transferUnit.transferComplementClear(&destination, &source);
+	if(!source.getStringStateInStore().compare("444444444") && !destination.getStringStateInStore().compare("000000000"))
+		std::cout << "TransferUnit TEST 16.2 SUCCESSFUL" << std::endl;
+	else{
+		failedTests++;
+		std::cout << "TransferUnit TEST 16.2 transferComplementClear() FAILURE " << source.getStringStateInStore() 
+			      <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+	}
+
+	source.pulseStore(pulse, bufferDekatron);
+	source.pulseStore(pulse, bufferDekatron);
+	source.pulseStore(pulse, bufferDekatron);
+	destination.pulseStore(pulse, bufferDekatron);
+	destination.pulseStore(pulse, bufferDekatron);
+	destination.pulseStore(pulse, bufferDekatron);
+	// source is 7 7777 777	7, dest is  3 3333 3333
+	transferUnit.transferComplementClear(&source,&destination);
+	if(!destination.getStringStateInStore().compare("555555555") && !source.getStringStateInStore().compare("000000000"))
+		std::cout << "TransferUnit TEST 17.1 SUCCESSFUL" << std::endl;
+	else{
+		failedTests++;
+		std::cout << "TransferUnit TEST 17.1 transferComplementClear() FAILURE " << source.getStringStateInStore() 
+				   <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+	}
+	transferUnit.transferComplementClear(&destination, &source);
+	if(!source.getStringStateInStore().compare("444444444") && !destination.getStringStateInStore().compare("000000000"))
+		std::cout << "TransferUnit TEST 17.2 SUCCESSFUL" << std::endl;
+	else{
+		failedTests++;	
+		std::cout << "TransferUnit TEST 17.2 transferComplementClear() FAILURE " << source.getStringStateInStore() 
+	  			  <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+	}
+
+	// Performing multiple subtraction tests
+	source.setStoreValue("000000005", bufferDekatron);
+	destination.setStoreValue("000000004", bufferDekatron);
+	transferUnit.transferComplementClear(&source, &destination);
+	// -1 : 9 9999 9998
+	if(!destination.getStringStateInStore().compare("999999998") && !source.getStringStateInStore().compare("000000000"))
+		std::cout << "TransferUnit TEST 18.1 SUCCESSFUL" << std::endl;
+	else{
+		failedTests++;
+		std::cout << "TransferUnit TEST 18.1 transferComplementClear() FAILURE " << source.getStringStateInStore() <<" d: " 
+				  << destination.getStringStateInStore() << " " << std::endl;
+	}
+	source.setStoreValue("000000005",bufferDekatron);
+	transferUnit.transferComplementClear(&destination, &source);
+	// 5 - -1 = 6
+	if(!source.getStringStateInStore().compare("000000006") && !destination.getStringStateInStore().compare("000000000"))
+		std::cout << "TransferUnit TEST 18.2 SUCCESSFUL" << std::endl;
+	else{
+		failedTests++;
+		std::cout << "TransferUnit TEST 18.2 transferComplementClear() FAILURE " << source.getStringStateInStore() 
+				   <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+	}
+
+	source.setStoreValue("000000000", bufferDekatron);
+	destination.setStoreValue("991111111", bufferDekatron);
+	// - 0 0888 8888 - 0 = 0 0888 8888 = 9 9111 1111
+	transferUnit.transferComplementClear(&source, &destination);
+	if(!destination.getStringStateInStore().compare("991111111") && !source.getStringStateInStore().compare("000000000"))
+		std::cout << "TransferUnit TEST 18.3 SUCCESSFUL" << std::endl;
+	else{
+		failedTests++;
+		std::cout << "TransferUnit TEST 18.3 transferComplementClear() FAILURE " << source.getStringStateInStore() 
+				  <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+	}
+	source.setStoreValue("991111111", bufferDekatron);
+	transferUnit.transferComplementClear(&destination, &source);
+	if(!source.getStringStateInStore().compare("999999999") && !destination.getStringStateInStore().compare("000000000"))
+		std::cout << "TransferUnit TEST 18.4 SUCCESSFUL" << std::endl;
+	else{
+		failedTests++;
+		std::cout << "TransferUnit TEST 18.4 transferComplementClear() FAILURE " << source.getStringStateInStore()
+				  <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+	}
+
+	source.setStoreValue("088448800", bufferDekatron);
+	destination.setStoreValue("991001234", bufferDekatron);
+	transferUnit.transferComplementClear(&destination, &source);
+	if(!source.getStringStateInStore().compare("097447565") && !destination.getStringStateInStore().compare("000000000"))
+		std::cout << "TransferUnit TEST 18.5 SUCCESSFUL" << std::endl;
+	else{
+		failedTests++;
+		std::cout << "TransferUnit TEST 18.5 transferComplementClear() FAILURE " << source.getStringStateInStore() 
+				  <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+	}
+	destination.setStoreValue("991001234", bufferDekatron);
+	transferUnit.transferComplementClear(&source, &destination);
+	if(!destination.getStringStateInStore().compare("893553669") && !source.getStringStateInStore().compare("000000000"))
+		std::cout << "TransferUnit TEST 18.6 SUCCESSFUL" << std::endl;
+	else{
+		failedTests++;
+		std::cout << "TransferUnit TEST 18.6 transferComplementClear() FAILURE " << source.getStringStateInStore()
+				  <<" d: " << destination.getStringStateInStore() << " " << std::endl;
+	}
 	std::cout << "FINISH transferunit.cpp TESTS\n";
 	/*
 	 * Accumulator transfers and tests in shiftcircuit test module
