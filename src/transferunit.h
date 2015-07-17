@@ -17,6 +17,7 @@
 
 class TransferUnit {
 	int pulseTrainElement[9] = { 1, 1,1,1,1 ,1,1,1,1};
+	int sStorePulseComplement[9];
 	int receivingStorePulse[9];
 	int receivingStorePulseComplement[9];
 	int guideOutputFlags[9];
@@ -50,8 +51,10 @@ class TransferUnit {
 	void initializeGuideOutputFlags(DekatronStore* store);
 	void initializeBufferDekatrons(DekatronStore* store);
 	void initializeReceivingStorePulse(DekatronStore* store);
+	void initializeSendingStorePulse(DekatronStore* store);
 	void initializeV1OutputFlags(DekatronStore* store);
 
+	void makeSendingStorePulse(DekatronStore* sStore);
 	void makeReceivingStorePulse(DekatronStore* store);
 	void makeCarryOver(DekatronStore* store);
 	// TODO : remove after testing
@@ -84,6 +87,9 @@ public:
 	// Transfer from store to store
 	void transfer(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount = 0);
 	void transferComplement(DekatronStore* sStore, DekatronStore* rStore, int shiftAmount = 0);
+	// Transfer and clear cannot be employed with shifts.
+	void transferClear(DekatronStore* sStore, DekatronStore* rStore);
+	void transferComplementClear(DekatronStore* sStore, DekatronStore* rStore);
 	// Transfer from accum to store
 	void transfer(Accumulator* accum, DekatronStore* rStore, int shiftAmount = 0 );
 	void transferComplement(Accumulator* accum, DekatronStore* rStore, int shiftAmount = 0 );

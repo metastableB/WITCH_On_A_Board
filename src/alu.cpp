@@ -50,7 +50,6 @@ bool ALU::multiply(DekatronStore* sStore, DekatronStore* rStore, Accumulator* ac
 				transferUnit.transferComplement(sStore,accum,i-1);
 				rStore->setStoreValueIn(i,(currentDigit)%10);
 				currentDigit++;
-
 			} while( currentDigit%10 != 0);
 			transferUnit.transfer(sStore,accum,i-1);
 		}
@@ -58,7 +57,6 @@ bool ALU::multiply(DekatronStore* sStore, DekatronStore* rStore, Accumulator* ac
 	}
 	// TODO: ERROR HANDLER!
 	return false;
-
 }
 
 
