@@ -1,6 +1,5 @@
 # Notes
 
-
 ## Dekatron Stores
 Since a lot of the things are going to change as it seems in process of 
 development, just start making things, commit whenever something fits,
@@ -57,7 +56,47 @@ Transfer(source, destination, shift_amount)
 	Pulse Receiving store
 	Continue for 10 iterations
 
+## Notes for CLI interface
 
+### From WITCH paper
+	1) 8 Input tapes - should be able to turn them off as a preprocessor definition for 
+	   hardware compatibility.
+	2) First order always read from tape reader 1.
+	3) Q : Orders can be drawn from dekatron stores ? How does it work ?
+	4) The arithmetic instructions are :
+				1 : Add
+				2 : Add and Clear
+				3 : Subtract
+				4 : Subtract and clear
+				5 : Multiply
+				6 : Divide
+				7 : Positive Modulus
+	5) Q : All stores are cleared when the dekatron is first switched on. This is because the dekatrons can
+	   start in any state randomly. Should we implement this ?
+	
+### From Programming Manual
+	1) The *[5 Digit] form of input was intended to be used as the method of loading commands
+	   to dekatron stores. This can also be used to load +ve numbers to the stores as well.
+	2) NOTE : Windows line endings vs Linux endings while processing input from user.
+	3) NOTE : Use translator unit object for now as just a converter between complement and regular
+		  forms. This will act as a place holder, in case we want to change it later.
+	4) NOTE : INITIAL ORDERS 
+		 Permanently stored orders used whenever start key is operated or computer restarts.
+		 03101 : Search for block 1 on tape 1
+		 02101 : Transfer control to block 1
+	5) Q : How much of the alarm/error should be handled by the parser and how much should be handled
+	       by witch alarms ?
+	6) Input is a special case of add/subtract.
+	7) Q : Is there  a way to shift to another tape without using a search for a block marker ? I.e , given
+	       That we know how the additional tapes are aligned, is it possible to shift control to it without
+	       performing a specific search for a block marking character ?
+	8) There is no transfer of modulus with clear store.
+	9) Q : How does 209-- and 409-- work ? How are they able to clear the entire accumulator.
+	10)NOTE : Read again the sections on division, shift selection etc.
+	11)Q : How do the signals work. Like 00100 or 00200 ? What if we don't explicitly specify a finish ?
+
+
+TODO : Segregate WITCH notes from coding notes
 
 
 
