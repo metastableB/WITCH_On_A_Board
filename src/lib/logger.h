@@ -11,11 +11,14 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-enum LogLevel { INFO, DEBUG, WARNING};
+#include <string>
+#include <iostream>
+
+enum LogLevel { INFO, DEBUG, WARNING, ERROR};
 class Logger {
 
 public:
-	void log(std::string msg, LogLevel level);
+	void log(LogLevel level,std::string origin,std::string msg);
 };
 
 #endif /*LOGGER_H*/
