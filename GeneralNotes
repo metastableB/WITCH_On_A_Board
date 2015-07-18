@@ -59,3 +59,5 @@ END BRAIN DUMP>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	The loadNext() should load the specified number from the store system, translate it and return it.
 	The question is where does it load to ? The loadNext() comes to action when we have to print something.
 	Work this out!
+### src/lib Folder
+	The src/lib folder should host code which is useful in a global scope.
