@@ -58,3 +58,20 @@ END BRAIN DUMP>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	9) Q : How does 209-- and 409-- work ? How are they able to clear the entire accumulator.
 	10)NOTE : Read again the sections on division, shift selection etc.
 	11)Q : How do the signals work. Like 00100 or 00200 ? What if we don't explicitly specify a finish ?
+
+### Translator Unit
+	The basic task of the translator unit according to the diagram shown in the paper is to act as an
+	interface between the data-store accumulator portion and the control unit. The arrows indicate that 
+	the translator unit comes to action for the following cases
+		a) Storing something into the stores
+		b) Printing the contents of a store
+	It seems that these are the only two cases when this is coming to use. Orders as such go to the
+	current order storage which is independent of the translator unit.
+	
+	I.e. there are two storeNext() and loadNext() type calls which the translator unit seems to perform.
+	The storeNext() function should have the task of translating whatever is read next form the input
+	and stored in the arguement store.
+
+	The loadNext() should load the specified number from the store system, translate it and return it.
+	The question is where does it load to ? The loadNext() comes to action when we have to print something.
+	Work this out!
