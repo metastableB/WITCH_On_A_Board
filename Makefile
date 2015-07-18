@@ -18,7 +18,9 @@ FILES=./src/dekatron.cpp \
 	  ./src/transferunit.cpp \
 	  ./src/shiftcircuit.cpp\
 	  ./src/accumulator.cpp\
-	  ./src/alu.cpp
+	  ./src/alu.cpp\
+	  ./src/translator.cpp\
+	  ./src/lib/logger.cpp\
 
 # Source Targets 
 all : 
@@ -44,6 +46,8 @@ TESTS=./src/dekatron.cpp ./tests/testdekatron.cpp \
       ./src/shiftcircuit.cpp ./tests/testshiftcircuit.cpp \
       ./src/accumulator.cpp ./tests/testaccumulator.cpp \
       ./src/alu.cpp ./tests/testalu.cpp\
+      ./src/translator.cpp\
+      ./src/lib/logger.cpp \
       ./tests/main.cpp 
 
 
