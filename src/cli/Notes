@@ -75,3 +75,23 @@ END BRAIN DUMP>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	The loadNext() should load the specified number from the store system, translate it and return it.
 	The question is where does it load to ? The loadNext() comes to action when we have to print something.
 	Work this out!
+
+### Logging and error message
+	We can use clog for logging and cerr for error messages. This will be useful when somehow an unacceptable
+	condition reaches a function - escaping a preprocessing step or something similar. There are cases where 
+	we would want the execution to continue but still some how indicate this anomaly without stopping program
+	execution for later debugging.
+	
+	We also need to decide what messages to print to stdout and what to print to stderr. Plus adding the 
+	log printing to a separate class will probably help in porting to QT later.
+
+	We also need to follow some error levels. Lets define the following :
+		
+		[DEBUG]   for debug level messages which can be added and removed as we please
+		[INFO]    for status report etc
+		[WARNING] for uncaught exceptional conditions and related errors.
+
+	Another question is in regard to the usage of cerr and clog. 
+	For our use case, the [WARNING] set of logs may include conditions such as operation on stores which have overflown
+	values etc. Such cases involve undefined behaviour which may cause the system to crash/fail. A buffered logger such 
+	as clog will not be of much help here. cerr it is hence.
