@@ -1,0 +1,4 @@
+This folder contains various binary files of the simulator. Please don't add your own files here. There is a
+they might get removed/overwritten unintentionally during make. 
+
+If you must add files here, make sure you check the Makefile for accidental removals.
