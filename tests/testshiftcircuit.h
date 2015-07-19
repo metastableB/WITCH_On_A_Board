@@ -14,9 +14,11 @@
 #include "../src/dekatron.h"
 #include "../src/transferunit.h"
 #include "../src/accumulator.h"
+#include "../src/lib/logger.h"
 
 class TestShiftCircuit {
 	std::string getHumanReadableOutput(std::string inp, int size);
+	Logger logObj;
 public:
 	int failedTests = 0;
 	TestShiftCircuit();
