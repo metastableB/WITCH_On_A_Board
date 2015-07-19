@@ -14,8 +14,10 @@
 #include "../src/dekatron.h"
 #include "../src/accumulator.h"
 #include "../src/dekatron.h"
+#include "../src/lib/logger.h"
 
 class TestALU {
+	Logger logObj;
 	ALU alu;
 public:
 	int failedTests = 0;
