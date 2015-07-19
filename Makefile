@@ -21,6 +21,7 @@ FILES=./src/dekatron.cpp \
 	  ./src/alu.cpp\
 	  ./src/translator.cpp\
 	  ./src/lib/logger.cpp\
+	  ./src/witch.cpp\
 
 # Source Targets 
 all : 
@@ -48,6 +49,7 @@ TESTS=./src/dekatron.cpp ./tests/testdekatron.cpp \
       ./src/alu.cpp ./tests/testalu.cpp\
       ./src/translator.cpp \
       ./src/lib/logger.cpp \
+      ./src/witch.cpp\
       ./tests/main.cpp 
 
 BIN=./bin/testAll \
