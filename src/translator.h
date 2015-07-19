@@ -22,7 +22,7 @@ class Translator {
 public:
 	// Store string_input of length 5/8 at sore
 	// return if error!
-	bool store(std::string input, DekatronStore* store);
+	bool storeValue(std::string input, DekatronStore* store);
 	bool load();
 };
 

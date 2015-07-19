@@ -9,7 +9,7 @@
 
 #include "translator.h"
 
-bool Translator::store(std::string input, DekatronStore* store) {
+bool Translator::storeValue(std::string input, DekatronStore* store) {
 	// input format is +ve[8 digits], -ve[8 digits], *[5 digits]
 	char sign = input.at(0);
 	if(sign != '+' || sign != '-' || sign != '*') {
