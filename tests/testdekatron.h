@@ -10,9 +10,11 @@
 #define TESTDEKATRON_H
 
 #include "../src/dekatron.h"
+#include "../src/lib/logger.h"
 #include <iostream>
  
 class TestDekatron {
+	Logger logObj;
 public:
 	int failedTests = 0;
 	TestDekatron() ;
