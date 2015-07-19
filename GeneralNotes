@@ -1,3 +1,9 @@
+## TODO
+	Port testtransferunit.cpp  to use new logger class
+	Write tests for translator.cpp
+	define a definitions.h header and define all the global macros there. Use it to cause delays, steps
+	number of dekatron stores, tape readers etc
+	
 
 ### Logging and error message
 	We can use clog for logging and cerr for error messages. This will be useful when somehow an unacceptable

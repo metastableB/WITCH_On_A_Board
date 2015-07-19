@@ -60,7 +60,7 @@ BIN=./bin/testAll \
 	./bin/ui_alu
 
 testAll :
-	$(CC) $(CFLAGS) $(TESTFLAGS) $(TESTS) -o testAll
+	$(CC) $(CFLAGS) $(TESTFLAGS) $(TESTS) -o ./bin/testAll
 # ui_alu test
 ui_alu :
 	$(CC) $(CFLAGS) $(FILES)  ./tests/ui_testalu.cpp -o ./bin/ui_alu
