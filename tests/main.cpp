@@ -48,5 +48,5 @@ int main(int argc , char *argv[]) {
 	std::cout <<"\n";
 	report += "\nalu.cpp            Failures = " + std::to_string(alu.failedTests);
 #endif /*TEST_ALU*/
-	std::cout << "\nAll Tests Finished\n:::REPORT:::" << report <<"\n\n";
+	std::cout << "All Tests Finished\n:::REPORT:::" << report <<"\n";
 }
