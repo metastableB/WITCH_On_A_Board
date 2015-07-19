@@ -1,0 +1,43 @@
+# Supported commands and their usage.
+
+## Running commands
+Commands can be run in two ways 
+	MODE 1 A WITCH program has been selected and ready to run.
+	MODE 2 No programs have been selected, but the WITCH has been started
+
+The difference between 1 and 2 is that in 1 the stores will have been already cleared
+and some intermediate calculations would have occurred. Stopping the WITCH and changing
+internal states can cause undefined behaviours from within the WITCH (infinite loops and
+so forth).
+
+MODE 2 is when which has no loaded program. It has either finished a previous execution
+or has just started up. The stores will have random values. This mode is mainly for 
+demonstration and debug purposes.
+
+
+## Commands
+
+Strings included is '{' and '}' are aliases for the mentioned command.
+
+### Running Programs 
+
+    $ inp [Input File] [Output File]
+	Input file specifying path to Input file on disk. The file can only contain instructions,
+	input numbers, or block marking character. At most one of any of them are allowed per line.
+	
+	If an Output File is specified, the output will be written to it. If no file is specified,
+	standard output will be used.
+    
+   $ run {r}
+	Starts running the program till end/warning is reached. The input file should be preloaded 
+	using 'inp'.
+
+   $ continue {c} 
+	Continue program from previously paused state till an alarm/finish/break point is reached.
+	
+### Modifying Internal Values
+### Viewing contents
+### Setting Break Points
+
+
+
