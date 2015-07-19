@@ -46,26 +46,38 @@ TESTS=./src/dekatron.cpp ./tests/testdekatron.cpp \
       ./src/shiftcircuit.cpp ./tests/testshiftcircuit.cpp \
       ./src/accumulator.cpp ./tests/testaccumulator.cpp \
       ./src/alu.cpp ./tests/testalu.cpp\
-      ./src/translator.cpp\
+      ./src/translator.cpp \
       ./src/lib/logger.cpp \
       ./tests/main.cpp 
 
+BIN=./bin/testAll \
+	./bin/testDekatron \
+	./bin/testDekatronStore \
+	./bin/testAddition \
+	./bin/testTransferUnit \
+	./bin/testShiftCircuit \
+	./bin/testAccumulator \
+	./bin/ui_alu
 
 testAll :
 	$(CC) $(CFLAGS) $(TESTFLAGS) $(TESTS) -o testAll
 # ui_alu test
 ui_alu :
-	$(CC) $(CFLAGS) $(FILES)  ./tests/ui_testalu.cpp -o ui_alu
+	$(CC) $(CFLAGS) $(FILES)  ./tests/ui_testalu.cpp -o ./bin/ui_alu
+testDekatron:
+	$(CC) $(CFLAGS) -DTEST_DEKATRON $(TESTS) -o ./bin/testDekatron
+testDekatronStore:
+	$(CC) $(CFLAGS) -DTEST_DEKATRONSTORE $(TESTS) -o ./bin/testDekatronStore
 testTransferUnit:
-	$(CC) $(CFLAGS) -DTEST_TRANSFERUNIT $(TESTS) -o testTransferUnit
+	$(CC) $(CFLAGS) -DTEST_TRANSFERUNIT $(TESTS) -o ./bin/testTransferUnit
 testShiftCircuit:
-	$(CC) $(CFLAGS) -DTEST_SHIFTCIRCUIT $(TESTS) -o testShiftCircuit
+	$(CC) $(CFLAGS) -DTEST_SHIFTCIRCUIT $(TESTS) -o ./bin/testShiftCircuit
 testAccumulator:
-	$(CC) $(CFLAGS) -DTEST_ACCUMULATOR $(TESTS) -o testaccumulator
+	$(CC) $(CFLAGS) -DTEST_ACCUMULATOR $(TESTS) -o ./bin/testAccumulator
 testALU:
-	$(CC) $(CFLAGS) -DTEST_ALU  $(TESTS) -o testalu
+	$(CC) $(CFLAGS) -DTEST_ALU  $(TESTS) -o ./bin/testalu
 cleanTests :
-	rm -vf testAll testAddition testTransferUnit testShiftCircuit testaccumulator ./tests/*.o ./tests/*.out ./tests/*.gch
+	rm -rvf $(BIN) ./tests/*.o ./tests/*.out ./tests/*.gch
 
 
 
