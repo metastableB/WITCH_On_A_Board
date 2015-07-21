@@ -1,0 +1,21 @@
+# Command line interface for the witch simulator
+
+<<<<<<<<<<<< BRAIN  DUMP - START
+
+We need basic functionality like 
+	1) loading a program and checking for errors
+	2) Initializing the WITCH and running the program
+	3) Ability to step through the program
+	3) Ability to print the output in stores
+	4*) Ability to directly set store values
+	5*) Ability to run single line commands on the WITCH like the python interface
+
+
+The structure :
+
+	Lets keep a WITCH object which will contain all the parts of the WITCH like the dekatron etc at ../
+	In the current folder, adds a class that extends WITCH called the WITCH_Interface or someting
+	this should inherit the WITCH and extend it. It should be the one WITCH accesses the WITCHES objects
+	, have the getter and setter methods, does the initialization function etc.
+
+
