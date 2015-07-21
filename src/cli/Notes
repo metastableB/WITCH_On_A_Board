@@ -1,6 +1,6 @@
 # Command line interface for the witch simulator
 
-<<<<<<<<<<<< BRAIN  DUMP - START
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<START BRAIN-DUMP
 
 We need basic functionality like 
 	1) loading a program and checking for errors
@@ -13,9 +13,33 @@ We need basic functionality like
 
 The structure :
 
-	Lets keep a WITCH object which will contain all the parts of the WITCH like the dekatron etc at ../
-	In the current folder, adds a class that extends WITCH called the WITCH_Interface or someting
+	Lets keep a WITCH object which will contain all the parts of the WITCH like the dekatron etc. at ../
+	In the current folder, adds a class that extends WITCH called the WITCH_Interface or something
 	this should inherit the WITCH and extend it. It should be the one WITCH accesses the WITCHES objects
 	, have the getter and setter methods, does the initialization function etc.
 
+END BRAIN DUMP>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+## Notes
+
+### From WITCH paper
+	1) 8 Input tapes - should be able to turn them off as a preprocessor definition for 
+	   hardware compatibility.
+	2) First order always read from tape reader 1.
+	3) Q : Orders can be drawn from dekatron stores ? How does it work ?
+	4) The arithmetic instructions are :
+				1 : Add
+				2 : Add and Clear
+				3 : Subtract
+				4 : Subtract and clear
+				5 : Multiply
+				6 : Divide
+				7 : Positive Modulus
+	5) Q : All stores are cleared when the dekatron is first switched on. This is because the dekatrons can
+	   start in any state randomly. Should we implement this ?
+	
+### From Programming Manual
+	1) The *[5 Digit] form of input was intended to be used as the method of loading commands
+	   to dekatron stores. This can also be used to load +ve numbers to the stores as well.
+	2) NOTE : Windows line endings vs Linux endings while processing input from user.
 
