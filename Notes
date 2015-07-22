@@ -95,6 +95,18 @@ Transfer(source, destination, shift_amount)
 	10)NOTE : Read again the sections on division, shift selection etc.
 	11)Q : How do the signals work. Like 00100 or 00200 ? What if we don't explicitly specify a finish ?
 
+## Misc. Questions 
+	1) Q : What are the alarms on the WITCH ? How are they triggered ? When are they triggered? Is it 
+	       possible that an undefined calculation/operation can occur infinitely without sounding the 
+	       alarm. I read that there is an operation time out for some cases. How does that work ?
+	       
+               It is very important that we get the details here accurate. We need the WITCH object 
+	       to perform as the WITCH would in seemingly undefined condition with respect to the actual
+  	       WITCH, but still prevent our software from crashing or misbehaving. In other words, our
+	       software should provide a safe environment to test undefined behaviours of the WITCH.
+
+	       We will need a long discussion on this. And I'm afraid I'll need some details of this now.
+	       Enough to have me continuing.
 
 TODO : Segregate WITCH notes from coding notes
 
