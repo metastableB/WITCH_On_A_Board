@@ -28,15 +28,26 @@
 #include <iostream>
 #include <string>
 
+enum WitchState {
+	PRGM_LOADED, // MODE 1
+	PRGM_UNLOADED, // MODE 2
+	PRGM_RUNNING
+};
+enum DriverStatus {
+	SUCCESS,
+	INVALID_CL_ARGUMENT
+};
+
 class Driver {
 	WITCH witch;
 
 	Logger logObj;
 	MsgPrinter msg;
+	WitchState witchState = WitchState::PRGM_UNLOADED;
 
 	bool commandLineArgs(int argc, char * argv[]);
 	void printPrompt();
-	void execute(std::string inp);
+	int execute(std::string inp);
 	std::string getUserInput();
 
 public :
