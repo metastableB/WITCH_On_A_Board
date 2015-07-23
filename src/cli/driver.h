@@ -68,7 +68,7 @@ class Driver {
 	 */
 	bool getDigitAt(std::string s,int index, int& num);
 	bool getStoreValue(std::string s, int num[]);
-	DriverStatus errorHandler(WitchStatus status);
+	DriverStatus witchErrorHandler(WitchStatus status);
 
 	/*
 	 * Command functions

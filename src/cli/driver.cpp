@@ -98,7 +98,7 @@ bool Driver::getDigitAt(std::string s,int index, int& num){
 	return (num >= 0 && num <= 9);
 }
 
-DriverStatus Driver::errorHandler(WitchStatus status){
+DriverStatus Driver::witchErrorHandler(WitchStatus status){
 	switch(status){
 	case WitchStatus::INVALID_STORE_INDEX:
 		msg.print(MsgLevel::M_MSG, "Incorrect index. Index has to be two digits long\n");
@@ -151,7 +151,6 @@ DriverStatus Driver::c_set(std::vector<std::string>& tokens){
 	 *  EXPECTED FORMAT : 'set INDEX VALUE'
 	 *  Do a reordering if necessary
 	 */
-
 	// TODO : Add an argument to store 9 digits as well
 	if(tokens.size() != 3) {
 		msg.print(MsgLevel::M_MSG, "Incorrect usage\nUsage: set INDEX VALUE [-c]");
@@ -159,7 +158,7 @@ DriverStatus Driver::c_set(std::vector<std::string>& tokens){
 	}
 	WitchStatus status = witch.translateAndStore(tokens[1],tokens[2]);
 	if(status != WitchStatus::OPERATION_SUCCESSFUL)
-		return errorHandler(status);
+		return witchErrorHandler(status);
 	else
 		msg.print(MsgLevel::M_MSG,"Store value set to " + tempStore1->getStringStateInStore() +"\n");
 	return DriverStatus::COMMAND_SUCCESS;
@@ -177,6 +176,7 @@ DriverStatus Driver::c_print(std::vector<std::string>& tokens){
 		}
 	}
 	std::string str_index = tokens.back();
+	WitchStatus status;
 	int row,col;
 	if(str_index.length() != 2){
 		msg.print(MsgLevel::M_MSG, "Incorrect index. Index has to be two digits long\n");
@@ -186,23 +186,19 @@ DriverStatus Driver::c_print(std::vector<std::string>& tokens){
 		msg.print(MsgLevel::M_MSG, "Incorrect index\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
 	}
-	tempStore1 = witch.getStore(tokens[1]);
-	if(tempStore1 == NULL) {
-		msg.print(MsgLevel::M_MSG, "Cannot access store.\nMake sure index obeys NO_OF_STORE_ROW "
-			"and NO_OF_STORE_COL defined in " DIR_DEFINITIONS "\n");
-		return DriverStatus::COMMAND_ARGUMENT_ERROR;
-	}
 	std::string out;
 	if(args["-r"] == 1 && args["-d"] == 1){
 		msg.print(MsgLevel::M_MSG, "-r and -d both not allowed\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
 	} else if(args["-r"] == 1){
-		out = tempStore1->getStringStateInStore()+" ";
+		status = witch.rawLoad(str_index,out);
 	} else {
-
+		status = witch.translateAndLoad(str_index,out);
 	}
-
-
+	if(status != WitchStatus::OPERATION_SUCCESSFUL)
+		return witchErrorHandler(status);
+	else
+		msg.print(MsgLevel::M_MSG,"Store value set to " + out +"\n");
 	return DriverStatus::COMMAND_SUCCESS;
 }
 DriverStatus Driver::c_inp(std::vector<std::string>& tokens){
