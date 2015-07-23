@@ -110,6 +110,8 @@ Transfer(source, destination, shift_amount)
 	2) Q : What does the translator do if it has to 'translate' an overflown value, i.e. one with an
 	       invalid sign bit.
 	       VERY IMPORTANT TODO : translator.cpp#L58
+	3) Q : In continuation to above, what does the translator do when it has to store values with
+	       undefined first digit?
 TODO : Segregate WITCH notes from coding notes
 
 

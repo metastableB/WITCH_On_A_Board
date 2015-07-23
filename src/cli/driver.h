@@ -30,6 +30,8 @@
 #include <vector>
 #include <iterator>
 #include <sstream>
+#include <unordered_map>
+#include <stdexcept>
 
 enum WitchState {
 	PRGM_LOADED, // MODE 1
@@ -45,6 +47,7 @@ enum DriverStatus {
 	COMMAND_SUCCESS,
 	COMMAND_ARGUMENT_ERROR,
 	UNKNOWN_ERROR,
+	SUCCESS,
 };
 
 class Driver {
@@ -65,6 +68,7 @@ class Driver {
 	 */
 	bool getDigitAt(std::string s,int index, int& num);
 	bool getStoreValue(std::string s, int num[]);
+	DriverStatus errorHandler(WitchStatus status);
 
 	/*
 	 * Command functions
@@ -77,6 +81,8 @@ class Driver {
 	DriverStatus c_inp(std::vector<std::string>& tokens);
 
 	DriverStatus c_set(std::vector<std::string>& tokens);
+
+	DriverStatus c_print(std::vector<std::string>& tokens);
 public :
 	int runSim(int argc, char* argv[]);
 };

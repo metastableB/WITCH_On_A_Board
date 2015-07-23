@@ -30,7 +30,7 @@ WitchStatus WITCH::translateAndStore(std::string index, std::string value){
 	DekatronStore* tempStore1;
 	Dekatron tempDekatronArr[9];
 	std::string str_val;
-	// assuming index and value are valid. TODO : Find out what kind of checking the WITCH does
+
 	if(index.length() != 2){
 		logObj.log(LogLevel::L_WARNING,"witch.cpp","Incorrect index length.\n");
 		return WitchStatus::INVALID_STORE_INDEX;
