@@ -8,7 +8,7 @@
 	    across different screen sizes.
 	[ ] VERY IMPORTANT : Regarding translating values with invalid sign bits.
 	[ ] Compatibility check accros platforms. As well
-
+	[ ] Update README with minimum requirements. Add g++ and c++11 to it.
 ### Logging and error message
 	We can use clog for logging and cerr for error messages. This will be useful when somehow an unacceptable
 	condition reaches a function - escaping a preprocessing step or something similar. There are cases where 
