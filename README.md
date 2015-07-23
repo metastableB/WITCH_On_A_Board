@@ -15,8 +15,13 @@ For more information:
 ### Running  (on UNIX env)
 We use make to compile from source. Make sure you have it on your system. To run, in the project directory, run
 
-    $ make all
-    $ ./witch_sim
+    $ make WITCH-e
+    $ ./bin/witch-e
+
+You can turn on the logging feature as well as the debug messages by the `debug=1` and `log=1` arguments. By default log and debug messages are sent to `stderr`. You can use regular console redirection to send the messages to files of your choice. This feature will be added later on.
+
+    $ make WITCH-e debug=1 log=1
+    $ ./bin/witch_sim
 
 To clean the executables and other files, run
 
