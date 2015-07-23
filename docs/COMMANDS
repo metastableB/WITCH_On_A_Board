@@ -52,6 +52,13 @@ Strings included is '{' and '}' are aliases for the mentioned command.
 			      number or an * followed by a 5 digit number.
 
 ### Viewing contents
+  $ print STORE_INDEX [-r|d]
+	Prints the value in the store specified by STORE_INDEX to the console. Optional arguments 
+	can be used to format the output. The decimal format is the default.
+		-r : Raw - The digits will be printed as they are in the store.
+		-d : Decimal - The values in the store will be printed in human readable decimal
+		     format. 
+	
 ### Setting Break Points
 
 
