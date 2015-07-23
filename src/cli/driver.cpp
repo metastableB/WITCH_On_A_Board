@@ -48,6 +48,8 @@ int Driver::execute(std::vector<std::string>& tokens) {
 		return c_set(tokens);
 	else if(tokens[0] == "print")
 		return c_print(tokens);
+	else if(tokens[0] == "order" || tokens[0] == "o")
+		return c_order(tokens);
 	else {
 		tokens.clear();
 		logObj.log(LogLevel::L_INFO, "driver.cpp", "UNKNOWN COMMAND in execute()\n");
@@ -103,16 +105,35 @@ DriverStatus Driver::witchErrorHandler(WitchStatus status){
 	case WitchStatus::INVALID_STORE_INDEX:
 		msg.print(MsgLevel::M_MSG, "Incorrect index. Index has to be two digits long\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
+
 	case WitchStatus::INVALID_STORE_ACCESS:
 		msg.print(MsgLevel::M_MSG, "Cannot access store.\nMake sure index obeys NO_OF_STORE_ROW "
 				"and NO_OF_STORE_COL defined in " DIR_DEFINITIONS "\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
+
 	case WitchStatus::INVALID_STORE_VALUE_H:
 		msg.print(MsgLevel::M_MSG, "VALUE is invalid\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
+
 	case WitchStatus::INVALID_STORE_VALUE_R:
 		msg.print(MsgLevel::M_MSG, "VALUE is invalid\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
+
+	case WitchStatus::INVALID_WITCH_ORDER:
+		msg.print(MsgLevel::M_MSG, "ORDER is invalid\n");
+		return DriverStatus::COMMAND_ARGUMENT_ERROR;
+
+	// TODO: Verify the following case
+	case WitchStatus::NOT_SET_ORDER:
+		msg.print(MsgLevel::M_WARNING,"ORDER not set\n");
+		return DriverStatus::COMMAND_SUCCESS;
+
+	case WitchStatus::OPERATION_SUCCESSFUL:
+		return DriverStatus::COMAND_SUCCESS;
+	case WitchStatus::OPERATION_NOT_DEFINED:
+		msg.print(MsgLevel::MSG,"The operation is not yet supported\n");
+		return DriverStatus::COMAND_SUCCESS;
+
 	case WitchStatus::OPERATION_FAILURE:
 		msg.print(MsgLevel::M_ERROR,"Operation error!\n");
 		return DriverStatus::UNKNOWN_ERROR;
@@ -200,6 +221,17 @@ DriverStatus Driver::c_print(std::vector<std::string>& tokens){
 		msg.print(MsgLevel::M_MSG,"Store value is " + out +"\n");
 	return DriverStatus::COMMAND_SUCCESS;
 }
+DriverStatus Driver::c_order(std::vector<std::string>& tokens){
+	if(tokens.size() != 2){
+		msg.print(MsgLevel::M_MSG, "Incorrect usage\nUsage: order ORDER\n");
+		return DriverStatus::COMMAND_ARGUMENT_ERROR;
+	}
+	WitchStatus status = witch.setCurrentOrder(tokens[1]);
+	if(status != WitchStatus::OPERATION_SUCCESSFUL)
+		return witchErrorHandler(status);
+	return witch.executeCurrentOrder();
+}
+
 DriverStatus Driver::c_inp(std::vector<std::string>& tokens){
 	return DriverStatus::COMMAND_SUCCESS;
 }

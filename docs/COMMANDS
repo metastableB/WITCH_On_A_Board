@@ -34,6 +34,10 @@ Strings included is '{' and '}' are aliases for the mentioned command.
 
    $ continue {c} 
 	Continue program from previously paused state till an alarm/finish/break point is reached.
+
+   $ order {c} ORDER
+	Execute the ORDER specified. The order should be a valid WITCH order. Which generally
+	is a 5 digit number.	
 	
 ### Modifying Internal Values
   $ set STORE_INDEX VALUE 

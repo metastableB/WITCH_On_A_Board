@@ -79,10 +79,9 @@ class Driver {
 	DriverStatus c_quit(std::vector<std::string>& tokens);
 	DriverStatus c_help(std::vector<std::string>& tokens);
 	DriverStatus c_inp(std::vector<std::string>& tokens);
-
 	DriverStatus c_set(std::vector<std::string>& tokens);
-
 	DriverStatus c_print(std::vector<std::string>& tokens);
+	DriverStatus c_order(std::vector<std::string>& tokens);
 public :
 	int runSim(int argc, char* argv[]);
 };
