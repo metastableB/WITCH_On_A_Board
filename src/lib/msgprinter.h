@@ -13,7 +13,7 @@
 #include <string>
 #include <iostream>
 
-enum MsgLevel { INFO, DEBUG, WARNING, ERROR, MSG};
+enum MsgLevel { M_INFO, M_DEBUG, M_WARNING, M_ERROR, M_MSG};
 
 class MsgPrinter {
 

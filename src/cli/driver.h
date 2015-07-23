@@ -29,6 +29,7 @@
 #include <string>
 #include <vector>
 #include <iterator>
+#include <sstream>
 
 enum WitchState {
 	PRGM_LOADED, // MODE 1
@@ -40,6 +41,7 @@ enum DriverStatus {
 	QUIT_FAILURE,
 	INVALID_CL_ARGUMENT, // CLA is diff from runtime commands
 	COMMAND_EMPTY,
+	COMMAND_UNKNOWN,
 	COMMAND_SUCCESS,
 	UNKNOWN_ERROR,
 };
@@ -66,7 +68,6 @@ class Driver {
 	DriverStatus c_help(std::vector<std::string>& tokens);
 	DriverStatus c_inp(std::vector<std::string>& tokens);
 public :
-	Driver();
 	int runSim(int argc, char* argv[]);
 };
 #endif /*DRIVER_H*/

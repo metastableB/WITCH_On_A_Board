@@ -11,19 +11,19 @@
 
 void MsgPrinter::print(MsgLevel level, std::string msg) {
 	switch(level) {
-	case MsgLevel::DEBUG :
+	case MsgLevel::M_DEBUG :
 		std::cout << "[DEBUG]: "<< msg;
 		break;
-	case MsgLevel::INFO :
+	case MsgLevel::M_INFO :
 		std::cout << "[INFO]: "<< msg;
 		break;
-	case MsgLevel::WARNING :
+	case MsgLevel::M_WARNING :
 		std::cout << "[WARNING]: "<< msg;
 		break;
-	case MsgLevel::ERROR :
+	case MsgLevel::M_ERROR :
 		std::cout << "[ERROR]: "<< msg;
 		break;
-	case MsgLevel::MSG :
+	case MsgLevel::M_MSG :
 		std::cout << msg;
 		break;
 	}

@@ -11,16 +11,16 @@
 
 void Logger::log(LogLevel level, std::string origin,std::string msg) {
 	switch(level) {
-	case LogLevel::DEBUG :
-		std::cerr << "[DEBUG] " << origin << ": "<< msg;
+	case LogLevel::L_DEBUG :
+		std::cerr << "[DEBUG]  " << origin << ": "<< msg;
 		break;
-	case LogLevel::INFO :
-		std::cerr << "[INFO] " << origin << ": "<< msg;
+	case LogLevel::L_INFO :
+		std::cerr << "[INFO]   " << origin << ": "<< msg;
 		break;
-	case LogLevel::WARNING :
-		std::cerr << "[WARNING] " << origin <<": "<< msg;
+	case LogLevel::L_WARNING :
+		std::cerr << "[WARNING]" << origin <<": "<< msg;
 		break;
-	case LogLevel::ERROR :
+	case LogLevel::L_ERROR :
 		std::cerr << "[ERROR] " << origin << ": "<< msg;
 		break;
 	}

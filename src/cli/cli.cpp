@@ -20,10 +20,10 @@
 
 int main(int argc, char* argv[]) {
 	Logger logObj;
-	logObj.log(LogLevel::INFO, "cli.cpp","Starting WITCH simulator\n");
+	logObj.log(LogLevel::L_INFO, "cli.cpp","Starting WITCH simulator\n");
 	Driver driver;
 	int i = driver.runSim(argc,argv);
-	logObj.log(LogLevel::INFO, "cli.cpp","Done\n");
+	logObj.log(LogLevel::L_INFO, "cli.cpp","Done\n");
 	return !(i == DriverStatus::QUIT_SUCCESS);
 }
 
