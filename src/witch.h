@@ -31,7 +31,8 @@ enum WitchStatus {
 	INVALID_STORE_ACCESS,
 	INVALID_STORE_VALUE_H, // Human readable
 	INVALID_STORE_VALUE_R,  // Raw
-	OPERATION_SUCCESSFUL
+	OPERATION_SUCCESSFUL,
+	VALID_INDEX
 };
 class WITCH {
 	DekatronStore dekatronArray[NO_OF_STORE_ROW][NO_OF_STORE_COL];
@@ -39,14 +40,19 @@ class WITCH {
 	ALU alu;
 	Translator translator;
 
+	DekatronStore* tempStore;
+	Dekatron tempDekatronArr[9];
 	Logger logObj;
 	bool getDigitAt(std::string s,int index, int& num);
+	WitchStatus validateStoreIndex(std::string index);
+	WitchStatus validateStoreValue_H(std::string value);
+	WitchStatus validateStoreValue_R(std::string value);
+	WitchStatus getStore(std::string index, DekatronStore* store);
 public:
-	// Ensure correct store is indexed
-	DekatronStore* getStore(std::string index);
-	std::string translateStore(std::string index);
+	// Store to witch
 	WitchStatus translateAndStore(std::string index, std::string value);
-	bool translateAndLoad(std::string index);
+	WitchStatus translateAndLoad(std::string index,std::string& value);
+	WitchStatus rawLoad(std::string index, std::string& value);
 
 };
 #endif /*WITCH_H*/
