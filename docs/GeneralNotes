@@ -1,8 +1,10 @@
 ## TODO
-	Port testtransferunit.cpp  to use new logger class
-	Write tests for translator.cpp
-	define a definitions.h header and define all the global macros there. Use it to cause delays, steps
-	number of dekatron stores, tape readers etc
+	[X] Port testtransferunit.cpp  to use new logger class
+	[ ] Write tests for translator.cpp
+	[x] define a definitions.h header and define all the global macros there. Use it to cause delays, steps
+	    number of dekatron stores, tape readers etc
+	[ ] Implement a history feature for the command line.
+	[ ] Find a better way to format the CLI help output.
 	
 
 ### Logging and error message
