@@ -26,6 +26,13 @@
 
 #include <string>
 
+enum WitchStatus {
+	INVALID_STORE_INDEX,
+	INVALID_STORE_ACCESS,
+	INVALID_STORE_VALUE_H, // Human readable
+	INVALID_STORE_VALUE_R,  // Raw
+	OPERATION_SUCCESSFUL
+};
 class WITCH {
 	DekatronStore dekatronArray[NO_OF_STORE_ROW][NO_OF_STORE_COL];
 	Accumulator accum;
@@ -33,9 +40,13 @@ class WITCH {
 	Translator translator;
 
 	Logger logObj;
+	bool getDigitAt(std::string s,int index, int& num);
 public:
 	// Ensure correct store is indexed
 	DekatronStore* getStore(std::string index);
+	std::string translateStore(std::string index);
+	WitchStatus translateAndStore(std::string index, std::string value);
+	bool translateAndLoad(std::string index);
 
 };
 #endif /*WITCH_H*/
