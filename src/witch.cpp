@@ -84,14 +84,18 @@ WitchStatus WITCH::executeArithmeticOrder(){
 	case 1: // Add without clear
 		alu.add(sStore,rStore);
 		break;
+	case 2: // Add without clear
+		alu.addAndClear(sStore,rStore);
+		break;
 	case 3: // subtract without clear
 		alu.subtract(sStore,rStore);
+		break;
+	case 4: // subtract without clear
+		alu.subtractAndClear(sStore,rStore);
 		break;
 	case 5: // Multiply
 		alu.multiply(sStore,rStore,&accum);
 		break;
-	case 2: // add and clear
-	case 4: // Subtract and clear
 	default :
 		return WitchStatus::OPERATION_NOT_DEFINED;
 	}
