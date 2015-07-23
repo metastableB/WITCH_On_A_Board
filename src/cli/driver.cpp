@@ -94,7 +94,7 @@ void Driver::printPrompt(){
 
 bool Driver::getDigitAt(std::string s,int index, int& num){
 	num = s.at(index) - '0';
-	logObj.log(LogLevel::L_DEBUG,"driver.cpp",std::to_string(num)+"\n");
+	//logObj.log(LogLevel::L_DEBUG,"driver.cpp",std::to_string(num)+"\n");
 	return (num >= 0 && num <= 9);
 }
 
@@ -158,14 +158,17 @@ DriverStatus Driver::c_set(std::vector<std::string>& tokens){
 	 */
 	// TODO : Add an argument to store 9 digits as well
 	if(tokens.size() != 3) {
-		msg.print(MsgLevel::M_MSG, "Incorrect usage\nUsage: set INDEX VALUE [-c]");
+		msg.print(MsgLevel::M_MSG, "Incorrect usage\nUsage: set INDEX VALUE\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
 	}
 	WitchStatus status = witch.translateAndStore(tokens[1],tokens[2]);
 	if(status != WitchStatus::OPERATION_SUCCESSFUL)
 		return witchErrorHandler(status);
-	else
-		msg.print(MsgLevel::M_MSG,"Store value set to " + tempStore1->getStringStateInStore() +"\n");
+	else{
+		std::string value;
+		witch.translateAndLoad(tokens[1],value);
+		msg.print(MsgLevel::M_MSG,"Store value set to " + value +"\n");
+	}
 	return DriverStatus::COMMAND_SUCCESS;
 }
 
@@ -176,13 +179,12 @@ DriverStatus Driver::c_print(std::vector<std::string>& tokens){
 		try{
 			args.at(*it) = 1;
 		} catch (const std::out_of_range& e){
-			msg.print(MsgLevel::M_MSG, "Unknown argument " + std::string(e.what()) + "\n");
+			msg.print(MsgLevel::M_MSG, "Unknown argument " + *it + "\n");
 			return DriverStatus::COMMAND_ARGUMENT_ERROR;
 		}
 	}
 	std::string str_index = tokens.back();
 	WitchStatus status;
-	int row,col;
 	std::string out;
 	if(args["-r"] == 1 && args["-d"] == 1){
 		msg.print(MsgLevel::M_MSG, "-r and -d both not allowed\n");

@@ -12,10 +12,10 @@
 bool Translator::storeValue(std::string input, DekatronStore* store) {
 	// input format is +ve[8 digits], -ve[8 digits], *[5 digits]
 	char sign = input.at(0);
-	if(sign != '+' || sign != '-' || sign != '*') {
+	if(sign != '+' && sign != '-' && sign != '*') {
 		logObject.log( LogLevel::L_ERROR,"translator.cpp", "Received object with undefined sign.\n");
 		return false;
-	}else if (input.length() != 9 || input.length() != 6){
+	}else if (input.length() != 9 && input.length() != 6){
 		logObject.log(LogLevel::L_ERROR, "translator.cpp","Received undefined input length.\n");
 		return false;
 	}
@@ -52,7 +52,7 @@ std::string Translator::loadValue(DekatronStore* store){
 		for(int i = 1; i <= 8; i++)
 			ret+= std::to_string(store->getIntValueIn(i));
 	} else if(store->getIntValueIn(0) == 9){
-		ret += "+";
+		ret += "-";
 		for(int i = 1; i <= 8; i++)
 			ret+= std::to_string(9 - store->getIntValueIn(i));
 	} else {

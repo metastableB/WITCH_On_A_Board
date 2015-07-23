@@ -9,7 +9,7 @@
 
 #include "witch.h"
 
-WitchStatus WITCH::getStore(std::string index, DekatronStore* store) {
+WitchStatus WITCH::getStore(std::string index, DekatronStore*& store) {
 	WitchStatus status = validateStoreIndex(index);
 	if(status != WitchStatus::VALID_INDEX){
 		return status;
@@ -18,19 +18,22 @@ WitchStatus WITCH::getStore(std::string index, DekatronStore* store) {
 		if(!getDigitAt(index,0,row) || !getDigitAt(index,1,col))
 			logObj.log(LogLevel::L_ERROR,"witch.cpp","Unknown error :getStore() "
 					"got an invalid index!\n");
-		store = &dekatronArray[row][col];
+		store = &(dekatronArray[row][col]);
 	}
 	return WitchStatus::OPERATION_SUCCESSFUL;
 }
 
 WitchStatus WITCH::translateAndStore(std::string index, std::string value){
 	WitchStatus status = getStore(index, tempStore);
-	if(status != WitchStatus::VALID_INDEX)
+	if(status != WitchStatus::OPERATION_SUCCESSFUL){
 		return status;
+	}
+
 	std::string str_val;
 	status = validateStoreValue_H(value);
-	if(status != WitchStatus::VALID_VALUE_H)
+	if(status != WitchStatus::VALID_VALUE_H){
 		return status;
+	}
 	if(translator.storeValue(value,tempStore))
 		return WitchStatus::OPERATION_SUCCESSFUL;
 	else
@@ -39,7 +42,14 @@ WitchStatus WITCH::translateAndStore(std::string index, std::string value){
 
 WitchStatus WITCH::translateAndLoad(std::string index, std::string& value){
 	WitchStatus status = getStore(index, tempStore);
-	if(status != WitchStatus::VALID_INDEX)
+	if(status != WitchStatus::OPERATION_SUCCESSFUL)
+		return status;
+	value = translator.loadValue(tempStore);
+	return WitchStatus::OPERATION_SUCCESSFUL;
+}
+WitchStatus WITCH::rawLoad(std::string index, std::string& value){
+	WitchStatus status = getStore(index, tempStore);
+	if(status != WitchStatus::OPERATION_SUCCESSFUL)
 		return status;
 	value = tempStore->getStringStateInStore();
 	return WitchStatus::OPERATION_SUCCESSFUL;
@@ -56,7 +66,7 @@ WitchStatus WITCH::validateStoreIndex(std::string index){
 			logObj.log(LogLevel::L_WARNING,"witch.cpp", "Incorrect index\n");
 			return WitchStatus::INVALID_STORE_INDEX;
 		}
-		if(row < 1 || row > NO_OF_STORE_ROW || col < 0 || col > NO_OF_STORE_COL) {
+		if(row < 1 || row >= NO_OF_STORE_ROW || col < 0 || col >= NO_OF_STORE_COL) {
 			logObj.log(LogLevel::L_WARNING,"witch.cpp", "Cannot access store.\nMake "
 					"sure index obeys NO_OF_STORE_ROW and NO_OF_STORE_COL "
 					"defined in " DIR_DEFINITIONS "\n");
@@ -68,7 +78,7 @@ WitchStatus WITCH::validateStoreIndex(std::string index){
 
 WitchStatus WITCH::validateStoreValue_H(std::string value){
 	if(value.length() != 9 && value.length() != 6){
-		logObj.log(LogLevel::L_WARNING,"witch.cpp", "VALUE length not correct.\n");
+		logObj.log(LogLevel::L_WARNING,"witch.cpp", "VALUE length not correct.\n" + std::to_string(value.length()));
 		return WitchStatus::INVALID_STORE_VALUE_H;
 	} else if(value.length() == 9){
 		if(value[0] == '+'){
@@ -123,7 +133,6 @@ WitchStatus WITCH::validateStoreValue_H(std::string value){
 }
 bool WITCH::getDigitAt(std::string s,int index, int& num){
 	num = s.at(index) - '0';
-	logObj.log(LogLevel::L_DEBUG,"driver.cpp",std::to_string(num)+"\n");
 	// Distinguish between digits and other characters
 	return (num >= 0 && num <= 9);
 }

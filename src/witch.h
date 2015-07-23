@@ -49,7 +49,7 @@ class WITCH {
 	WitchStatus validateStoreIndex(std::string index);
 	WitchStatus validateStoreValue_H(std::string value);
 	WitchStatus validateStoreValue_R(std::string value);
-	WitchStatus getStore(std::string index, DekatronStore* store);
+	WitchStatus getStore(std::string index, DekatronStore*& store);
 public:
 	// Store to witch
 	WitchStatus translateAndStore(std::string index, std::string value);

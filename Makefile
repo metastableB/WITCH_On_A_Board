@@ -13,7 +13,7 @@ ifeq ($(debug), 1)
 endif
 
 ifeq ($(log), 1)
-	LOGFLAGS += -D_LOGGING_
+	CFLAGS += -D_LOGGING_
 endif
 # Define all source definitions here
 FILES=./src/dekatron.cpp \
