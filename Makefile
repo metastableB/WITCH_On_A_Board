@@ -9,7 +9,7 @@
 CC=g++
 CFLAGS=-std=c++11 -Wall
 ifeq ($(debug), 1)   
-	CFLAGS += -g	
+	CFLAGS += -g -D_DEBUG_
 endif
 
 # Define all source definitions here
@@ -20,18 +20,23 @@ FILES=./src/dekatron.cpp \
 	  ./src/accumulator.cpp\
 	  ./src/alu.cpp\
 	  ./src/translator.cpp\
-	  ./src/lib/logger.cpp\
 	  ./src/witch.cpp\
+	   \
+	  ./src/lib/logger.cpp\
+	  ./src/lib/msgprinter.cpp\
+	   \
+	  ./src/cli/cli.cpp\
+	  ./src/cli/driver.cpp
 
 # Source Targets 
-all : 
-	$(CC) $(CFLAGS) $(FILES) ./src/main.cpp -o witch_sim
+WITCH-e :
+	$(CC) $(CFLAGS) $(FILES) -o ./bin/witch_sim
 
 clean :
-	rm -vf  ./src/*.out   witch_sim   ./src/*.o   ./src/*.h.gch  ./src/*.gch
+	rm -vf  ./src/*.out   ./bin/witch_sim   ./src/*.o   ./src/*.h.gch  ./src/*.gch
 
 #############################################
-####			Testing 				#####
+####		Testing		  	#####
 #############################################
 
 # TODO : Define conditional tests
@@ -81,6 +86,6 @@ testALU:
 cleanTests :
 	rm -rvf $(BIN) ./tests/*.o ./tests/*.out ./tests/*.gch
 
-# TODO : add CLI files
-#	 add _DEBUG_ flag
+# TODO :[X] add CLI files 
+#	[ ]  add _DEBUG_ flag
 
