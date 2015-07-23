@@ -15,7 +15,7 @@ bool Translator::storeValue(std::string input, DekatronStore* store) {
 	if(sign != '+' || sign != '-' || sign != '*') {
 		logObject.log( LogLevel::L_ERROR,"translator.cpp", "Received object with undefined sign.\n");
 		return false;
-	}else if (input.length() != 9 || input.length() != 3){
+	}else if (input.length() != 9 || input.length() != 6){
 		logObject.log(LogLevel::L_ERROR, "translator.cpp","Received undefined input length.\n");
 		return false;
 	}

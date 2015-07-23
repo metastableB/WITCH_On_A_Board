@@ -27,7 +27,7 @@ int Driver::runSim(int argc, char* argv[]){
 			msg.print(MsgLevel::M_MSG, "Please use 'help' for help\n");
 			break;
 		case DriverStatus::UNKNOWN_ERROR :
-			msg.print(MsgLevel::M_MSG, "Unknown Error in execute\n");
+			msg.print(MsgLevel::M_MSG, "Unknown Error in execution\n");
 			break;
 		}
 	}
@@ -113,6 +113,11 @@ DriverStatus Driver::witchErrorHandler(WitchStatus status){
 	case WitchStatus::INVALID_STORE_VALUE_R:
 		msg.print(MsgLevel::M_MSG, "VALUE is invalid\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
+	case WitchStatus::OPERATION_FAILURE:
+		msg.print(MsgLevel::M_ERROR,"Operation error!\n");
+		return DriverStatus::UNKNOWN_ERROR;
+	default:
+		break;
 	}
 	return DriverStatus::SUCCESS;
 }
@@ -178,14 +183,6 @@ DriverStatus Driver::c_print(std::vector<std::string>& tokens){
 	std::string str_index = tokens.back();
 	WitchStatus status;
 	int row,col;
-	if(str_index.length() != 2){
-		msg.print(MsgLevel::M_MSG, "Incorrect index. Index has to be two digits long\n");
-		return DriverStatus::COMMAND_ARGUMENT_ERROR;
-	} else if(!getDigitAt(str_index,0,row) ||
-			!getDigitAt(str_index,1,col)){
-		msg.print(MsgLevel::M_MSG, "Incorrect index\n");
-		return DriverStatus::COMMAND_ARGUMENT_ERROR;
-	}
 	std::string out;
 	if(args["-r"] == 1 && args["-d"] == 1){
 		msg.print(MsgLevel::M_MSG, "-r and -d both not allowed\n");
@@ -198,7 +195,7 @@ DriverStatus Driver::c_print(std::vector<std::string>& tokens){
 	if(status != WitchStatus::OPERATION_SUCCESSFUL)
 		return witchErrorHandler(status);
 	else
-		msg.print(MsgLevel::M_MSG,"Store value set to " + out +"\n");
+		msg.print(MsgLevel::M_MSG,"Store value is " + out +"\n");
 	return DriverStatus::COMMAND_SUCCESS;
 }
 DriverStatus Driver::c_inp(std::vector<std::string>& tokens){
