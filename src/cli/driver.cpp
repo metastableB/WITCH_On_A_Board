@@ -129,10 +129,10 @@ DriverStatus Driver::witchErrorHandler(WitchStatus status){
 		return DriverStatus::COMMAND_SUCCESS;
 
 	case WitchStatus::OPERATION_SUCCESSFUL:
-		return DriverStatus::COMAND_SUCCESS;
+		return DriverStatus::COMMAND_SUCCESS;
 	case WitchStatus::OPERATION_NOT_DEFINED:
-		msg.print(MsgLevel::MSG,"The operation is not yet supported\n");
-		return DriverStatus::COMAND_SUCCESS;
+		msg.print(MsgLevel::M_MSG,"The operation is not yet supported\n");
+		return DriverStatus::COMMAND_SUCCESS;
 
 	case WitchStatus::OPERATION_FAILURE:
 		msg.print(MsgLevel::M_ERROR,"Operation error!\n");
@@ -229,7 +229,10 @@ DriverStatus Driver::c_order(std::vector<std::string>& tokens){
 	WitchStatus status = witch.setCurrentOrder(tokens[1]);
 	if(status != WitchStatus::OPERATION_SUCCESSFUL)
 		return witchErrorHandler(status);
-	return witch.executeCurrentOrder();
+	status = witch.executeCurrentOrder();
+	if(status != WitchStatus::OPERATION_SUCCESSFUL)
+		return witchErrorHandler(status);
+	return DriverStatus::COMMAND_SUCCESS;
 }
 
 DriverStatus Driver::c_inp(std::vector<std::string>& tokens){

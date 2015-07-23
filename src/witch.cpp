@@ -45,7 +45,8 @@ WitchStatus WITCH::setCurrentOrder(std::string order){
 	WitchStatus status = validateOrder(order);
 	if(status != WitchStatus::VALID_WITCH_ORDER)
 		return status;
-	order += "000";
+	order = "+" + order + "000";
+
 	if(translator.storeValue(order,&currentOrder)){
 		orderStatus = SET_ORDER;
 		return WitchStatus::OPERATION_SUCCESSFUL;
@@ -55,22 +56,22 @@ WitchStatus WITCH::setCurrentOrder(std::string order){
 WitchStatus WITCH::executeCurrentOrder(){
 	if(orderStatus == WitchStatus::NOT_SET_ORDER)
 		return orderStatus;
-	if(currentOrder.getIntValueIn(0) != 0)
+	if(currentOrder.getIntValueIn(1) != 0)
 		return executeArithmeticOrder();
-	else if(currentOrder.getIntValueIn(0) == 0)
+	else if(currentOrder.getIntValueIn(1) == 0)
 		return executeNonArithmeticOrder();
 	logObj.log(LogLevel::L_ERROR,"witch.cpp","UNKNOWN ERROR : Unrecognized order got past validator\n");
 	return WitchStatus::OPERATION_FAILURE;
 }
 
 WitchStatus WITCH::executeArithmeticOrder(){
-	// order is stored, has 5 digits and digit_0 is 1
-	int digits[5];
+	// order is stored, has 5 digits.digit_0 is 0 (+), digit_1 is 1
+	int digits[6];
 	std::string sStore_str, rStore_str;
-	for(int i = 0; i < 5; i++)
+	for(int i = 0; i < 6; i++)
 		digits[i] = currentOrder.getIntValueIn(i);
-	sStore_str = std::to_string(digits[1]) + std::to_string(digits[2]);
-	rStore_str = std::to_string(digits[3]) + std::to_string(digits[4]);
+	sStore_str = std::to_string(digits[2]) + std::to_string(digits[3]);
+	rStore_str = std::to_string(digits[4]) + std::to_string(digits[5]);
 	DekatronStore *sStore,*rStore;
 	WitchStatus status1,status2;
 	status1 = getStore(sStore_str,sStore);
@@ -80,7 +81,7 @@ WitchStatus WITCH::executeArithmeticOrder(){
 	if(status2 != WitchStatus::OPERATION_SUCCESSFUL)
 		return status2;
 
-	switch(digits[0]){
+	switch(digits[1]){
 	case 1: // Add without clear
 		alu.add(sStore,rStore);
 		break;
@@ -198,9 +199,12 @@ WitchStatus WITCH::validateOrder(std::string order){
 		return INVALID_WITCH_ORDER;
 	int digits[5];
 	for(int i = 0; i < 5 ; i++){
-		if(!getDigitAt(order,i,digits[i]))
+		if(!getDigitAt(order,i,digits[i])){
+			logObj.log(LogLevel::L_WARNING,"witch.cpp","ORDER is invalid\n");
 			return INVALID_WITCH_ORDER;
+		}
 	}
+	logObj.log(LogLevel::L_INFO,"witch.cpp","ORDER is valid\n");
 	return VALID_WITCH_ORDER;
 }
 bool WITCH::getDigitAt(std::string s,int index, int& num){
