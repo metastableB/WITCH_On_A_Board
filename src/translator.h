@@ -23,7 +23,8 @@ public:
 	// Store string_input of length 5/8 at sore
 	// return if error!
 	bool storeValue(std::string input, DekatronStore* store);
-	bool load();
+	// Access only from WITCH object.
+	std::string loadValue(DekatronStore* store);
 };
 
 #endif /*TRANSLATOR_H*/
