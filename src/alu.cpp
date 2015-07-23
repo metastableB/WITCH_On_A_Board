@@ -10,8 +10,8 @@
 
 bool ALU::add(DekatronStore* sStore, DekatronStore* rStore){
 	transferUnit.transfer(sStore,rStore);
-	// TODO : Check for overflow
-	return false;
+	// TODO : Check for overflow, also check for errors at WITCH::executeArithmeticOrder()
+	return true;
 }
 
 bool ALU::subtract(DekatronStore* sStore, DekatronStore* rStore){

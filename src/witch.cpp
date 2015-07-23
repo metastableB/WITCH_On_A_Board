@@ -9,20 +9,6 @@
 
 #include "witch.h"
 
-WitchStatus WITCH::getStore(std::string index, DekatronStore*& store) {
-	WitchStatus status = validateStoreIndex(index);
-	if(status != WitchStatus::VALID_INDEX){
-		return status;
-	} else{
-		int row,col;
-		if(!getDigitAt(index,0,row) || !getDigitAt(index,1,col))
-			logObj.log(LogLevel::L_ERROR,"witch.cpp","Unknown error :getStore() "
-					"got an invalid index!\n");
-		store = &(dekatronArray[row][col]);
-	}
-	return WitchStatus::OPERATION_SUCCESSFUL;
-}
-
 WitchStatus WITCH::translateAndStore(std::string index, std::string value){
 	WitchStatus status = getStore(index, tempStore);
 	if(status != WitchStatus::OPERATION_SUCCESSFUL){
@@ -55,6 +41,80 @@ WitchStatus WITCH::rawLoad(std::string index, std::string& value){
 	return WitchStatus::OPERATION_SUCCESSFUL;
 }
 
+WitchStatus WITCH::setCurrentOrder(std::string order){
+	WitchStatus status = validateOrder(order);
+	if(status != WitchStatus::VALID_WITCH_ORDER)
+		return status;
+	order += "000";
+	if(translator.storeValue(order,&currentOrder)){
+		orderStatus = SET_ORDER;
+		return WitchStatus::OPERATION_SUCCESSFUL;
+	}
+	return WitchStatus::OPERATION_FAILURE;
+}
+WitchStatus WITCH::executeCurrentOrder(){
+	if(orderStatus == WitchStatus::NOT_SET_ORDER)
+		return orderStatus;
+	if(currentOrder.getIntValueIn(0) != 0)
+		return executeArithmeticOrder();
+	else if(currentOrder.getIntValueIn(0) == 0)
+		return executeNonArithmeticOrder();
+	logObj.log(LogLevel::L_ERROR,"witch.cpp","UNKNOWN ERROR : Unrecognized order got past validator\n");
+	return WitchStatus::OPERATION_FAILURE;
+}
+
+WitchStatus WITCH::executeArithmeticOrder(){
+	// order is stored, has 5 digits and digit_0 is 1
+	int digits[5];
+	std::string sStore_str, rStore_str;
+	for(int i = 0; i < 5; i++)
+		digits[i] = currentOrder.getIntValueIn(i);
+	sStore_str = std::to_string(digits[1]) + std::to_string(digits[2]);
+	rStore_str = std::to_string(digits[3]) + std::to_string(digits[4]);
+	DekatronStore *sStore,*rStore;
+	WitchStatus status1,status2;
+	status1 = getStore(sStore_str,sStore);
+	status2 = getStore(rStore_str,rStore);
+	if(status1 != WitchStatus::OPERATION_SUCCESSFUL)
+		return status1;
+	if(status2 != WitchStatus::OPERATION_SUCCESSFUL)
+		return status2;
+
+	switch(digits[0]){
+	case 1: // Add without clear
+		alu.add(sStore,rStore);
+		break;
+	case 3: // subtract without clear
+		alu.subtract(sStore,rStore);
+		break;
+	case 5: // Multiply
+		alu.multiply(sStore,rStore,&accum);
+		break;
+	case 2: // add and clear
+	case 4: // Subtract and clear
+	default :
+		return WitchStatus::OPERATION_NOT_DEFINED;
+	}
+	return WitchStatus::OPERATION_SUCCESSFUL;
+}
+WitchStatus WITCH::executeNonArithmeticOrder(){
+	return WitchStatus::OPERATION_NOT_DEFINED;
+}
+
+WitchStatus WITCH::getStore(std::string index, DekatronStore*& store) {
+	WitchStatus status = validateStoreIndex(index);
+	if(status != WitchStatus::VALID_INDEX){
+		return status;
+	} else{
+		int row,col;
+		if(!getDigitAt(index,0,row) || !getDigitAt(index,1,col))
+			logObj.log(LogLevel::L_ERROR,"witch.cpp","Unknown error :getStore() "
+					"got an invalid index!\n");
+		store = &(dekatronArray[row][col]);
+	}
+	return WitchStatus::OPERATION_SUCCESSFUL;
+}
+
 WitchStatus WITCH::validateStoreIndex(std::string index){
 	int row,col;
 	if(index.length() != 2){
@@ -77,8 +137,12 @@ WitchStatus WITCH::validateStoreIndex(std::string index){
 }
 
 WitchStatus WITCH::validateStoreValue_H(std::string value){
+	std::string errMsg1 = "Invalid Value.\nValue "
+			"should either be a 8 digit number with a "
+			"leading + or - sign, or a 5 digit number with "
+			"leading *.\n ";
 	if(value.length() != 9 && value.length() != 6){
-		logObj.log(LogLevel::L_WARNING,"witch.cpp", "VALUE length not correct.\n" + std::to_string(value.length()));
+		logObj.log(LogLevel::L_WARNING,"witch.cpp", "VALUE length not correct.\n" );
 		return WitchStatus::INVALID_STORE_VALUE_H;
 	} else if(value.length() == 9){
 		if(value[0] == '+'){
@@ -86,10 +150,7 @@ WitchStatus WITCH::validateStoreValue_H(std::string value){
 			int i = 1,j;
 			while(i < 9){
 				if(!getDigitAt(value,i,j)){
-					logObj.log(LogLevel::L_WARNING,"witch.cpp","Invalid Value.\nValue "
-							"should either be a 8 digit number with a "
-							"leading + or - sign, or a 5 digit number with "
-							"leading *.\n");
+					logObj.log(LogLevel::L_WARNING,"witch.cpp",errMsg1);
 					return WitchStatus::INVALID_STORE_VALUE_H;
 				}
 				i++;
@@ -99,10 +160,7 @@ WitchStatus WITCH::validateStoreValue_H(std::string value){
 			int i = 1,j;
 			while(i < 9){
 				if(!getDigitAt(value,i,j)){
-					logObj.log(LogLevel::L_WARNING,"witch.cpp", "Invalid Value.\n"
-							"Value should either be a 8 digit "
-							"number with a leading + or - sign, "
-							"or a 5 digit number with leading *.\n");
+					logObj.log(LogLevel::L_WARNING,"witch.cpp", errMsg1);
 					return WitchStatus::INVALID_STORE_VALUE_H;
 				}
 				i++;
@@ -120,16 +178,26 @@ WitchStatus WITCH::validateStoreValue_H(std::string value){
 		int i = 1,j;
 		while(i <= 5){
 			if(!getDigitAt(value,i,j)){
-				logObj.log(LogLevel::L_WARNING,"witch.cpp", "Invalid Value.\n"
-						"Value should either be a 8 digit "
-						"number with a leading + or - sign, or a "
-						"5 digit number with leading *.\n");
+				logObj.log(LogLevel::L_WARNING,"witch.cpp", errMsg1);
 				return WitchStatus::INVALID_STORE_VALUE_H;
 			}
 			i++;
 		}
 	}
 	return WitchStatus::VALID_VALUE_H;
+}
+WitchStatus WITCH::validateStoreValue_R(std::string value){
+	return WitchStatus::OPERATION_NOT_DEFINED;
+}
+WitchStatus WITCH::validateOrder(std::string order){
+	if(order.length() != 5)
+		return INVALID_WITCH_ORDER;
+	int digits[5];
+	for(int i = 0; i < 5 ; i++){
+		if(!getDigitAt(order,i,digits[i]))
+			return INVALID_WITCH_ORDER;
+	}
+	return VALID_WITCH_ORDER;
 }
 bool WITCH::getDigitAt(std::string s,int index, int& num){
 	num = s.at(index) - '0';
