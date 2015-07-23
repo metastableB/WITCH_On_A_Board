@@ -24,6 +24,6 @@ int main(int argc, char* argv[]) {
 	Driver driver;
 	int i = driver.runSim(argc,argv);
 	logObj.log(LogLevel::INFO, "cli.cpp","Done\n");
-	return i;
+	return !(i == DriverStatus::QUIT_SUCCESS);
 }
 

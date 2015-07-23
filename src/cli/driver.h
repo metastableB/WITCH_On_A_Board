@@ -27,6 +27,8 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <iterator>
 
 enum WitchState {
 	PRGM_LOADED, // MODE 1
@@ -34,8 +36,12 @@ enum WitchState {
 	PRGM_RUNNING
 };
 enum DriverStatus {
-	SUCCESS,
-	INVALID_CL_ARGUMENT
+	QUIT_SUCCESS,
+	QUIT_FAILURE,
+	INVALID_CL_ARGUMENT, // CLA is diff from runtime commands
+	COMMAND_EMPTY,
+	COMMAND_SUCCESS,
+	UNKNOWN_ERROR,
 };
 
 class Driver {
@@ -47,9 +53,18 @@ class Driver {
 
 	bool commandLineArgs(int argc, char * argv[]);
 	void printPrompt();
-	int execute(std::string inp);
-	std::string getUserInput();
+	void getUserInput(std::vector<std::string>& tokens);
+	int execute(std::vector<std::string>& inp);
 
+	/*
+	 * Command functions
+	 * Add appropriate help topics to c_help(vector<string>&)
+	 * when new commands are added.
+	 */
+
+	DriverStatus c_quit(std::vector<std::string>& tokens);
+	DriverStatus c_help(std::vector<std::string>& tokens);
+	DriverStatus c_inp(std::vector<std::string>& tokens);
 public :
 	Driver();
 	int runSim(int argc, char* argv[]);

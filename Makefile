@@ -81,5 +81,6 @@ testALU:
 cleanTests :
 	rm -rvf $(BIN) ./tests/*.o ./tests/*.out ./tests/*.gch
 
-
+# TODO : add CLI files
+#	 add _DEBUG_ flag
 
