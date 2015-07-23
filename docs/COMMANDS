@@ -21,21 +21,36 @@ Strings included is '{' and '}' are aliases for the mentioned command.
 
 ### Running Programs 
 
-    $ inp [Input File] [Output File]
-	Input file specifying path to Input file on disk. The file can only contain instructions,
+    $ inp INPUT_FILE [OUTPUT_FILE]
+	INPUT_FILE specifying path to Input file on disk. The file can only contain instructions,
 	input numbers, or block marking character. At most one of any of them are allowed per line.
 	
-	If an Output File is specified, the output will be written to it. If no file is specified,
+	If an OUTPUT_FILE is specified, the output will be written to it. If no file is specified,
 	standard output will be used.
     
    $ run {r}
 	Starts running the program till end/warning is reached. The input file should be preloaded 
-	using 'inp'.
+	using 'inp' before using this command.
 
    $ continue {c} 
 	Continue program from previously paused state till an alarm/finish/break point is reached.
 	
 ### Modifying Internal Values
+  $ set STORE_INDEX VALUE 
+	Sets the value at the store specified by STORE_INDEX to VALUE. 	Both STORE_INDEX and VALUE have
+	to be valid according to the following rules:
+		STORE_INDEX : The original WITCH had 90 stores, indexed from 10 to 99,
+			      though WITCH was never built to its full capacity. Hence, we restrict
+			      the number of stores you can index by defining two parameters :
+			      NO_OF_STORE_ROW and NO_OF_STORE_COL defined in definitions file. The
+			      default values are 10 for each of them. 
+	
+			      The STORE_INDEX should be two digit numbers such that the first digit
+			      represents the store row and lies in [1, NO_OF_STORE_ROW], and the 
+			      second digit represents the column which should be in [0, NO_OF_STORE_COL]
+		VALUE       : Value can be in the two forms. A + or - sign followed by 8 an 8 digit
+			      number or an * followed by a 5 digit number.
+
 ### Viewing contents
 ### Setting Break Points
 

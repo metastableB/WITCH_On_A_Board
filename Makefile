@@ -12,6 +12,9 @@ ifeq ($(debug), 1)
 	CFLAGS += -g -D_DEBUG_
 endif
 
+ifeq ($(log), 1)
+	LOGFLAGS += -D_LOGGING_
+endif
 # Define all source definitions here
 FILES=./src/dekatron.cpp \
 	  ./src/dekatronstore.cpp \

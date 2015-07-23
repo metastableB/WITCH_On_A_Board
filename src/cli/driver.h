@@ -43,11 +43,14 @@ enum DriverStatus {
 	COMMAND_EMPTY,
 	COMMAND_UNKNOWN,
 	COMMAND_SUCCESS,
+	COMMAND_ARGUMENT_ERROR,
 	UNKNOWN_ERROR,
 };
 
 class Driver {
 	WITCH witch;
+	DekatronStore* tempStore1;
+	Dekatron tempDekatronArr[9];
 
 	Logger logObj;
 	MsgPrinter msg;
@@ -57,6 +60,11 @@ class Driver {
 	void printPrompt();
 	void getUserInput(std::vector<std::string>& tokens);
 	int execute(std::vector<std::string>& inp);
+	/*
+	 * Parsing and validation functions
+	 */
+	bool getDigitAt(std::string s,int index, int& num);
+	bool getStoreValue(std::string s, int num[]);
 
 	/*
 	 * Command functions
@@ -67,6 +75,8 @@ class Driver {
 	DriverStatus c_quit(std::vector<std::string>& tokens);
 	DriverStatus c_help(std::vector<std::string>& tokens);
 	DriverStatus c_inp(std::vector<std::string>& tokens);
+
+	DriverStatus c_set(std::vector<std::string>& tokens);
 public :
 	int runSim(int argc, char* argv[]);
 };
