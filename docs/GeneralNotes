@@ -4,8 +4,9 @@
 	[x] define a definitions.h header and define all the global macros there. Use it to cause delays, steps
 	    number of dekatron stores, tape readers etc
 	[ ] Implement a history feature for the command line.
-	[ ] Find a better way to format the CLI help output.
-	
+	[ ] Find a better way to format the CLI help output. Text outputs don't retain the intended format 
+	    across different screen sizes.
+	[ ] VERY IMPORTANT : Regarding translating values with invalid sign bits.
 
 ### Logging and error message
 	We can use clog for logging and cerr for error messages. This will be useful when somehow an unacceptable

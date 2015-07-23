@@ -107,7 +107,9 @@ Transfer(source, destination, shift_amount)
 
 	       We will need a long discussion on this. And I'm afraid I'll need some details of this now.
 	       Enough to have me continuing.
-
+	2) Q : What does the translator do if it has to 'translate' an overflown value, i.e. one with an
+	       invalid sign bit.
+	       VERY IMPORTANT TODO : translator.cpp#L58
 TODO : Segregate WITCH notes from coding notes
 
 
