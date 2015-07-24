@@ -1,0 +1,119 @@
+# Notes
+
+## Dekatron Stores
+Since a lot of the things are going to change as it seems in process of 
+development, just start making things, commit whenever something fits,
+remove if it doesn't. Just make sure the model you follow allows for 
+additions as much as possible.
+
+## Shift circuit
+The accumulator  is made up of two dekatron stores. Its length out to be
+18 but only 15 is used. The sign bit of both the dekatron holds the same
+sign. That makes it 16.
+
+In the shift circuit mechanism only the magnitude part is involved.
+The sign part is not involved. The WITCH allows one left shift and 7
+right shift. Basically the shift circuit is a set of relay switch mechanism
+which controls the trafic from the sending dekatron to the receiving dekatron.
+There is no actual shift happening as we see it now.
+
+Model this using 18 dekatrons as relay lines. The getter will receive the value to use to shift this to
+the receiver will index the appropriate lines out from this. Being the dekatron store or the accumulator
+
+## Multiplication algorithm
+
+Order : opcode-multiplicand - multiplier 
+	
+Algorithm :
+	If multiplier is positive :
+		For each digit of the multiplier taken from left to right (current digit being i in [1,8])
+			while (digit > 0)
+				Add the multiplicand to the accm shifted i times 
+				Decrement the digit
+
+## Accumulator Mappings hardware vs user 
+Accumulator made up of two stores A and B. We need 15 digits to multiply TWO EIGHT DIGIT MAGNITUDES and set the sign afterwards.
+The accumulator A and B, store0 (MSBs) are set to the sign bits. For accumulator A stores 1-8 are used for digits 1-8. 
+In accumulator B, digits 1-7 are used for digits 1-7. 8 it seems is not involved.
+
+Though this is implemented in the base class, the user should know the accumulator as a single object with 15 + 1 (sign) bits
+He should be able to index from 0-15 seamlessly.
+
+## Shift circuit
+It seems the sign store is connected to all stores that are not receiving the values from the sending store because of the shifts.
+
+## Transfer Circuit
+This is how our transfer circuit is working
+
+Transfer(source, destination, shift_amount)
+	Pulse Source 
+	/* so that the connected hardware sees the change. 
+	 * The emitted values are then shifted appropriately.
+	 */
+
+	Shift the output pulses by shift_amount
+	Generate pulse train for receiving store
+	Pulse Receiving store
+	Continue for 10 iterations
+
+## Notes for CLI interface
+
+### From WITCH paper
+	1) 8 Input tapes - should be able to turn them off as a preprocessor definition for 
+	   hardware compatibility.
+	2) First order always read from tape reader 1.
+	3) Q : Orders can be drawn from dekatron stores ? How does it work ?
+	4) The arithmetic instructions are :
+				1 : Add
+				2 : Add and Clear
+				3 : Subtract
+				4 : Subtract and clear
+				5 : Multiply
+				6 : Divide
+				7 : Positive Modulus
+	5) Q : All stores are cleared when the dekatron is first switched on. This is because the dekatrons can
+	   start in any state randomly. Should we implement this ?
+	
+### From Programming Manual
+	1) The *[5 Digit] form of input was intended to be used as the method of loading commands
+	   to dekatron stores. This can also be used to load +ve numbers to the stores as well.
+	2) NOTE : Windows line endings vs Linux endings while processing input from user.
+	3) NOTE : Use translator unit object for now as just a converter between complement and regular
+		  forms. This will act as a place holder, in case we want to change it later.
+	4) NOTE : INITIAL ORDERS 
+		 Permanently stored orders used whenever start key is operated or computer restarts.
+		 03101 : Search for block 1 on tape 1
+		 02101 : Transfer control to block 1
+	5) Q : How much of the alarm/error should be handled by the parser and how much should be handled
+	       by witch alarms ?
+	6) Input is a special case of add/subtract.
+	7) Q : Is there  a way to shift to another tape without using a search for a block marker ? I.e , given
+	       That we know how the additional tapes are aligned, is it possible to shift control to it without
+	       performing a specific search for a block marking character ?
+	8) There is no transfer of modulus with clear store.
+	9) Q : How does 209-- and 409-- work ? How are they able to clear the entire accumulator.
+	10)NOTE : Read again the sections on division, shift selection etc.
+	11)Q : How do the signals work. Like 00100 or 00200 ? What if we don't explicitly specify a finish ?
+
+## Misc. Questions 
+	1) Q : What are the alarms on the WITCH ? How are they triggered ? When are they triggered? Is it 
+	       possible that an undefined calculation/operation can occur infinitely without sounding the 
+	       alarm. I read that there is an operation time out for some cases. How does that work ?
+	       
+               It is very important that we get the details here accurate. We need the WITCH object 
+	       to perform as the WITCH would in seemingly undefined condition with respect to the actual
+  	       WITCH, but still prevent our software from crashing or misbehaving. In other words, our
+	       software should provide a safe environment to test undefined behaviours of the WITCH.
+
+	       We will need a long discussion on this. And I'm afraid I'll need some details of this now.
+	       Enough to have me continuing.
+	2) Q : What does the translator do if it has to 'translate' an overflown value, i.e. one with an
+	       invalid sign bit.
+	       VERY IMPORTANT TODO : translator.cpp#L58
+	3) Q : In continuation to above, what does the translator do when it has to store values with
+	       undefined first digit?
+TODO : Segregate WITCH notes from coding notes
+
+
+
+

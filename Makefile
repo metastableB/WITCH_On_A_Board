@@ -9,26 +9,37 @@
 CC=g++
 CFLAGS=-std=c++11 -Wall
 ifeq ($(debug), 1)   
-	CFLAGS += -g	
+	CFLAGS += -g -D_DEBUG_
 endif
 
+ifeq ($(log), 1)
+	CFLAGS += -D_LOGGING_
+endif
 # Define all source definitions here
 FILES=./src/dekatron.cpp \
 	  ./src/dekatronstore.cpp \
 	  ./src/transferunit.cpp \
 	  ./src/shiftcircuit.cpp\
 	  ./src/accumulator.cpp\
-	  ./src/alu.cpp
+	  ./src/alu.cpp\
+	  ./src/translator.cpp\
+	  ./src/witch.cpp\
+	   \
+	  ./src/lib/logger.cpp\
+	  ./src/lib/msgprinter.cpp\
+	   \
+	  ./src/cli/cli.cpp\
+	  ./src/cli/driver.cpp
 
 # Source Targets 
-all : 
-	$(CC) $(CFLAGS) $(FILES) ./src/main.cpp -o witch_sim
+WITCH-e :
+	$(CC) $(CFLAGS) $(FILES) -o ./bin/witch_sim
 
 clean :
-	rm -vf  ./src/*.out   witch_sim   ./src/*.o   ./src/*.h.gch  ./src/*.gch
+	rm -vf  ./src/*.out   ./bin/witch_sim   ./src/*.o   ./src/*.h.gch  ./src/*.gch
 
 #############################################
-####			Testing 				#####
+####		Testing		  	#####
 #############################################
 
 # TODO : Define conditional tests
@@ -44,24 +55,40 @@ TESTS=./src/dekatron.cpp ./tests/testdekatron.cpp \
       ./src/shiftcircuit.cpp ./tests/testshiftcircuit.cpp \
       ./src/accumulator.cpp ./tests/testaccumulator.cpp \
       ./src/alu.cpp ./tests/testalu.cpp\
+      ./src/translator.cpp \
+      ./src/lib/logger.cpp \
+      ./src/witch.cpp\
       ./tests/main.cpp 
 
+BIN=./bin/testAll \
+	./bin/testDekatron \
+	./bin/testDekatronStore \
+	./bin/testAddition \
+	./bin/testTransferUnit \
+	./bin/testShiftCircuit \
+	./bin/testAccumulator \
+	./bin/ui_alu
 
 testAll :
-	$(CC) $(CFLAGS) $(TESTFLAGS) $(TESTS) -o testAll
+	$(CC) $(CFLAGS) $(TESTFLAGS) $(TESTS) -o ./bin/testAll
 # ui_alu test
 ui_alu :
-	$(CC) $(CFLAGS) $(FILES)  ./tests/ui_testalu.cpp -o ui_alu
+	$(CC) $(CFLAGS) $(FILES)  ./tests/ui_testalu.cpp -o ./bin/ui_alu
+testDekatron:
+	$(CC) $(CFLAGS) -DTEST_DEKATRON $(TESTS) -o ./bin/testDekatron
+testDekatronStore:
+	$(CC) $(CFLAGS) -DTEST_DEKATRONSTORE $(TESTS) -o ./bin/testDekatronStore
 testTransferUnit:
-	$(CC) $(CFLAGS) -DTEST_TRANSFERUNIT $(TESTS) -o testTransferUnit
+	$(CC) $(CFLAGS) -DTEST_TRANSFERUNIT $(TESTS) -o ./bin/testTransferUnit
 testShiftCircuit:
-	$(CC) $(CFLAGS) -DTEST_SHIFTCIRCUIT $(TESTS) -o testShiftCircuit
+	$(CC) $(CFLAGS) -DTEST_SHIFTCIRCUIT $(TESTS) -o ./bin/testShiftCircuit
 testAccumulator:
-	$(CC) $(CFLAGS) -DTEST_ACCUMULATOR $(TESTS) -o testaccumulator
+	$(CC) $(CFLAGS) -DTEST_ACCUMULATOR $(TESTS) -o ./bin/testAccumulator
 testALU:
-	$(CC) $(CFLAGS) -DTEST_ALU  $(TESTS) -o testalu
+	$(CC) $(CFLAGS) -DTEST_ALU  $(TESTS) -o ./bin/testalu
 cleanTests :
-	rm -vf testAll testAddition testTransferUnit testShiftCircuit testaccumulator ./tests/*.o ./tests/*.out ./tests/*.gch
+	rm -rvf $(BIN) ./tests/*.o ./tests/*.out ./tests/*.gch
 
-
+# TODO :[X] add CLI files 
+#	[ ]  add _DEBUG_ flag
 

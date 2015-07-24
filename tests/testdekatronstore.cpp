@@ -9,34 +9,34 @@
 #include "testdekatronstore.h"
 
 TestDekatronStore::TestDekatronStore() {
-	std::cout << "Testing dekatronstore.cpp\n";
+	logObj.log(LogLevel::INFO, "testdekatronstore.cpp","Testing dekatronstore.cpp\n");
 	DekatronStore store;
 
 	if (!store.getStringStateInStore().compare("000000000"))
-		std::cout << "DekatronStore TEST 1   SUCCESSFUL\n";
+		logObj.log(LogLevel::INFO, "testdekatronstore.cpp","DekatronStore TEST 1   SUCCESSFUL\n");
 	else{
 		failedTests++;
-		std::cout << "DekatronStore TEST 1 getStringStateInStore() FAILURE\n";
+		logObj.log(LogLevel::WARNING,"testdekatronsore.cpp","DekatronStore TEST 1 getStringStateInStore() FAILURE\n");
 	}
 
 	int arr[9] = { 0, 1, 1, 1, 1, 1, 1, 1, 1 };
 	Dekatron dekatronBuffers[9];
 	store.pulseStore(arr, dekatronBuffers);
 	if (!store.getStringStateInStore().compare("011111111"))
-		std::cout << "DekatronStore TEST 2   SUCCESSFUL\n";
+		logObj.log(LogLevel::INFO, "testdekatronstore.cpp","DekatronStore TEST 2   SUCCESSFUL\n");
 	else{
 		failedTests++;
-		std::cout<< "DekatronStore TEST 2 pulseStore(int [],Dekatron []) FAILURE\n";
+		logObj.log(LogLevel::WARNING,"testdekatronsore.cpp","DekatronStore TEST 2 pulseStore(int [],Dekatron []) FAILURE\n");
 	}
 
 	int sum = 0;
 	for (int i = 0; i < 9; i++)
 		sum += dekatronBuffers[i].getCurrentNumber();
 	if (sum == 8)
-		std::cout << "DekatronStore TEST 3   SUCCESSFUL\n";
+		logObj.log(LogLevel::INFO, "testdekatronstore.cpp","DekatronStore TEST 3   SUCCESSFUL\n");
 	else{
 		failedTests++;
-		std::cout << "DekatronStore TEST 3  Relay Check FAILURE\n";
+		logObj.log(LogLevel::WARNING,"testdekatronsore.cpp","DekatronStore TEST 3  Relay Check FAILURE\n");
 	}
 
 	arr[0] = 1;
@@ -57,35 +57,35 @@ TestDekatronStore::TestDekatronStore() {
 	// Expected output (dekatronBuffers) is 9,0,0,0,1,1,1,0,0
 
 	if (!store.getStringStateInStore().compare("900011100"))
-		std::cout << "DekatronStore TEST 4   SUCCESSFUL\n";
+		logObj.log(LogLevel::INFO, "testdekatronstore.cpp","DekatronStore TEST 4   SUCCESSFUL\n");
 	else{
 		failedTests++;
-		std::cout << "DekatronStore TEST 4 multiple pulseStore(int [],Dekatron []) FAILURE\n";
+		logObj.log(LogLevel::WARNING,"testdekatronsore.cpp","DekatronStore TEST 4 multiple pulseStore(int [],Dekatron []) FAILURE\n");
 	}
 
 	for (int i = 0; i < 9; i++) {
 		if (i == 1 || i == 2 || i == 3 || i == 7 || i == 8) {
 			if (dekatronBuffers[i].getCurrentNumber() == 0)
-				std::cout << "DekatronStore TEST 5." << i << " SUCCESSFUL\n";
+				logObj.log(LogLevel::INFO, "testdekatronstore.cpp", "DekatronStore TEST 5." + std::to_string(i)+ " SUCCESSFUL\n");
 			else {
 				failedTests++;
-				std::cout << "DekatronStore TEST 5." << i << "  Relay Check FAILURE\n";
+				logObj.log(LogLevel::WARNING,"testdekatronsore.cpp","DekatronStore TEST 5." +std::to_string(i) +"  Relay Check FAILURE\n");
 				break;
 			}
 		} else if (i == 0) {
 			if (dekatronBuffers[i].getCurrentNumber() == 9)
-				std::cout << "DekatronStore TEST 5." << i << " SUCCESSFUL\n";
+				logObj.log(LogLevel::INFO, "testdekatronstore.cpp","DekatronStore TEST 5."+std::to_string(i)+" SUCCESSFUL\n");
 			else {
 				failedTests++;
-				std::cout << "DekatronStore TEST 5." << i << "  Relay Check FAILURE\n";
+				logObj.log(LogLevel::WARNING,"testdekatronsore.cpp","DekatronStore TEST 5."+ std::to_string(i)+"  Relay Check FAILURE\n");
 				break;
 			}
 		} else {
 			if (dekatronBuffers[i].getCurrentNumber() == 1)
-				std::cout << "DekatronStore TEST 5." << i << " SUCCESSFUL\n";
+				logObj.log(LogLevel::INFO, "testdekatronstore.cpp","DekatronStore TEST 5." + std::to_string(i)+" SUCCESSFUL\n");
 			else {
 				failedTests++;
-				std::cout << "DekatronStore TEST 5." << i << "  Relay Check FAILURE\n";
+				logObj.log(LogLevel::WARNING,"testdekatronsore.cpp","DekatronStore TEST 5."+ std::to_string(i)+"  Relay Check FAILURE\n");
 				break;
 			}
 		}
@@ -103,41 +103,41 @@ TestDekatronStore::TestDekatronStore() {
 	store.setStoreValue(arr,  dekatronBuffers);
 	for(int i= 0; i < 9; i++)
 		if(dekatronBuffers[i].getCurrentNumber() == i)
-			std::cout << "DekatronStore TEST 6." << i << " SUCCESSFUL\n";
+			logObj.log(LogLevel::INFO, "testdekatronstore.cpp","DekatronStore TEST 6."+std::to_string(i)+" SUCCESSFUL\n");
 		else {
 			failedTests++;
-			std::cout << "DekatronStore TEST 6." << i << "  setStoreValue FAILURE\n";
+			logObj.log(LogLevel::WARNING,"testdekatronsore.cpp","DekatronStore TEST 6."+std::to_string(i)+"  setStoreValue FAILURE\n");
 			break;
 		}
 
 	if(!store.getStringStateInStore().compare("012345678") )
-		std::cout << "DekatronStore TEST 7   SUCCESSFUL\n";
+		logObj.log(LogLevel::INFO, "testdekatronstore.cpp", "DekatronStore TEST 7   SUCCESSFUL\n");
 	else{
 		failedTests++;
-		std::cout << "DekatronStore TEST 7 setStoreValue FAILURE\n";
+		logObj.log(LogLevel::WARNING,"testdekatronsore.cpp","DekatronStore TEST 7 setStoreValue FAILURE\n");
 	}
 
 	if(store.setStoreValue("000", dekatronBuffers))
-		std::cout << "DekatronStore TEST 8   SUCCESSFUL\n";
+		logObj.log(LogLevel::INFO, "testdekatronstore.cpp","DekatronStore TEST 8   SUCCESSFUL\n");
 	else{
 		failedTests++;
-		std::cout << "DekatronStore TEST 8 setStoreValue(string) FAILURE\n";
+		logObj.log(LogLevel::WARNING,"testdekatronsore.cpp","DekatronStore TEST 8 setStoreValue(string) FAILURE\n");
 	}
 
 	if(store.setStoreValue("90000000a", dekatronBuffers))
-		std::cout << "DekatronStore TEST 9   SUCCESSFUL\n";
+		logObj.log(LogLevel::INFO, "testdekatronstore.cpp","DekatronStore TEST 9   SUCCESSFUL\n");
 	else{
 		failedTests++;
-		std::cout << "DekatronStore TEST 9 setStoreValue(string) FAILURE\n";
+		logObj.log(LogLevel::WARNING,"testdekatronsore.cpp","DekatronStore TEST 9 setStoreValue(string) FAILURE\n");
 	}
 
 	if(!store.setStoreValue("012345678", dekatronBuffers)) {
 		if(store.getStringStateInStore().compare("012345678"))
-			std::cout << "DekatronStore TEST 10   SUCCESSFUL\n";
+			logObj.log(LogLevel::INFO, "testdekatronstore.cpp","DekatronStore TEST 10   SUCCESSFUL\n");
 	} else{
 		failedTests++;
-		std::cout << "DekatronStore TEST 10 setStoreValue(string) FAILURE\n";
+		logObj.log(LogLevel::WARNING,"testdekatronsore.cpp","DekatronStore TEST 10 setStoreValue(string) FAILURE\n");
 	}
 
-	std::cout << "FINISH dekatronstore.cpp TESTS\n";
+	logObj.log(LogLevel::INFO, "testdekatronstore.cpp","FINISH dekatronstore.cpp TESTS\n");
 }

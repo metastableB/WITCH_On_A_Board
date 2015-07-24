@@ -1,0 +1,73 @@
+## TODO
+	[ ] Port testtransferunit.cpp  to use new logger class
+	[ ] Write tests for translator.cpp
+	[x] define a definitions.h header and define all the global macros there. Use it to cause delays, steps
+	    number of dekatron stores, tape readers etc
+	[ ] Implement a history feature for the command line.
+	[ ] Find a better way to format the CLI help output. Text outputs don't retain the intended format 
+	    across different screen sizes.
+	[ ] VERY IMPORTANT : Regarding translating values with invalid sign bits.
+	[ ] Compatibility check accros platforms. As well
+	[ ] Update README with minimum requirements. Add g++ and c++11 to it.
+### Logging and error message
+	We can use clog for logging and cerr for error messages. This will be useful when somehow an unacceptable
+	condition reaches a function - escaping a preprocessing step or something similar. There are cases where 
+	we would want the execution to continue but still some how indicate this anomaly without stopping program
+	execution for later debugging.
+	
+	We also need to decide what messages to print to stdout and what to print to stderr. Plus adding the 
+	log printing to a separate class will probably help in porting to QT later.
+
+	We also need to follow some error levels. Lets define the following :
+		
+		[DEBUG]   for debug level messages which can be added and removed as we please
+		[INFO]    for status report etc
+		[WARNING] for uncaught exceptional conditions and relaxed errors. Execution continues
+		[ERROR]   for errors such that execution cannot continue
+
+	Another question is in regard to the usage of cerr and clog. 
+	For our use case, the [WARNING] set of logs may include conditions such as operation on stores
+	which have overflown values etc. Such cases involve undefined behaviour which may cause the system to 
+	crash/fail. A buffered logger such as clog will not be of much help here. cerr it is hence.
+
+### Command line interface for the witch simulator
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<START BRAIN-DUMP
+
+We need basic functionality like 
+	1) loading a program and checking for errors
+	2) Initializing the WITCH and running the program
+	3) Ability to step through the program
+	3) Ability to print the output in stores
+	4*) Ability to directly set store values
+	5*) Ability to run single line commands on the WITCH like the python interface
+
+
+The structure :
+
+	Lets keep a WITCH object which will contain all the parts of the WITCH like the dekatron etc. at ../
+	In the current folder, adds a class that extends WITCH called the WITCH_Interface or something
+	this should inherit the WITCH and extend it. It should be the one WITCH accesses the WITCHES objects
+	, have the getter and setter methods, does the initialization function etc.
+
+END BRAIN DUMP>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+### Translator Unit
+	The basic task of the translator unit according to the diagram shown in the paper is to act as an
+	interface between the data-store accumulator portion and the control unit. The arrows indicate that 
+	the translator unit comes to action for the following cases
+		a) Storing something into the stores
+		b) Printing the contents of a store
+	It seems that these are the only two cases when this is coming to use. Orders as such go to the
+	current order storage which is independent of the translator unit.
+	
+	I.e. there are two storeNext() and loadNext() type calls which the translator unit seems to perform.
+	The storeNext() function should have the task of translating whatever is read next form the input
+	and stored in the arguement store.
+
+	The loadNext() should load the specified number from the store system, translate it and return it.
+	The question is where does it load to ? The loadNext() comes to action when we have to print something.
+	Work this out!
+### src/lib Folder
+	The src/lib folder should host code which is useful in a global scope.

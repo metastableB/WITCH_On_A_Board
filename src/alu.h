@@ -21,7 +21,9 @@ class ALU {
 public :
 	// TODO : the return value to be used for overflow checks
 	bool add(DekatronStore* sStore, DekatronStore* rStore);
+	bool addAndClear(DekatronStore* sStore, DekatronStore* rStore);
 	bool subtract(DekatronStore* sStore, DekatronStore* rStore);
+	bool subtractAndClear(DekatronStore* sStore, DekatronStore* rStore);
 	bool multiply(DekatronStore* sStore, DekatronStore* rStore, Accumulator* accum);
 	bool divide(DekatronStore* sStore, DekatronStore* rStore, Accumulator* accum);
 

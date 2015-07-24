@@ -108,10 +108,17 @@ std::string DekatronStore::getStringStateInStore() {
 	return state;
 }
 DekatronState DekatronStore::getStateIn(int index){
-	if( index < 0 || index > 8)
-		// TODO: Error Handler!
+	if( index < 0 || index > 8){
+		logObj.log(LogLevel::L_ERROR,"dekatronstore.cpp","Index out of bounds in getStateIn()\n");
 		return DekatronState::ZERO;
-	else
+	}else
 		return this->store[index].getCurrentState();
 }
 
+int DekatronStore::getIntValueIn(int index){
+	if( index < 0 || index > 8){
+		logObj.log(LogLevel::L_ERROR,"dekatronstore.cpp","Index out of bounds in getIntValueIn()\n");
+		return -1;
+	}else
+		return this->store[index].getCurrentNumber();
+}

@@ -11,9 +11,9 @@
 
 #include <iostream>
 #include "../src/dekatronstore.h"
-
+#include "../src/lib/logger.h"
 class TestDekatronStore {
-
+	Logger logObj;
 public:
 	int failedTests = 0;
 	TestDekatronStore();

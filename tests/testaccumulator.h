@@ -11,9 +11,11 @@
 
 #include <iostream>
 #include "../src/accumulator.h"
+#include "../src/lib/logger.h"
 
 class TestAccumulator {
 	Accumulator accum;
+	Logger logObj;
 public:
 	int failedTests = 0;
 	TestAccumulator();

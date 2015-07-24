@@ -11,12 +11,15 @@
 #define DEKATRONSTORE_H
 
 #include "dekatron.h"
+#include "./lib/logger.h"
 #include <string>
 
 class DekatronStore {
 	// TODO: Figure out a better variable name maybe?
 	// LSB : 8, MSB : 1 , Sign Bit : 0
 	Dekatron store[9];
+
+	Logger logObj;
 
 public:
 	// Pulses are treated as 2D array . Where each
@@ -34,6 +37,7 @@ public:
 	// required data types.
 	std::string getStringStateInStore();
 	DekatronState getStateIn(int index);
+	int getIntValueIn(int index);
 };
 
 #endif /* DEKATRONSTORE_H */

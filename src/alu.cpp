@@ -10,26 +10,27 @@
 
 bool ALU::add(DekatronStore* sStore, DekatronStore* rStore){
 	transferUnit.transfer(sStore,rStore);
-	// TODO : Check for overflow
-	return false;
+	// TODO : Check for overflow, also check for errors at WITCH::executeArithmeticOrder()
+	return true;
 }
 
 bool ALU::subtract(DekatronStore* sStore, DekatronStore* rStore){
 	transferUnit.transferComplement(sStore,rStore);
 	// TODO : Check for overflow
-	return false;
+	return true;
+}
+
+bool ALU::addAndClear(DekatronStore* sStore, DekatronStore* rStore){
+	transferUnit.transferClear(sStore,rStore);
+	return true;
+}
+
+bool ALU::subtractAndClear(DekatronStore* sStore, DekatronStore* rStore){
+	transferUnit.transferComplementClear(sStore,rStore);
+	return true;
 }
 
 bool ALU::multiply(DekatronStore* sStore, DekatronStore* rStore, Accumulator* accum){
-	/*
-	 * Algorithm :
-	 *	If multiplier is positive :
-	 *	For each digit of the multiplier taken from left to right (current digit being i in [1,8])
-	 *		while (digit > 0)
-	 *			Add the multiplicand to the accm shifted i times
-	 *			Decrement the digit
-	 *
-	 */
 	// TODO : Check for overflow
 	int currentDigit = 0;
 	if(rStore->getStateIn(0) == DekatronState::ZERO) {

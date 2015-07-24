@@ -9,7 +9,7 @@
 
 Dekatron::Dekatron() {
 	// TODO(metastableB) Remove if not required
-	this->state = DekatronState::ZERO;
+	state = DekatronState::ZERO;
 }
 
 DekatronState Dekatron::getCurrentState() {
@@ -29,7 +29,7 @@ DekatronState Dekatron::incrementState() {
 }
 
 int Dekatron::getCurrentNumber() {
-	return int(this->state);
+	return static_cast<int>(this->state);
 }
 
 void Dekatron::setDekatronState(DekatronState state) {

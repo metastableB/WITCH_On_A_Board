@@ -17,6 +17,7 @@
 
 int main(int argc , char *argv[]) {
 	std::string report;
+	std::cout << "Starting tests, logging to stderr\n";
 #ifdef TEST_DEKATRON
 	TestDekatron dekatron;
 	std::cout <<"\n";
@@ -47,5 +48,5 @@ int main(int argc , char *argv[]) {
 	std::cout <<"\n";
 	report += "\nalu.cpp            Failures = " + std::to_string(alu.failedTests);
 #endif /*TEST_ALU*/
-	std::cout << "\n:::END TEST:::\n" << report <<"\n\n";
+	std::cout << "All Tests Finished\n:::REPORT:::" << report <<"\n";
 }
