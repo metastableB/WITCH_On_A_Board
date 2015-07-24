@@ -41,4 +41,6 @@ and to clean test files use,
 
     $ make cleanTests
 
+**NOTE** Required g++ 4.8.4 or higher.
+
 **&copy; Don Dennis (metastableB)**
