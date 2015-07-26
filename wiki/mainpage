@@ -1,0 +1,155 @@
+<!-- TODO :
+
+[1] add references to the introductory video
+* Check if the control unit can be modeled : other than by if else
+* detailed discussion of why subtraction method works will be helpful.
+* multiplication : examples, explanation of complement multiplication.
+* Verify if the article is correct
+* division  : explain more , add examples
+* rounding off
+* may be include state diagrams to make the logic clearer
+* SEQUENCE CONTROL 
+-->
+'' Contents to the following article is actively being added and improved. Please note that the possibility of errors creeping in is very high at this stage'' 
+
+= Abstract =
+Witch On A Board started as a [https://www.google-melange.com/gsoc/homepage/google/gsoc2015 Google Summer Of Code 2015] project which uses the [http://www.minnowboard.org/meet-minnowboard-max/ MinnowBoard Max] as the base for creating an unique replica of the WITCH as an educational tool. This project is another attribute of the witch-e project which aims to use the Harwell WITCH as an effective educational tool for children.
+
+The project will be mentored by David Anders (prpplague) and Tom King (ka6sox).
+= Background =
+The Harwell computer, later known as the Wolverhampton Instrument for Teaching Computing from Harwell (WITCH), or the Harwell Dekatron Computer, is an early(1949) British dekatron and relay based computer. It is currently on display at [http://www.tnmoc.org/ The National Museum of Computing] at [http://en.wikipedia.org/wiki/Bletchley_park Bletchley Park], where it is described as "the oldest original functioning electronic stored program computer in the world".
+
+The computer was built and used at the [http://en.wikipedia.org/wiki/Atomic_Energy_Research_Establishment Atomic Energy Research Establishment] in Harwell, Oxfordshire. Construction started in 1949, and the machine became operational in April 1951. It was handed over to the computing group in May 1952 and remained in use until 1957.
+
+It used dekatrons for volatile memory, similar to RAM in a modern computer, and paper tape for input and program storage. Output was to either a Friden teleprinter or to a paper tape punch. The machine was decimal and initially had twenty 8-digit dekatron registers for internal storage, which was increased to 40 which appeared to be enough for nearly all calculations. It was assembled from components more commonly found in a British telephone exchange.[8] Although it could on occasions act as a true stored-program computer, that was not its normal mode of operation. It had a multiplication time of between 5 and 10 seconds, very slow for an electronic computer.
+
+In 1957, at the end of its life at Harwell, the Oxford Mathematical Institute ran a competition to award it to the college that could produce the best case for its future use. The competition was the idea of John Hammersley, who had worked at AERE previously. The competition was won by the Wolverhampton and Staffordshire Technical College (which later became Wolverhampton University) where it was used to teach computing until 1973. The computer was renamed as the WITCH, the Wolverhampton Instrument for Teaching Computing from Harwell.
+
+The WITCH was donated to the Museum of Science and Industry, Birmingham in 1973. After the museum closed in 1997, the computer was disassembled and stored at the Birmingham City Council Museums Collection Centre.
+
+From September 2009, the machine was loaned to The National Museum of Computing at Bletchley Park, where began to be restored to working order as a Computer Conservation Society project.
+
+= Goals of the Project=
+The project aims improve the existing documentation regarding different aspects of WITCH , implement a simulator and finally create a platform for it to be used as a tool for teaching and understanding the working of WITCH. Modern computing has advanced to such a stage now that the computational powers offered by the WITCH has become insignificant. Nevertheless they still use most of the fundamental principles of computing implemented in WITCH. Our goal is to accumulate resources and tools which can be used to deepen the knowledge about the working of computers and gain an appreciation towards the process of development which the computer hardware has taken to reach its current state. We can summarize the main parts of the project into these three points :
+* Create a core software implementation of the WITCH
+* Replicate Input and Output systems
+* Create educational material to use for understanding the WITCH
+
+= The Simulator =
+The simulator will attempt implement the functional parts of the WITCH as close to the actual hardware as possible. We hope to improve the simulator as and when the more information about the exact details are available and understood. A web based emulator has been developed for WITCH and can be found [http://emulator.witch-e.org/ here]. The following section underlines the basic modules we will be developing and an explanation of their working.
+
+== Working ==
+The WITCH uses [http://en.wikipedia.org/wiki/Dekatron dekatrons] for volatile memory, similar to RAM in a modern computer, and [http://en.wikipedia.org/wiki/Punched_tape paper tap] for input and program storage. Output was to either a [http://en.wikipedia.org/wiki/Teleprinter teleprinter] or to a paper tape punch. The WITCH uses a decimal system as opposed to the binary representation prevalent nowadays. The initial instructions to the machine (what nowadays is stored in the ROM) is supplied internally by a relay mechanism.'''<!-- [1] TODO: add references to the introductory video-->''' The functional parts of WITCH which we will be modeling can be broken down into these fundamental units
+*Initial Instructions 
+*Input Unit
+*Memory  
+*Transfer Unit
+*Arithmetic Unit
+*Translator unit
+*Output Unit
+
+=== Initial Instructions ===
+In all modern systems , the initial instructions which initializes the system before the user programs are loaded and executed are often stored in the [http://en.wikipedia.org/wiki/Read-only_memory ROM]. These commands are run whenever the system powers on or is reset and sets up the system to run programs from other sources. In the WITCH, this task in accomplished using a series of six relays. These relays in a post office relay mechanism loads the initial commands which instructs the system to locate block one on tape one and transfer control to tape one.
+
+Though we will not be simulating the exact relay working in the initial stages of the project, an abstract object will be implemented which in effect will act like the relay mechanism.
+
+=== Input Unit ===
+WITCH uses a set of 4 tapes for input. Provision is made for a maximum of eight input tapes read by separate tape readers. The tapes uses a set of custom baudot codes for encoding instructions. Information about this encoding can be found [https://github.com/prpplague/witch_dev/blob/master/documentation/Wolv-Manual.pdf here].
+
+The WITCH operates solely under the control of orders and data fed in from perforated paper tapes, and no manual switching or plugging up is necessary.
+Instructions (orders) appear on the tape as blocks of five (decimal) digits and each digit is represented by one row of perforations. Numerical data are perforated as blocks of eight digits preceded by a sign character. Blocks of digits are separated by a character which can be either a space or one of ten block-marking characters. A search facility is provided by which any tape reader can be made to search along its tape until it finds the required block-marking character.
+
+The core software implemented on MinnowBoard Max will later be extended to allow reading input from paper tape reader like hardware. This will help understand the fundamentals of how an encoding of characters into a series of holes on a paper are converted into electrical inputs and acted upon.
+=== Memory ===
+[[File:Dekatron.gif|left|thumb|A dekatron in operation.]]
+The WITCH uses dekatrons for its volatile memory needs.  Dekatron (or Decatron, or generically three-phase gas counting tube or glow-transfer counting tube or cold cathode tube) is a gas-filled decade counting tube. Generally a dekatron has ten cathodes and one or two guide electrodes plus a common anode. The cathodes are arranged in a circle with a guide electrode (or two) between each cathode. When the guide electrode(s) is pulsed properly, the neon gas will activate near the guide pins then "jump" to the next cathode. Pulsing the guide electrodes (negative going pulses) repeatedly will cause the neon dot to move from cathode to cathode. These cathodes are are representative of decimal numbers and each individual dekatron holds all 10 decimal states , zero to 9. Therefore by providing the correct sequence of pulses, the dekatron state can be manipulated to our own needs as a memory unit.
+[[File:dekatron_schematic.jpg|frame|right|A dekatron schematic diagram]]
+
+In the WITCH each memory unit is made up of nine dekatrons, eight of which represent the magnitude of the decimal number being represented and the ninth representing its sign. WITCH uses a zero for a positive number and 9 to indicate negative numbers. Furthermore, reading a digit out of a storage tube is accomplished by a train of ten pairs of pulses applied to the tube, causing the discharge to circulate and return to its starting point. A pulse is produced as the discharge passes the zero or output cathode, and the number of pulses of the train which occur after the output pulse is an indication of the
+digit stored on the tube. Further, the number of pulses preceding the output cathode pulse is the complement on 10 of the digit stored in the tube.
+
+In our simulator, dekatrons will be modeled as independent objects in C++. Each objects will be allowed to take any one of the ten states indicating the decimal numbers and a change of state can only be brought through a method which emit the required number of pulses. For reading the dekatron state two other methods will be provided ,one will emit a sequence of ten pulses and return the remaining number of pulses indicating the stored state and the other will return the complement of the stored states.
+
+=== Transfer unit ===
+As discussed above, to read a digit out of a storage tube, a train of ten pairs of pulses may be applied to the tube, causing the discharge to circulate and
+return to its starting point. A pulse is produced as the discharge passes the zero or output cathode and the number of pulses of the train of 10 which occur after the output pulse is an indication of the digit stored on the tube. Further, the number of pulses preceding the output cathode pulse is the complement on 10 of the digit stored in the tube.
+
+The function of the transfer unit is to accept the output cathode pulse from the dekatron tube from which the digit is being taken ("sending tube"), and from it to derive the pulses representing the digit and complement, either of which is passed to the receiving tube. These pulses are suitable for direct connection to one guide of the receiving tube. Since, for the purposes of subtraction, the complement on 9 is required, it is arrange that only 9 pulses are applied to the guide on the receiving tube so that the first pulse in the train shown in is ineffective in moving the discharge. If the sending tube is to be cleared to zero during the transfer, the complement output of the transfer unit is connected to one of the sending tube guides in place of the train of ten pulses. This method of clearing stores is also used when the machine is first switched on since the dekatron tubes may light in any position. When the transfer operation is carried out purely to clear a store no receiving tubes are connected, but a dummy circuit (the drain address "00") is connected to simulate a receiving address, in order to satisfy the checking arrangements in the address selecting circuits.
+
+
+=== Arithmetic Unit ===
+In the WITCH addition is the most fundamental operation. Subtraction is effected by adding the complement, and multiplication (or division) by a sequence of multiple additions (or subtractions). The circuits used for adding a number from one store into another therefore form the basis of the arithmetic unit, and are described in detail. It must be noted that the decimal point is regarded as being after the first figure of the number stored in the dekatrons whether this is a significant figure or zero.
+
+Numerical information is handled in the form of trains of up to nine pulses, Each train represents one decimal digit, and as parallel operation is employed there is a separate channel to handle each digit For normal arithmetical operations the pulses are routed, through the transfer unit described above, from one store to another, or to the "accumulator". When a digit is being fed from a store to a printer a translator unit is used to convert the train of pulses into a form suitable for operating the relays which control the printer. The same translator is used when reading numerical information into the computer to convert digits stored on relays into trains of pulses. It is connected to the transfer units in exactly the same way as a store but only handles one digit at a time.
+[[File:4digit_adder.png|thumb|frame|right|A three digit addition circuit]]
+The WITCH internally represents positive numbers as is, with the sign bit set to 0 and the other eight bits set to the magnitude of the number. Negative numbers are handled as complements on 9 with the sign bit set to 9. Addition is accomplished by reading of the dekatron state from the sending dekatron tube and the transfer unit transferring the representative pulse to the receiving dekatron. A carry circuit is also implemented to account for carryover, when required, from each digit into the next most significant. The "carry" circuits consist of a cold cathode valve which is triggered when the receiving store reaches or passes zero. This valve remains conducting until the end of the train of transfer of 9 pulses, when a second valve performs the carry over and the first is extinguished. A transfer and a carry circuit is required for each digit.
+Note that the most significant tube has a carry circuit, and carryover is made into the least significant tube. This carry circuit plays no part in handling positive numbers, but is necessary to handle complements. When the complement of a multi-digit number is found, the complement on 10 is required for the least
+significant digit and the complement on 9 for all the other digits. It has already been explained that in this machine the complement on 9 is found for all digits; there is no simple means of checking electrically which tube in a store carries the least significant figure. Carryover from the most significant tube to the least significant corrects this, as can readily be demonstrated, and enables the complement on 9 to be used in every case, whether in finding the
+complement of a number or finding the number from its complement.
+
+A regular addition instruction which adds two numbers, say 200 and 499 ,as accomplished in the WITCH is demonstrated below. (We ignore the decimal point for demonstration purposes.)
+
+The number 200 will have the form 0 0000 0200 , and 499 will have the form 0 0000 0499 in the dekatrons internally. Addition will be accomplished via direct transfer of pulses.
+    0 0000 0200
+    0 0000 0499 +
+    -----------
+    0 0000 0699
+While positive numbers are dealt in regular decimal representations, negative numbers are represented as their complements on 9. Consider the addition of 600 and -499 , 600 will be represented internally as 0 0000 0600 and -499 as its 9's complement : 9 9999 9500 . Not the addition will be performed by transfer of pulses.
+    0 0000 0600
+    9 9999 9500 +  (-499 in 9s complement notation)
+    -----------
+    0 0000 0100
+              1 +  (The carry out of the sign bit )
+    -----------
+    0 0000 0101    
+
+Lets consider another example where the result yields a negative number . Consider the addition 199 and -284, 199 will be represented as 0 0000 0199 and -284 will be represented as its complement on 9, i.e. 9 9999 9715. We proceed with the addition as follows,
+    0 0000 0199
+    9 9999 9715 + ( 9s complement for -284 )
+    -----------
+    9 9999 9914   ( 9s complement for -85 )
+It is to be noted that its the translator unit that prints the output in human readable format and here it will take care of printing the result as -85.
+
+'''Subtraction''' in the WITCH is implemented as addition of complements. For example, <code>200 - 100</code> is calculated as <code>200 + 9s complement of 100 + carry out of the sign bit</code>. 
+    0 0000 0200
+    0 0000 0100 - 
+    ----------- 
+    0 0000 0099   ( The complement of 100 is sent to the receiving dekatrons.)
+              1 + ( The carry out from the sign bit) 
+    -----------
+    0 0000 0100
+
+That is for any two numbers x and y, <code>x - y</code> will be performed as <code> X + 9s complement of Y + carryout of sign bit </code> where X ans Y represent the internal representations of x and y respectively.
+
+'''Multiplication''' is performed as a series of additions and shift operations. Unlike addition or subtraction, multiplication uses an accumulator for holding intermediate results before the final product is obtained. The accumulator is of 15 digits as opposed to the 8 digit dekatron stores. An accumulator of more than eight digits facilitates our 'addition and shift' method and also reduces errors in rounding off the product of multiplication if products are repeatedly summed in the accumulator.
+[[File:WITCH_multi_positivePlier.png|thumb|frame|right|Multiplication with positive multiplier]]
+
+Where the multiplier is positive, the multiplicand is added into the accumulator N1 times where N1 is the number stored in the most significant tube of the register (multiplier). A shift to the left is now introduced in the accumulator by the relay shift circuit and the multiplicand added into the accumulator N2 times, where N2 is the number stored in the second tube of the register. This process of multiple additions alternating with operation of the shift unit continues until the whole of the multiplier is dealt with, In order to perform the correct number of additions, the tube in the register containing the digit of the multiplier being considered is moved back one step (for convenience it is actually moved on nine steps without carry over) for each single addition, The pulse generator is arranged to give the finish signal calling for the next operation when the appropriate digit of the register has reached zero and carryover is complete.
+
+When the multiplier is a complement,i.e. represents a negative number, a similar procedure is carried out with a few modifications. Multiple subtractions are required, and the register tube is moved forward one step for each subtraction. Since the complement of 0 is 9, it follows that transfers should stop when the register tube reaches 9, As the pulse generator allows transfers to continue until the tube reaches 0, one too many will be performed by the time the finish signal is given, and it is necessary to make a single addition to correct for this. The sequence then is multiple subtraction, single addition, operation of shift. These
+sequences are controlled by relays in the sequence controlling and routing section of the machine. It is, of course, only necessary to give the order "multiply"; the precise sequence required is selected before the operation starts by a relay circuit dependent on the sign of the contents of the selected addresses.
+
+'''Division'''  is performed by a sequence of the same form, i.e., multiple transfer, single transfer, operation of the shift; the quotient is built up digit by digit in the register by moving the discharge one step forward or backward in the register for each transfer. For a divisor and dividend of the same sign, the divisor is subtracted from the dividend and the register moved forward until the sign of the dividend changes, when the pulse generator gives the finish signal. At this point one subtraction too many has been performed, and this is corrected by making one addition and moving the register back
+one step, When the divisor and dividend are of opposite sign, the multiple transfers are additions, with the register being moved back step by step and the single transfer is a subtraction. In this case it is not necessary to move on the register during the single transfer, since the fact that it has started from 0 rather than 9, the correct starting point for a complement means that the necessary correction has already been made.
+
+'''Rounding''' is sometimes necessary after a multiplication or division, to avoid a systematic error due to the omission of digits less significant than the least significant held in the stores. In multiplication, rounding off is most conveniently done when the product is transferred from the 15-digit accumulator to an 8-digit store, A method commonly employed is to add five to the most significant of the digits which are omitted in this process; carryover
+then adds one to the least significant figure retained if the omitted figure was 5 or over. The maximum error in the last digit is ±0.5, and the average error is zero. This process would have proved inconvenient in the present machine, partly because it would involve the generation of a special train of 5 pulses, but also because in the case of division, the quotient is built up in an 8-digit store, and without much extra complication a 9th digit is not available to be rounded off. The WITCH adopts the method of adding 1 or 0 at random to the 8th figure of the product or quotient. The maximum error in this digit is now ± 1. and the average error is zero, The probable error after rounding off in this way is about twice that to be expected from the more conventional process· This error is not considered serious. A more important point is that the random nature of the result makes difficult the precise checking of the machine by repeating a solution in which rounding off had taken place.
+
+To minimize systematic errors the selection of 0 or 1 for rounding off must be as nearly random as possible. The method adopted in the WITCH is relatively simple. A master oscillator in the pulse generator produces continuously the pulses which are subsequently routed to perform the transfer and carry operations. Pulses from this oscillator are fed continuously to a scale-of-two circuit, a pair of cold cathode triodes which conduct alternately. When rounding off into any address the state of the scale-of-two circuit at the beginning of the transfer period determines whether 0 or 1 is transferred in the last digit.
+The relation between the state of the scale of two at the beginning of one round off operation and that at the beginning of the previous round off thus depends upon whether the number of pulses occurring in the intervening period is odd or even. These pulses are spaced a few milliseconds apart whereas the interval between successive round off operations is several (usually very many) seconds. The exact length of this interval is affected by many uncertainties, such as the operating times of the tape readers and printers and many relays, These may confidently be expected to produce unpredictable variations in the interval amounting to very many milliseconds.
+
+Experiments so far carried out show no significant correlation between the zeros and ones produced by repeated round off operations.
+
+=== Translator Unit ===
+
+The function of the translator unit is to convert the information obtained via a relay circuit from a punched paper tape into a form suitable for operating the transfer units in the computer and vice versa. The translator is brought into circuit in the same way as any storage address and no alteration is needed to the transfer unit to accommodate it. The basis of the unit is a special Dekatron in which the cathodes are all brought out separately. For this purpose a 10-cathode tube would be suitable, but the tube available has 11 cathodes (GSIIA) and this has been used. If, for example, the number 3 is to be fed into the computor, one of the Dekatron cathodes is connected to the input of the transfer circuit by relays energized from the tape reader. When translation-in takes place, the discharge in the GSIIA is stepped round by a train of 10 pulses to the corresponding cathode. In passing the selected cathode. a pulse is fed to the input of the appropriate transfer unit. The transfer unit then functions in the normal way and if a positive number is being translated, the remaining pulses of the train of to are passed to the receiving store by the transfer unit. When translating in negative numbers the transfer unit is arranged to complement them. Since the translator deals with only one digit at a time the remaining transfer circuits are arranged to transfer zeros (or nines in the case of a complement). The translator is connected via the transfer circuits to each digit of the store in turn by the relay shift circuit. When translating out (i.e. taking information from the computor) the GSIIA tube again starts from cathode No. 0, but in this case it steps round by the number of pulses delivered to it by the transfer unit. The cathode on which the discharge is left rises in potential from -16V to something positive with respect to earth, causes the grid potential of two of the triodes VII to V15 to rise, and so closes two of the relays PA/1, PB/1 - - - PE/1. The contacts of these relays operate the teleprinter or tape perforator. The metal rectifiers in the cathode circuits of the GSIIA give an output in the appropriate code for this purpose.
+After translation-in or -out a separate circuit returns the discharge in the GSIIA to cathode No, 0 before the translator is again required for use.
+
+== What the simulator Will look like ==
+The simulator is aimed to work as an independent tool on its own as well as in conjunction with the additional WITCH On A Board hardware. The initial version of the simulator will be a command line tool, with no GUI. It will be similar in functionality to a command line debugger like [http://en.wikipedia.org/wiki/GNU_Debugger GDB] or JDB. Like a debugger, the simulator will have features to watch stores, step through instructions, set break points etc so that he is able to see the WITCH work on step at a time and understand it better.
+
+How people many use WITCH. 
+What features do the simulator have.
+How does it help.
+What will have people glued?
+
