@@ -1,21 +1,140 @@
-<!-- TODO :
-
-[1] add references to the introductory video
-* Check if the control unit can be modeled : other than by if else
-* detailed discussion of why subtraction method works will be helpful.
-* multiplication : examples, explanation of complement multiplication.
-* Verify if the article is correct
-* division  : explain more , add examples
-* rounding off
-* may be include state diagrams to make the logic clearer
-* SEQUENCE CONTROL 
--->
 '' Contents to the following article is actively being added and improved. Please note that the possibility of errors creeping in is very high at this stage'' 
 
 = Abstract =
-Witch On A Board started as a [https://www.google-melange.com/gsoc/homepage/google/gsoc2015 Google Summer Of Code 2015] project which uses the [http://www.minnowboard.org/meet-minnowboard-max/ MinnowBoard Max] as the base for creating an unique replica of the WITCH as an educational tool. This project is another attribute of the witch-e project which aims to use the Harwell WITCH as an effective educational tool for children.
+Witch On A Board started as a [https://www.google-melange.com/gsoc/homepage/google/gsoc2015 Google Summer Of Code 2015] project which uses the [http://www.minnowboard.org/meet-minnowboard-max/ MinnowBoard Max] as the base for creating an unique replica of the WITCH. This project is another attribute of the witch-e project which aims to use the Harwell WITCH as an effective educational tool for children.
 
-The project will be mentored by David Anders (prpplague) and Tom King (ka6sox).
+The google student working on the project is Don Dennis (metastableB) mentored by David Anders (prpplague) and Tom King (ka6sox).
+
+For more information about the working of the WITCH visit [something.com|something should be here]
+
+=The Simulator=
+
+==Introduction==
+
+The simulator currently is C++ based command line utility. It can accept programs on text files as well as individual commands. The interface allows a variety of operations which can be used to edit and change the internal state of the WITCH, view the states, and so forth. The simulator is hosted on github : [https://github.com/metastableB/WITCH_On_A_Board  WITCH_On_A_Board].
+
+==Installation==
+
+=== Requirements ===
+
+=====Linux=====
+    
+* make
+* g++ 4.8.4 or higher  
+You need <code>GNU make</code> to build from source. <code>make</code> is generally included in the default package set. Alternatively you can download make from [http://www.gnu.org/software/make/ here] in case you don't have it.
+
+We also recommend g++ 4.8.4 or higher with c++11 support. Other compilers have not been tested and might not produce proper results.
+
+=== Building The Simulator ===
+
+Fetch the source code from github using <code>git clone</code>. Use
+	
+    $ git clone https://github.com/metastableB/WITCH_On_A_Board.git WITCH_On_A_Board
+
+to clone the repository to <code>WITCH_On_A_Board</code> folder.
+
+Alternatively you can download the zip archive from the [https://github.com/metastableB/WITCH_On_A_Board github repository] and extract it to a folder of your choice. 
+
+Use <code>make</code> to build the files. That is, within the directory , type 
+
+    $ make 
+
+to build the files. To run the files, from the project directory, type
+
+    $ ./bin/witch_sim
+
+<code>make</code> creates the executable with the name <code>witch_sim</code> in the ''bin'' folder.
+
+Make accepts the following command line arguments.
+
+* debug=1
+* log=1
+
+'debug=1' turns on debug messages for the simulator. These are echoed to stderr by default. You can redirect them using regular terminal redirection 
+
+    $ ./bin/witch_sim 2>FILE_FOR_DEBUGMESSAGES
+
+'log=1' turns on the log messages similar to <code>debug=1</code> above.
+
+This information is also included in the <code>README.md</code> file.
+
+=== Building Test Suits ===
+
+The <code>make</code> also allows you to run tests against the existing source code. This might help when you are hacking the source files. 
+
+To run all the tests, use
+    $ make testAll debug=1 log=1
+You can also choose to run tests only for particular units of the WITCH like the accumulator or ALU specifically. The general command to use is
+
+    make COMPONENET_NAME  debug=1 log=1
+
+
+
+=== Supported Commands and Their Usage === 
+
+====Running commands====
+Commands can be run in two ways 
+    MODE 1 A WITCH program has been selected and ready to run.
+    MODE 2 No programs have been selected, but the WITCH has been started
+
+The difference between 1 and 2 is that in 1 the stores will have been already cleared and some intermediate calculations would have occurred. Stopping the WITCH and changing 
+internal states can cause undefined behaviors from within the WITCH (infinite loops and so forth).
+
+MODE 2 is when which has no loaded program. It has either finished a previous execution or has just started up. The stores will have random values. This mode is mainly for 
+demonstration and debug purposes.
+
+==== Commands ====
+
+Strings included is '{' and '}' are aliases for the mentioned command.
+
+*Running Programs*
+
+    $ inp INPUT_FILE [OUTPUT_FILE]
+	INPUT_FILE specifying path to Input file on disk. The file can only contain instructions,
+	input numbers, or block marking character. At most one of any of them are allowed per line.
+	
+	If an OUTPUT_FILE is specified, the output will be written to it. If no file is specified,
+	standard output will be used.
+    
+   $ run {r}
+	Starts running the program till end/warning is reached. The input file should be preloaded 
+	using 'inp' before using this command.
+
+   $ continue {c} 
+	Continue program from previously paused state till an alarm/finish/break point is reached.
+
+   $ order {c} ORDER
+	Execute the ORDER specified. The order should be a valid WITCH order. Which generally
+	is a 5 digit number.	
+	
+### Modifying Internal Values
+  $ set STORE_INDEX VALUE 
+	Sets the value at the store specified by STORE_INDEX to VALUE. 	Both STORE_INDEX and VALUE have
+	to be valid according to the following rules:
+		STORE_INDEX : The original WITCH had 90 stores, indexed from 10 to 99,
+			      though WITCH was never built to its full capacity. Hence, we restrict
+			      the number of stores you can index by defining two parameters :
+			      NO_OF_STORE_ROW and NO_OF_STORE_COL defined in definitions file. The
+			      default values are 10 for each of them. 
+	
+			      The STORE_INDEX should be two digit numbers such that the first digit
+			      represents the store row and lies in [1, NO_OF_STORE_ROW], and the 
+			      second digit represents the column which should be in [0, NO_OF_STORE_COL]
+		VALUE       : Value can be in the two forms. A + or - sign followed by 8 an 8 digit
+			      number or an * followed by a 5 digit number.
+
+### Viewing contents
+  $ print [-r|d] STORE_INDEX
+	Prints the value in the store specified by STORE_INDEX to the console. Optional arguments 
+	can be used to format the output. The decimal format is the default.
+		-r : Raw - The digits will be printed as they are in the store.
+		-d : Decimal - The values in the store will be printed in human readable decimal
+		     format. 
+	
+### Setting Break Points
+	
+	
+The simulator has to be
 = Background =
 The Harwell computer, later known as the Wolverhampton Instrument for Teaching Computing from Harwell (WITCH), or the Harwell Dekatron Computer, is an early(1949) British dekatron and relay based computer. It is currently on display at [http://www.tnmoc.org/ The National Museum of Computing] at [http://en.wikipedia.org/wiki/Bletchley_park Bletchley Park], where it is described as "the oldest original functioning electronic stored program computer in the world".
 
