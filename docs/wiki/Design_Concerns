@@ -1,0 +1,69 @@
+This page address some of the questions readers may have related to the design choices made with the WITCH. The questions are currently not arranged in any particular order. 
+
+==Questions==
+
+
+====='''Question 1'''=====
+;The WITCH is frequently compared to desk calculators in different instances of the WITCH Paper.Why is the WITCH compared to desk calculators? What are they anyway? What is the link between the WITCH and these? ([https://github.com/prpplague/witch_dev/blob/master/documentation/harwell-ee-1951-txt.pdf?raw=true An Electronic Digital Computer], Page 1)
+The WITCH and its working was mainly modelled around Desk calculators available at that time. The running times for operations on the WITCH are , hence comparable to these. The motivation behind the WITCH was to make a desk calculator programmable and reliable - in the sense that it should be able to run continuously for hours without needing attention. In effect the WITCH is not an innovation purely in terms of a better running time but also an enormous ability to be automated and run reliably. WITCH, when programmed correctly did not need any human attention and could run unattended for hours.
+
+====='''Question 2'''=====
+<blockquote>"Because a relatively low operating speed is accepted, it becomes practical to read orders and other data from the perforated tape as they are needed in the calculations (this is done in the B.T.L.machine). Design is thus simplified and much less storage capacity is needed. The low operating speed also makes possible the use of relays for routing and sequence control. Since each relay may carry many contacts this leads to simplicity in setting up connexions. The fact that the techniques are well established and of proved reliability is of great importance."</blockquote>
+([https://github.com/prpplague/witch_dev/blob/master/documentation/harwell-ee-1951-txt.pdf?raw=true An Electronic Digital Computer], Page 1)
+
+'''Why would a relatively small operating speed be accepted ? If it can be made faster, shouldn't it be?'''
+
+The speed limit here is due to the time taken by the tape readers to interpret the data and orders and not entirely due to the time taken for the calculations. Further, reliability and accuracy was of far more importance than speed.
+
+====='''Question 3'''=====
+<blockquote>"The use of relays for number storage is not attractive, as many relays would be needed."</blockquote>
+([https://github.com/prpplague/witch_dev/blob/master/documentation/harwell-ee-1951-txt.pdf?raw=true An Electronic Digital Computer], Page 1)
+'''The sole reason for this decision is the numbers you can represent per digit in a dekatron based system is larger ? '''
+
+Simple answer, since they were trying to replicate a mechanical calculator based on decimal systems, they intended to use decimal and not binary. Furthermore, dekatrons were reliable for this purpose and you could represent far more numbers with far less digits on them.
+
+====='''Question 4'''=====
+<blockquote>"No provision is made for reading of tables of functions and the low operating speeds will often make it impracticable to calculate the required functions ab initio."</blockquote>
+([https://github.com/prpplague/witch_dev/blob/master/documentation/harwell-ee-1951-txt.pdf?raw=true An Electronic Digital Computer], Page 2)
+
+'''What are these tables of functions they talk about ? Like Log tables ?'''
+
+Yes, log tables, sine /cosine value tables etc -lookup tables in general.
+
+=====Question 5===== 
+'''The tapes where from the data and orders are read, as I imagine it its a long piece of paper with instructions printed line by line. Are they connected end to end ? Forming a continuous loop ? (If yes this actually puts a lmit on the length of the tape doesn't it ?)'''
+
+Only the tapes you want to be looped are joined end to end, for instance if there was a 'function' being frequently called, you would define it on a separate tape and have it joined end to end forming a loop. You would use a master driving tape (like a main function) to execute this looped function by shifting control to the tape after finding the correct block marking character so that you are positioned at the beginning. Remember that even though the initial designers of the WITCH intended to allow searching in either direction,the backward searching for block marking characters were never actually implemented.
+
+=====Question 6=====
+'''The add subtract options allow the tape readers to be the input and the perforators to be the output. Again it also says that the sending and receiving address cannot be among the same set of stores. Does this mean that we cannot send have both of them in the same instruction ?'''
+
+Yep, you cannot send anything from the tape readers directly to the stores. Neither can you send values among the same set of tapes. For example, you  cannot send anything from store 10 to store 11.
+
+<!-- =====??Question 7=====
+The multiplication and division instructions do not allow any input organ to be the addresses in the instruction? What makes the multiplication and division different in this way apart from the fact that an accumulator is used to store intermediate results ? (Wait let me recheck the circuits if that explains everything)
+
+		ANSWER : This was obvious, I cant believe I missed it.
+		The multiplication and division happen in multiple 
+		stages, the stores getting updated in each stage. Hence
+		you cannot have an input organ here.
+-->
+=====Question 7=====
+'''What happens to the result of an accumulator operation? Is it automatically transferred to the result store? Can we specify the accumulator as one of the source or destination among arithmetic operations? If yes trace back how the number might have reached the accumulator.'''
+
+The values are retained in the accumulator till another transfer operation overwrites them. They are not automatically transferred anywhere. The program explicetly has to specify if it wants to transfer the accumulator value. It also has to specify whether it wants the lower bits or the upper bits of the accumulator. 
+
+=====Question 8=====
+<blockquote>"The same translator is used when reading numerical information into the computor to convert digits stored on relays into trains of pulses. It is connected to the transfer units in exactly the same way as a store but only handles one digit at a time."</blockquote>
+([https://github.com/prpplague/witch_dev/blob/master/documentation/harwell-ee-1951-txt.pdf?raw=true An Electronic Digital Computer], Page 3)
+
+'''What relays are they talking about here? What relays store the digit? '''
+
+=====Question 9=====
+'''When an operation is performed and the sending store is to be cleared, is the following sequence of events correct?
+# Pulse generator sends a sequence of ten pulses to the sending tube
+# the output cathode generates a pulse corresponding to the digit stored in it
+# The translator unit receives this pulse and regenerates the number of pulses representing the digit and also its complement on 10, though in the complemented form the first pulse is ineffective in moving the discharge on the recieveing tube.
+# The required number of pulses is sent to the receiving tube as per the operation and SIMULTANEOUSLY the complemented version of the pulse is sent to the sending store, thereby clearing it. '''
+
+Yes, mostly.

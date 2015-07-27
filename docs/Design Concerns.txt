@@ -9,23 +9,11 @@ Question :
 
 
 page 1 :
-"Because a relatively low operating speed is accepted, it becomes
-practical to read orders and other data from the perforated tape as
-they are needed in the calculations (this is done in the B.T.L.
-machine). Design is thus simplified and much less storage capacity is
-needed. The low operating speed also makes possible the use of
-relays for routing and sequence control. Since each relay may carry
-many contacts this leads to simplicity in setting up connexions. The
-fact that the techniques are well established and of proved reliability
-is of great importance."
+"Because a relatively low operating speed is accepted, it becomes practical to read orders and other data from the perforated tape as they are needed in the calculations (this is done in the B.T.L.machine). Design is thus simplified and much less storage capacity is needed. The low operating speed also makes possible the use of relays for routing and sequence control. Since each relay may carry many contacts this leads to simplicity in setting up connexions. The fact that the techniques are well established and of proved reliability is of great importance."
 
 Questions :
-	Why would a relatively small operating speed be accepted ? If it can
-	be made faster, shouldn't it be?
-
-		ANSWER : The speed limit here is due to the time taken by the 
-		tape readers to interpret the data and orders. Further, 
-		reliability and accuracy was of far more importance than speed.
+	Why would a relatively small operating speed be accepted ? If it can be made faster, shouldn't it be?
+	ANSWER : The speed limit here is due to the time taken by the tape readers to interpret the data and orders. Further, reliability and accuracy was of far more importance than speed.
 
 "The use of relays for number storage is not
 attractive, as many relays would be needed."
