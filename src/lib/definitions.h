@@ -30,6 +30,8 @@
 #define HOME		"$WITCH_HOME"
 #define DIR_COMMANDS	HOME"/docs/COMMANDS"
 #define DIR_DEFINITIONS HOME"/src/lib/definitions.h"
+
+#define HISTORY_NUMBER 10	/* Number of commands to store in history */
 #endif /* DEFINITIONS_H */
 
 
