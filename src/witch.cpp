@@ -86,7 +86,10 @@ WitchStatus WITCH::executeArithmeticOrder(){
 		return status1;
 	if(status2 != WitchStatus::OPERATION_SUCCESSFUL)
 		return status2;
-	// TODO : Add restrictions on store addresses
+	/* Assume that at this point all orders are valid according to syntax.
+	 * That is, they have the correct arguments and orders etc according\
+	 * to the WITCH syntax.
+	 */
 	switch(digits[1]){
 	case 1: // Add without clear
 		alu.add(sStore,rStore);
@@ -102,6 +105,9 @@ WitchStatus WITCH::executeArithmeticOrder(){
 		break;
 	case 5: // Multiply
 		alu.multiply(sStore,rStore,&accum);
+		break;
+	case 7: // Transfer Modulus
+		alu.addPositiveModulus(sStore,rStore);
 		break;
 	default :
 		return WitchStatus::OPERATION_NOT_DEFINED;

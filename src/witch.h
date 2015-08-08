@@ -20,6 +20,7 @@
 #include "accumulator.h"
 #include "alu.h"
 #include "translator.h"
+#include "roundofgenerator.h"
 
 #include "lib/logger.h"
 #include "lib/definitions.h"
@@ -51,6 +52,7 @@ class WITCH {
 	ALU alu;
 	Translator translator;
 	DekatronStore currentOrder;
+	RoundOfGenerator roundOfGenerator;
 
 	// Global Class Flags
 	WitchStatus orderStatus = NOT_SET_ORDER;
