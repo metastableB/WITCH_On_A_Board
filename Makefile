@@ -23,6 +23,7 @@ FILES=./src/dekatron.cpp \
 	  ./src/accumulator.cpp\
 	  ./src/alu.cpp\
 	  ./src/translator.cpp\
+	  ./src/roundofgenerator.cpp\
 	  ./src/witch.cpp\
 	   \
 	  ./src/lib/logger.cpp\
