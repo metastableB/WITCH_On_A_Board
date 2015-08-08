@@ -24,7 +24,6 @@
 #include "../lib/logger.h"
 #include "../lib/definitions.h"
 #include "../lib/msgprinter.h"
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -32,6 +31,7 @@
 #include <sstream>
 #include <unordered_map>
 #include <stdexcept>
+#include "ordervalidator.h"
 
 enum WitchState {
 	PRGM_LOADED, // MODE 1
@@ -57,6 +57,7 @@ class Driver {
 
 	Logger logObj;
 	MsgPrinter msg;
+	OrderValidator orderValidator;
 	WitchState witchState = WitchState::PRGM_UNLOADED;
 
 	bool commandLineArgs(int argc, char * argv[]);

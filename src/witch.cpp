@@ -42,24 +42,30 @@ WitchStatus WITCH::rawLoad(std::string index, std::string& value){
 }
 
 WitchStatus WITCH::setCurrentOrder(std::string order){
-	WitchStatus status = validateOrder(order);
+	WitchStatus status = WITCH_validateOrder(order);
 	if(status != WitchStatus::VALID_WITCH_ORDER)
 		return status;
 	order = "+" + order + "000";
 
 	if(translator.storeValue(order,&currentOrder)){
-		orderStatus = SET_ORDER;
+		orderStatus = WitchStatus::SET_ORDER;
 		return WitchStatus::OPERATION_SUCCESSFUL;
 	}
+	orderStatus = WitchStatus::NOT_SET_ORDER;
 	return WitchStatus::OPERATION_FAILURE;
 }
 WitchStatus WITCH::executeCurrentOrder(){
 	if(orderStatus == WitchStatus::NOT_SET_ORDER)
 		return orderStatus;
+	WitchStatus status;
 	if(currentOrder.getIntValueIn(1) != 0)
-		return executeArithmeticOrder();
+		status = executeArithmeticOrder();
 	else if(currentOrder.getIntValueIn(1) == 0)
-		return executeNonArithmeticOrder();
+		status = executeNonArithmeticOrder();
+	if(status == WitchStatus::OPERATION_SUCCESSFUL || status == WitchStatus::OPERATION_NOT_DEFINED){
+		orderStatus = WitchStatus::NOT_SET_ORDER;
+		return status;
+	}
 	logObj.log(LogLevel::L_ERROR,"witch.cpp","UNKNOWN ERROR : Unrecognized order got past validator\n");
 	return WitchStatus::OPERATION_FAILURE;
 }
@@ -80,7 +86,10 @@ WitchStatus WITCH::executeArithmeticOrder(){
 		return status1;
 	if(status2 != WitchStatus::OPERATION_SUCCESSFUL)
 		return status2;
-
+	/* Assume that at this point all orders are valid according to syntax.
+	 * That is, they have the correct arguments and orders etc according\
+	 * to the WITCH syntax.
+	 */
 	switch(digits[1]){
 	case 1: // Add without clear
 		alu.add(sStore,rStore);
@@ -96,6 +105,11 @@ WitchStatus WITCH::executeArithmeticOrder(){
 		break;
 	case 5: // Multiply
 		alu.multiply(sStore,rStore,&accum);
+		break;
+	case 6: // divide
+		return WitchStatus::OPERATION_NOT_DEFINED;
+	case 7: // Transfer Modulus
+		alu.addPositiveModulus(sStore,rStore);
 		break;
 	default :
 		return WitchStatus::OPERATION_NOT_DEFINED;
@@ -194,17 +208,13 @@ WitchStatus WITCH::validateStoreValue_H(std::string value){
 WitchStatus WITCH::validateStoreValue_R(std::string value){
 	return WitchStatus::OPERATION_NOT_DEFINED;
 }
-WitchStatus WITCH::validateOrder(std::string order){
-	if(order.length() != 5)
-		return INVALID_WITCH_ORDER;
-	int digits[5];
-	for(int i = 0; i < 5 ; i++){
-		if(!getDigitAt(order,i,digits[i])){
-			logObj.log(LogLevel::L_WARNING,"witch.cpp","ORDER is invalid\n");
-			return INVALID_WITCH_ORDER;
-		}
-	}
-	logObj.log(LogLevel::L_INFO,"witch.cpp","ORDER is valid\n");
+WitchStatus WITCH::WITCH_validateOrder(std::string order){
+	/*
+	 * TODO: This is a placeholder for now. The intention is to validate
+	 * ordrs in two layers. First a general validater which removes all major
+	 * flaws. This secondary validater is to emulate what the WITCH has in its
+	 * circuit. This method will raise an alarm if an invalid order is received.
+	 */
 	return VALID_WITCH_ORDER;
 }
 bool WITCH::getDigitAt(std::string s,int index, int& num){

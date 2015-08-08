@@ -23,12 +23,14 @@ FILES=./src/dekatron.cpp \
 	  ./src/accumulator.cpp\
 	  ./src/alu.cpp\
 	  ./src/translator.cpp\
+	  ./src/roundofgenerator.cpp\
 	  ./src/witch.cpp\
 	   \
 	  ./src/lib/logger.cpp\
 	  ./src/lib/msgprinter.cpp\
 	   \
 	  ./src/cli/cli.cpp\
+	  ./src/cli/ordervalidator.cpp\
 	  ./src/cli/driver.cpp
 
 # Source Targets 

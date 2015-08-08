@@ -60,5 +60,15 @@ bool ALU::multiply(DekatronStore* sStore, DekatronStore* rStore, Accumulator* ac
 	return false;
 }
 
+bool ALU::addPositiveModulus(DekatronStore* sStore,DekatronStore* rStore){
+	if(sStore->getStateIn(0) == DekatronState::ZERO)
+		transferUnit.transfer(sStore,rStore);
+	else if(sStore->getStateIn(0) == DekatronState::NINE)
+		transferUnit.transferComplement(sStore,rStore);
+	else // TODO:ERROR HANDLER
+		return false;
+	return true;
+}
+
 
 

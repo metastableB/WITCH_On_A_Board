@@ -226,6 +226,12 @@ DriverStatus Driver::c_order(std::vector<std::string>& tokens){
 		msg.print(MsgLevel::M_MSG, "Incorrect usage\nUsage: order ORDER\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
 	}
+	ValidatorStatus vStatus = orderValidator.validateOrder(tokens[1]);
+	if(vStatus == ValidatorStatus::INVALID_ORDER)
+		return witchErrorHandler(WitchStatus::INVALID_WITCH_ORDER);
+	else if(vStatus == ValidatorStatus::UNDEFINED_ORDER)
+		return witchErrorHandler(WitchStatus::OPERATION_NOT_DEFINED);
+
 	WitchStatus status = witch.setCurrentOrder(tokens[1]);
 	if(status != WitchStatus::OPERATION_SUCCESSFUL)
 		return witchErrorHandler(status);
