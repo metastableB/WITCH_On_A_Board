@@ -1,9 +1,12 @@
 /*
- * ordervalidater.cpp
+ * ordervalidator.cpp
  *
- *  Created on: 08-Aug-2015
- *      Author: metastableB
+ * @author Don Dennis (metastableB)
+ * donkdennis [at] gmail [dot] com
+ * 08-Aug-2015
+ *
  */
+
 
 #include "ordervalidator.h"
 

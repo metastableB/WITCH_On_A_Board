@@ -1,8 +1,10 @@
 /*
  * roundofgenerator.h
  *
- *  Created on: 08-Aug-2015
- *      Author: metastableB
+ * @author Don Dennis (metastableB)
+ * donkdennis [at] gmail [dot] com
+ * 08-Aug-2015
+ *
  */
 
 #ifndef ROUNDOFGENERATOR_H

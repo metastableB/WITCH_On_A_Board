@@ -1,8 +1,10 @@
 /*
  * roundofgenerator.cpp
  *
- *  Created on: 08-Aug-2015
- *      Author: suckru
+ * @author Don Dennis (metastableB)
+ * donkdennis [at] gmail [dot] com
+ * 08-Aug-2015
+ *
  */
 
 #include "roundofgenerator.h"
