@@ -2,36 +2,18 @@ file : harwell-ee-1951.txt.psf
 
 page 1 :
 Question :
-	The frequent comparison with desk calculators. Why is the 
-	WITCH compared to desk calculators? What are they anyway?
-	What is the link between the WITCH and these?
+	The WITCH is frequently compared to desk calculators in different instances of the WITCH Paper.
+	Why is the WITCH compared to desk calculators? What are they anyway? What is the link between the WITCH and these?
 
-		ANSWER : The WITCH and its working was mainly modelled around 
-		Desk calculators available at that time. The running times for
-		operations on the WITCH are , hence comparable to these. The 
-		motivation behind the WITCH was to make a desk calculator 
-		programmable and reliable - in the sense that it should be 
-		able to run continuously for hours without needing attention.
+		ANSWER : The WITCH and its working was mainly modelled around Desk calculators available at that time. The running times for operations on the WITCH are , hence comparable to these. The motivation behind the WITCH was to make a desk calculator programmable and reliable - in the sense that it should be able to run continuously for hours without needing attention. In effect the WITCH is not an innovation purely in terms of a better running time but also an enormous ability to be automated and run reliably. WITCH, when programmed correctly did not need any human attention and could run unattended for hours.
 
 
 page 1 :
-"Because a relatively low operating speed is accepted, it becomes
-practical to read orders and other data from the perforated tape as
-they are needed in the calculations (this is done in the B.T.L.
-machine). Design is thus simplified and much less storage capacity is
-needed. The low operating speed also makes possible the use of
-relays for routing and sequence control. Since each relay may carry
-many contacts this leads to simplicity in setting up connexions. The
-fact that the techniques are well established and of proved reliability
-is of great importance."
+"Because a relatively low operating speed is accepted, it becomes practical to read orders and other data from the perforated tape as they are needed in the calculations (this is done in the B.T.L.machine). Design is thus simplified and much less storage capacity is needed. The low operating speed also makes possible the use of relays for routing and sequence control. Since each relay may carry many contacts this leads to simplicity in setting up connexions. The fact that the techniques are well established and of proved reliability is of great importance."
 
 Questions :
-	Why would a relatively small operating speed be accepted ? If it can
-	be made faster, shouldn't it be?
-
-		ANSWER : The speed limit here is due to the time taken by the 
-		tape readers to interpret the data and orders. Further, 
-		reliability and accuracy was of far more importance than speed.
+	Why would a relatively small operating speed be accepted ? If it can be made faster, shouldn't it be?
+	ANSWER : The speed limit here is due to the time taken by the tape readers to interpret the data and orders. Further, reliability and accuracy was of far more importance than speed.
 
 "The use of relays for number storage is not
 attractive, as many relays would be needed."

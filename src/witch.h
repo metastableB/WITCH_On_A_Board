@@ -20,6 +20,7 @@
 #include "accumulator.h"
 #include "alu.h"
 #include "translator.h"
+#include "roundofgenerator.h"
 
 #include "lib/logger.h"
 #include "lib/definitions.h"
@@ -39,7 +40,6 @@ enum WitchStatus {
 	VALID_WITCH_ORDER, // Different from INVALID_INP_ORDER read from tape
 
 	SET_ORDER,
-
 	NOT_SET_ORDER,
 
 	OPERATION_SUCCESSFUL,
@@ -52,6 +52,7 @@ class WITCH {
 	ALU alu;
 	Translator translator;
 	DekatronStore currentOrder;
+	RoundOfGenerator roundOfGenerator;
 
 	// Global Class Flags
 	WitchStatus orderStatus = NOT_SET_ORDER;
@@ -67,7 +68,7 @@ class WITCH {
 	WitchStatus validateStoreIndex(std::string index);
 	WitchStatus validateStoreValue_H(std::string value);
 	WitchStatus validateStoreValue_R(std::string value);
-	WitchStatus validateOrder(std::string order);
+	WitchStatus WITCH_validateOrder(std::string order);
 	WitchStatus validateOrdersArguments(std::string order);
 	WitchStatus getStore(std::string index, DekatronStore*& store);
 	WitchStatus executeArithmeticOrder();

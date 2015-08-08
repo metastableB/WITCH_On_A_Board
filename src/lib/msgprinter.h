@@ -13,6 +13,8 @@
 #include <string>
 #include <iostream>
 
+// The INFO, WARNING and ERROR levels are specifically used while validating orders
+// before execution. Do not use them elsewhere
 enum MsgLevel { M_INFO, M_DEBUG, M_WARNING, M_ERROR, M_MSG};
 
 class MsgPrinter {
