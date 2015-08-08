@@ -68,7 +68,7 @@ class WITCH {
 	WitchStatus validateStoreIndex(std::string index);
 	WitchStatus validateStoreValue_H(std::string value);
 	WitchStatus validateStoreValue_R(std::string value);
-	WitchStatus validateOrder(std::string order);
+	WitchStatus WITCH_validateOrder(std::string order);
 	WitchStatus validateOrdersArguments(std::string order);
 	WitchStatus getStore(std::string index, DekatronStore*& store);
 	WitchStatus executeArithmeticOrder();
