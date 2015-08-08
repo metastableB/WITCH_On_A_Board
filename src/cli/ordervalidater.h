@@ -18,11 +18,17 @@
 
 #include <string>
 
+#include "../lib/logger.h"
+#include "../lib/msgprinter.h"
+
 enum ValidaterStatus{
 	VALID_ORDER,
 	INVALID_ORDER,
+	UNDEFINED_ORDER
 };
 class OrderValidater{
+	Logger logObj;
+	MsgPrinter msg;
 
 public:
 	ValidaterStatus validateOrder(std::string s);
