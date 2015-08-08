@@ -48,18 +48,24 @@ WitchStatus WITCH::setCurrentOrder(std::string order){
 	order = "+" + order + "000";
 
 	if(translator.storeValue(order,&currentOrder)){
-		orderStatus = SET_ORDER;
+		orderStatus = WitchStatus::SET_ORDER;
 		return WitchStatus::OPERATION_SUCCESSFUL;
 	}
+	orderStatus = WitchStatus::NOT_SET_ORDER;
 	return WitchStatus::OPERATION_FAILURE;
 }
 WitchStatus WITCH::executeCurrentOrder(){
 	if(orderStatus == WitchStatus::NOT_SET_ORDER)
 		return orderStatus;
+	WitchStatus status;
 	if(currentOrder.getIntValueIn(1) != 0)
-		return executeArithmeticOrder();
+		status = executeArithmeticOrder();
 	else if(currentOrder.getIntValueIn(1) == 0)
-		return executeNonArithmeticOrder();
+		status = executeNonArithmeticOrder();
+	if(status == WitchStatus::OPERATION_SUCCESSFUL || status == WitchStatus::OPERATION_NOT_DEFINED){
+		orderStatus = WitchStatus::NOT_SET_ORDER;
+		return status;
+	}
 	logObj.log(LogLevel::L_ERROR,"witch.cpp","UNKNOWN ERROR : Unrecognized order got past validator\n");
 	return WitchStatus::OPERATION_FAILURE;
 }
@@ -80,7 +86,7 @@ WitchStatus WITCH::executeArithmeticOrder(){
 		return status1;
 	if(status2 != WitchStatus::OPERATION_SUCCESSFUL)
 		return status2;
-
+	// TODO : Add restrictions on store addresses
 	switch(digits[1]){
 	case 1: // Add without clear
 		alu.add(sStore,rStore);

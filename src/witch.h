@@ -39,7 +39,6 @@ enum WitchStatus {
 	VALID_WITCH_ORDER, // Different from INVALID_INP_ORDER read from tape
 
 	SET_ORDER,
-
 	NOT_SET_ORDER,
 
 	OPERATION_SUCCESSFUL,
