@@ -24,6 +24,7 @@
 #include "../lib/logger.h"
 #include "../lib/definitions.h"
 #include "../lib/msgprinter.h"
+#include "ordervalidater.h"
 
 #include <iostream>
 #include <string>
@@ -57,6 +58,7 @@ class Driver {
 
 	Logger logObj;
 	MsgPrinter msg;
+	OrderValidater orderValidater;
 	WitchState witchState = WitchState::PRGM_UNLOADED;
 
 	bool commandLineArgs(int argc, char * argv[]);
