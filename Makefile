@@ -30,7 +30,7 @@ FILES=./src/dekatron.cpp \
 	  ./src/lib/msgprinter.cpp\
 	   \
 	  ./src/cli/cli.cpp\
-	  ./src/cli/ordervalidator.cpp\
+	  ./src/cli/inputvalidator.cpp\
 	  ./src/cli/driver.cpp
 
 # Source Targets 

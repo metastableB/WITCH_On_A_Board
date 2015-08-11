@@ -59,13 +59,28 @@ ValidatorStatus InputValidator::validateOrder(std::string order){
 	return ValidatorStatus::VALID_ORDER;
 }
 
-
+ValidatorStatus InputValidator::validateNumber(std::string number){
+	// TODO : remember that some part or even the entirety of this function is done
+	// by the translator unit. Once we have a better understanding of the translator unit
+	// we will have to reassign responsibilities between the input validator and the
+	// translator object.
+	/*
+	if(number[0] != '+' || number[0] != '-')
+		return ValidatorStatus::INVALID_INPUT;
+	for (int i = 1; i < 9; i++){
+		if(!std::isdigit(number[i])){
+			logObj.log(LogLevel::L_WARNING,"witch.cpp","NUMBER is invalid\n");
+			return ValidatorStatus::INVALID_INPUT;
+		}
+	}*/
+	return ValidatorStatus::VALID_NUMBER;
+}
 ValidatorStatus InputValidator::validatorErrorHandler(ValidatorErrors error){
 	switch(error){
 	case ValidatorErrors::STORES_IN_SAME_SET:
 		printErrorMsg("The sending store and receiving store cannot be "
 				"from the same set of ten stores\n");
-		return ValidatorStatus::INVALID_ORDER;
+		return ValidatorStatus::INVALID_INPUT;
 	}
 	logObj.log(LogLevel::L_WARNING,"ordervalidator.cpp","An unhandled error has occurred!\n");
 	return ValidatorStatus::UNDEFINED_ORDER;

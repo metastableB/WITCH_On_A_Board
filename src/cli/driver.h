@@ -34,11 +34,10 @@
 
 #include "inputvalidator.h"
 
-
 enum WitchState {
 	PRGM_LOADED, // MODE 1
 	PRGM_UNLOADED, // MODE 2
-	PRGM_RUNNING
+	PRGM_RUNNING,
 };
 enum DriverStatus {
 	QUIT_SUCCESS,
@@ -59,7 +58,7 @@ class Driver {
 
 	Logger logObj;
 	MsgPrinter msg;
-	OrderValidator orderValidator;
+	InputValidator inputValidator;
 	WitchState witchState = WitchState::PRGM_UNLOADED;
 
 	bool commandLineArgs(int argc, char * argv[]);
