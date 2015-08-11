@@ -10,6 +10,8 @@
 #ifndef CURRENTORDER_H
 #define CURRENTORDER_H
 
+// NOT YET INPLEMENTED
+
 /*
  *  The current order is read into this object. For now we are
  *  implementing it as a dekatron store. We define two methods

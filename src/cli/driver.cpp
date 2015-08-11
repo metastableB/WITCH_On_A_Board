@@ -119,8 +119,8 @@ DriverStatus Driver::witchErrorHandler(WitchStatus status){
 		msg.print(MsgLevel::M_MSG, "VALUE is invalid\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
 
-	case WitchStatus::INVALID_WITCH_ORDER:
-		msg.print(MsgLevel::M_MSG, "ORDER is invalid\n");
+	case WitchStatus::INVALID_WITCH_INPUT:
+		msg.print(MsgLevel::M_MSG, "Input is invalid\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
 
 	// TODO: Verify the following case
@@ -225,13 +225,13 @@ DriverStatus Driver::c_order(std::vector<std::string>& tokens){
 	if(tokens.size() != 2){
 		msg.print(MsgLevel::M_MSG, "Incorrect usage\nUsage: order ORDER\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
-	}/*
-	ValidatorStatus vStatus = orderValidator.validateOrder(tokens[1]);
-	if(vStatus == ValidatorStatus::INVALID_ORDER)
-		return witchErrorHandler(WitchStatus::INVALID_WITCH_ORDER);
+	}
+	ValidatorStatus vStatus = inputValidator.validateInput(tokens[1]);
+	if(vStatus == ValidatorStatus::INVALID_INPUT)
+		return witchErrorHandler(WitchStatus::INVALID_WITCH_INPUT);
 	else if(vStatus == ValidatorStatus::UNDEFINED_ORDER)
 		return witchErrorHandler(WitchStatus::OPERATION_NOT_DEFINED);
-*/
+
 	WitchStatus status = witch.setCurrentOrder(tokens[1]);
 	if(status != WitchStatus::OPERATION_SUCCESSFUL)
 		return witchErrorHandler(status);
