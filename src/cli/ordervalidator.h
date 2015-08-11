@@ -24,13 +24,16 @@
 #include "../lib/msgprinter.h"
 
 
-	/* The below three are to be sent to the caller function. This defines the general
-     * three types of error which can occur in an order.
-     *
-     * The next set of enums are for specific error types. They are
-     * never to be returned. They are for the information of user and is to be
-     * dealt with using the validatorErrorHandler() fucntion.
-     */
+/* The below three are to be sent to the caller function. This defines the general
+ * three types of error which can occur in an order.
+ *
+ * The next set of enums are for specific error types. They are
+ * never to be returned. They are for the information of user and is to be
+ * dealt with using the validatorErrorHandler() function.
+ *
+ * Since we have an independent driver and a validator, we have to keep a redundant copy
+ * of the error types. A general set of errors within the driver and an extensive set here.
+ */
 enum ValidatorStatus{
 	VALID_ORDER,
 	INVALID_ORDER,

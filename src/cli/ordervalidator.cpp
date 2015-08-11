@@ -37,12 +37,14 @@ ValidatorStatus OrderValidator::validateOrder(std::string order){
 			else if(digits[1] == 0)
 				return ValidatorStatus::UNDEFINED_ORDER;
 			return ValidatorStatus::VALID_ORDER;
-		case 2: /*
-		 * Addition orders
+		case 2:
+		/*
+		 * Addition with clear
 		 * for regular additions, sending store and receiving store
 		 * be in same set of ten stores. For addition operations with
 		 * sending store having first digit as a zero, exceptions apply.
-		 */break;
+		 */
+			break;
 		default :
 			return ValidatorStatus::UNDEFINED_ORDER;
 		}
