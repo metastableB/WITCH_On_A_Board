@@ -31,7 +31,9 @@
 #include <sstream>
 #include <unordered_map>
 #include <stdexcept>
-#include "ordervalidator.h"
+
+#include "inputvalidator.h"
+
 
 enum WitchState {
 	PRGM_LOADED, // MODE 1

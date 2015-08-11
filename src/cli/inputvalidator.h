@@ -1,5 +1,5 @@
 /*
- * ordervalidator.h
+ * inputvalidator.h
  *
  * @author Don Dennis (metastableB)
  * donkdennis [at] gmail [dot] com
@@ -8,9 +8,9 @@
  */
 
 /*
- * The order validator.
+ * The input validator.
  *
- * This class has the task of validating all orders sent to WITCH, at the same time
+ * This class has the task of validating all inputs sent to WITCH, at the same time
  * it also has to let through all orders whose validity can be detected by the inbuilt
  * WITCH mechanisms
  */
@@ -36,27 +36,32 @@
  */
 enum ValidatorStatus{
 	VALID_ORDER,
-	INVALID_ORDER,
-	UNDEFINED_ORDER
+	UNDEFINED_ORDER,
+
+	VALID_NUMBER,
+
+	INVALID_INPUT,
 };
 
 enum ValidatorErrors{
 	STORES_IN_SAME_SET, // The store arguments belong to the same set of ten stores
 };
 
-class OrderValidator{
+class InputValidator{
 	Logger logObj;
 	MsgPrinter msg;
 	bool errorHandlerEnabled = true;
 
 	void printErrorMsg(std::string s);
 	ValidatorStatus validatorErrorHandler(ValidatorErrors errors);
+	ValidatorStatus validateOrder(std::string order);
+	ValidatorStatus validateNumber(std::string number);
 public:
 	// To toggle error message printing
 	void disableErrorHandler();
 	void enableErrorHandler();
 
-	ValidatorStatus validateOrder(std::string s);
+	ValidatorStatus validateInput(std::string s);
 };
 
 #endif // ORDERVALIDATOR_H
