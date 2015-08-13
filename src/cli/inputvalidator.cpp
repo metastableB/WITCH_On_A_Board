@@ -11,9 +11,12 @@
 #include "inputvalidator.h"
 
 ValidatorStatus InputValidator::validateInput(std::string order){
-	if(order.length() != 6 || order.length() != 9)
-			return ValidatorStatus::INVALID_INPUT;
-	else if(order.length() == 6)
+	// 5 : direct order. 6 : *(order/number) , 9 : Number
+	if(order.length() != 6 && order.length() != 9 && order.length() != 5){
+		logObj.log(LogLevel::L_DEBUG,"validateInput","Invalid input length"+std::to_string(order.length())+"\n");
+		return ValidatorStatus::INVALID_INPUT;
+	}
+	else if(order.length() == 6 || order.length() == 5)
 		return validateOrder(order);
 	else
 		return validateNumber(order);
@@ -22,12 +25,17 @@ ValidatorStatus InputValidator::validateInput(std::string order){
 
 ValidatorStatus InputValidator::validateOrder(std::string order){
 	int digits[5];
+	if(order.length() == 5)
+		order = "*" + order;
+	logObj.log(LogLevel::L_INFO,"inputvalidator.cpp","Order is \"" + order + "\"\n");
+	if(order.at(0)!= '*')
+		return ValidatorStatus::INVALID_INPUT;
 	for(int i = 1; i < 6 ; i++){
 		if(!std::isdigit(order[i])){
 			logObj.log(LogLevel::L_WARNING,"witch.cpp","ORDER is invalid\n");
 			return ValidatorStatus::INVALID_INPUT;
 		}
-		digits[i] = std::stoi(std::string(&order[i],1));
+		digits[i-1] = std::stoi(std::string(&order[i],1));
 	}
 
 	switch(digits[0]){
@@ -39,6 +47,7 @@ ValidatorStatus InputValidator::validateOrder(std::string order){
 			 * be in same set of ten stores. For addition operations with
 			 * sending store having first digit as a zero, exceptions apply.
 			 */
+		logObj.log(LogLevel::L_INFO,"inputvalidator.cpp","add\n");
 		if(digits[1] != 0 && (digits[1] == digits[3]))
 			return validatorErrorHandler(ValidatorErrors::STORES_IN_SAME_SET);
 		// TODO :
@@ -52,10 +61,29 @@ ValidatorStatus InputValidator::validateOrder(std::string order){
 	 * be in same set of ten stores. For addition operations with
 	 * sending store having first digit as a zero, exceptions apply.
 	 */
+		logObj.log(LogLevel::L_INFO,"inputvalidator.cpp","add and clear\n");
+		logObj.log(LogLevel::L_WARNING,"inputvalidator.cpp","validator not implemented!\n");
+		break;
+	case 3:
+		logObj.log(LogLevel::L_INFO,"inputvalidator.cpp","Subtract\n");
+		logObj.log(LogLevel::L_WARNING,"inputvalidator.cpp","validator not implemented!\n");
+		break;
+	case 4:
+		logObj.log(LogLevel::L_INFO,"inputvalidator.cpp","subtract and clear\n");
+		logObj.log(LogLevel::L_WARNING,"inputvalidator.cpp","validator not implemented!\n");
+		break;
+	case 5:
+		logObj.log(LogLevel::L_INFO,"inputvalidator.cpp","multiply\n");
+		logObj.log(LogLevel::L_WARNING,"inputvalidator.cpp","validator not implemented!\n");
+		break;
+	case 7:
+		logObj.log(LogLevel::L_INFO,"inputvalidator.cpp","Transfer modulus\n");
+		logObj.log(LogLevel::L_WARNING,"inputvalidator.cpp","validator not implemented!\n");
+		break;
 	default :
 		return ValidatorStatus::UNDEFINED_ORDER;
 	}
-	logObj.log(LogLevel::L_INFO,"witch.cpp","ORDER is valid\n");
+	logObj.log(LogLevel::L_INFO,"inputvalidator.cpp","ORDER is valid\n");
 	return ValidatorStatus::VALID_ORDER;
 }
 

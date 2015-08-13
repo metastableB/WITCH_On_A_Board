@@ -9,6 +9,11 @@
 
 #include "witch.h"
 
+std::string WITCH::getAccumValue(){
+	logObj.log(LogLevel::L_WARNING,"witch.cpp","using temporary mechanism to access accum!\n");
+	// TODO : implement this as part of translator unit
+	return accum.getStringStateInStore();
+}
 WitchStatus WITCH::translateAndStore(std::string index, std::string value){
 	WitchStatus status = getStore(index, tempStore);
 	if(status != WitchStatus::OPERATION_SUCCESSFUL){

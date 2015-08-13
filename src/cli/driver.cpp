@@ -205,6 +205,15 @@ DriverStatus Driver::c_print(std::vector<std::string>& tokens){
 		}
 	}
 	std::string str_index = tokens.back();
+	if(str_index == "acc" && (args["-r"] == 1 || args["-h"] == 1)){
+		msg.print(MsgLevel::M_MSG,"-r or -h is not supported for accum value viewing\n");
+		return DriverStatus::COMMAND_ARGUMENT_ERROR;
+	}
+	else if(str_index == "acc"){
+		msg.print(MsgLevel::M_INFO,"This is a raw load\n");
+		msg.print(MsgLevel::M_MSG,witch.getAccumValue()+"\n");
+		return DriverStatus::COMMAND_SUCCESS;
+	}
 	WitchStatus status;
 	std::string out;
 	if(args["-r"] == 1 && args["-d"] == 1){
@@ -226,7 +235,9 @@ DriverStatus Driver::c_order(std::vector<std::string>& tokens){
 		msg.print(MsgLevel::M_MSG, "Incorrect usage\nUsage: order ORDER\n");
 		return DriverStatus::COMMAND_ARGUMENT_ERROR;
 	}
+	inputValidator.enableErrorHandler();
 	ValidatorStatus vStatus = inputValidator.validateInput(tokens[1]);
+	inputValidator.disableErrorHandler();
 	if(vStatus == ValidatorStatus::INVALID_INPUT)
 		return witchErrorHandler(WitchStatus::INVALID_WITCH_INPUT);
 	else if(vStatus == ValidatorStatus::UNDEFINED_ORDER)

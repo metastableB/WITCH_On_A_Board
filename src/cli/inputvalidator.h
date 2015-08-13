@@ -23,7 +23,16 @@
 #include "../lib/logger.h"
 #include "../lib/msgprinter.h"
 
-
+/*
+ * WARNING: This class is only used for validating the orders exclusively. Numbers are not
+ * extensively checked for and that task is left for the translator unit. The purpose here
+ * is to filter out any undefined order and the class should be used with this in mind.
+ *
+ * This also means that any numbers of length 5 digits might get trapped here if used like so. Make
+ * sure such numbers are appended with '0's or '9s' when the case arises.
+ *
+ *
+ */
 /* The below three are to be sent to the caller function. This defines the general
  * three types of error which can occur in an order.
  *
@@ -33,6 +42,12 @@
  *
  * Since we have an independent driver and a validator, we have to keep a redundant copy
  * of the error types. A general set of errors within the driver and an extensive set here.
+ */
+
+/*
+ * NOTE: The validateOrder method validates the order according to a strict rules
+ * regarding the argument set etc. To input a number as an order, (i.e. of order length). You need
+ * to explicitly make sure its length i 9.
  */
 enum ValidatorStatus{
 	VALID_ORDER,

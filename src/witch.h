@@ -81,6 +81,10 @@ public:
 	WitchStatus rawLoad(std::string index, std::string& value);
 	WitchStatus setCurrentOrder(std::string);
 	WitchStatus executeCurrentOrder();
+
+	// Temporary methods, later to be reimplemented.
+
+	std::string getAccumValue();
 };
 #endif /*WITCH_H*/
 
